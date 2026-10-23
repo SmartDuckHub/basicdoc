@@ -1,0 +1,165 @@
+'' =====================================================================
+''  fbdoc - Uitvoer: diagrammen voor Graphviz (dot) en Mermaid
+'' =====================================================================
+
+'' Backslash en aanhalingsteken in een DOT-label breken de syntax.
+Function DotEsc(ByRef s As String) As String
+    Dim As String t, bs
+    bs = Chr(92)
+    t = ReplaceAll(s, bs, bs & bs)
+    t = ReplaceAll(t, Chr(34), bs & Chr(34))
+    t = ReplaceAll(t, Chr(10), " ")
+    t = ReplaceAll(t, Chr(13), "")
+    Return t
+End Function
+
+Sub OutDot()
+    Dim As Integer i, k, e, n, shown
+    Dim As String q, lbl, extNames(), en
+    Dim As Integer extCount, found
+
+    q = Chr(34)
+    extCount = 0
+
+    Emit "// Gegenereerd door " & APP_NAME & " " & APP_VERSION & " op " & Date
+    Emit "// Renderen:  dot -Tsvg fbdoc.dot -o fbdoc.svg"
+    Emit "digraph fbdoc {"
+    Emit "  rankdir=LR;"
+    Emit "  graph [fontname=" & q & "Helvetica" & q & ", fontsize=11, compound=true];"
+    Emit "  node  [shape=box, style=rounded, fontname=" & q & "Consolas" & q & ", fontsize=10];"
+    Emit "  edge  [fontname=" & q & "Helvetica" & q & ", fontsize=8, color=" & q & "#555555" & q & "];"
+    Emit ""
+
+    '' per part een cluster met de functies erin
+    For i = 1 To partCount
+        n = 0
+        For k = 1 To memberCount
+            If members(k).ownerPart = i Then
+                If GraphVisible(k) Then n = n + 1
+            End If
+        Next k
+        If n = 0 Then Continue For
+
+        Emit "  subgraph cluster_" & Str(i) & " {"
+        If parts(i).isRef Then
+            Emit "    label=" & q & DotEsc(KindLabel(parts(i).kind) & " " & parts(i).pname) & "  (referentie)" & q & ";"
+            Emit "    style=" & q & "rounded,dashed" & q & "; color=" & q & "#aaaaaa" & q & "; fontsize=11; fontcolor=" & q & "#777777" & q & ";"
+        Else
+            Emit "    label=" & q & DotEsc(KindLabel(parts(i).kind) & " " & parts(i).pname) & q & ";"
+            Emit "    style=" & q & "rounded" & q & "; color=" & q & "#999999" & q & "; fontsize=11;"
+        End If
+        For k = 1 To memberCount
+            If members(k).ownerPart <> i Then Continue For
+            If GraphVisible(k) = 0 Then Continue For
+            lbl = members(k).mname
+            If parts(i).isRef Then
+                Emit "    f" & Str(k) & " [label=" & q & DotEsc(lbl) & q & ", style=" & q & "rounded,dashed" & q & ", color=" & q & "#999999" & q & ", fontcolor=" & q & "#666666" & q & "];"
+            ElseIf members(k).isPrivate Then
+                Emit "    f" & Str(k) & " [label=" & q & DotEsc(lbl) & q & ", style=" & q & "rounded,dashed" & q & "];"
+            ElseIf CallerCount(k) = 0 Then
+                '' geen aanroeper binnen de gescande code: ingang of dode code
+                Emit "    f" & Str(k) & " [label=" & q & DotEsc(lbl) & q & ", style=" & q & "rounded,filled" & q & ", fillcolor=" & q & "#e8f0fe" & q & "];"
+            Else
+                Emit "    f" & Str(k) & " [label=" & q & DotEsc(lbl) & q & "];"
+            End If
+        Next k
+        Emit "  }"
+    Next i
+    Emit ""
+
+    '' externe knopen
+    If opt.inclExtern Then
+        For e = 1 To edgeCount
+            If edges(e).isExt = 0 Then Continue For
+            found = 0
+            For k = 1 To extCount
+                If LC(extNames(k)) = LC(edges(e).toNm) Then found = k
+            Next k
+            If found = 0 Then
+                extCount = extCount + 1
+                ReDim Preserve extNames(1 To extCount)
+                extNames(extCount) = edges(e).toNm
+            End If
+        Next e
+        For k = 1 To extCount
+            Emit "  x" & Str(k) & " [label=" & q & DotEsc(extNames(k)) & q & ", shape=ellipse, style=dashed, color=" & q & "#aa8844" & q & "];"
+        Next k
+        Emit ""
+    End If
+
+    '' kanten
+    shown = 0
+    For e = 1 To edgeCount
+        If GraphVisible(edges(e).fromM) = 0 Then Continue For
+        lbl = ""
+        If edges(e).kindC > 0 Then
+            lbl = " [label=" & q & EdgeKindLabel(edges(e).kindC) & q & ", style=dashed, color=" & q & "#3a7bbf" & q & ", fontcolor=" & q & "#3a7bbf" & q & "]"
+        ElseIf edges(e).cnt > 1 Then
+            lbl = " [label=" & q & Str(edges(e).cnt) & "x" & q & "]"
+        End If
+
+        If edges(e).toM > 0 Then
+            If GraphVisible(edges(e).toM) = 0 Then Continue For
+            Emit "  f" & Str(edges(e).fromM) & " -> f" & Str(edges(e).toM) & lbl & ";"
+            shown = shown + 1
+        ElseIf opt.inclExtern Then
+            en = ""
+            For k = 1 To extCount
+                If LC(extNames(k)) = LC(edges(e).toNm) Then en = Str(k)
+            Next k
+            If Len(en) > 0 Then
+                Emit "  f" & Str(edges(e).fromM) & " -> x" & en & lbl & " [style=dashed];"
+                shown = shown + 1
+            End If
+        End If
+    Next e
+
+    Emit ""
+    Emit "  // " & Str(shown) & " aanroeprelaties"
+    Emit "}"
+
+    If opt.quiet = 0 Then
+        Say "  diagram: " & Str(shown) & " relaties"
+        If shown > 800 Then
+            Say "  ! dat is veel voor een leesbaar diagram. Overweeg --ref-depth 0,"
+            Say "    een kleiner pad, of render met sfdp in plaats van dot."
+        End If
+    End If
+End Sub
+
+Sub OutMermaid()
+    Dim As Integer i, k, e, n
+    Dim As String lbl
+
+    Emit "%% Gegenereerd door " & APP_NAME & " " & APP_VERSION & " op " & Date
+    Emit "flowchart LR"
+
+    For i = 1 To partCount
+        n = 0
+        For k = 1 To memberCount
+            If members(k).ownerPart = i Then
+                If GraphVisible(k) Then n = n + 1
+            End If
+        Next k
+        If n = 0 Then Continue For
+
+        Emit "  subgraph P" & Str(i) & "[" & KindLabel(parts(i).kind) & " " & parts(i).pname & "]"
+        For k = 1 To memberCount
+            If members(k).ownerPart <> i Then Continue For
+            If GraphVisible(k) = 0 Then Continue For
+            Emit "    f" & Str(k) & "[" & members(k).mname & "]"
+        Next k
+        Emit "  end"
+    Next i
+
+    For e = 1 To edgeCount
+        If edges(e).toM < 1 Then Continue For
+        If GraphVisible(edges(e).fromM) = 0 Then Continue For
+        If GraphVisible(edges(e).toM) = 0 Then Continue For
+        If edges(e).cnt > 1 Then
+            Emit "  f" & Str(edges(e).fromM) & " -->|" & Str(edges(e).cnt) & "x| f" & Str(edges(e).toM)
+        Else
+            Emit "  f" & Str(edges(e).fromM) & " --> f" & Str(edges(e).toM)
+        End If
+    Next e
+End Sub

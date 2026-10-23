@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FreeBASIC documentatie</title>
+<style>
+:root{--bg:#ffffff;--fg:#1b1f24;--mut:#5b6570;--line:#dfe3e8;--card:#f6f8fa;--acc:#0b5fa4;--link:#0b5fa4;--auto:#8a5a00;--autobg:#fff4d6;--dep:#a11;}
+@media (prefers-color-scheme:dark){:root{--bg:#12161a;--fg:#e6e9ec;--mut:#9aa4ae;--line:#2a3138;--card:#1a1f25;--acc:#5aa9f0;--link:#cdd6de;--auto:#e0b050;--autobg:#332a10;--dep:#f77;}}
+*{box-sizing:border-box}
+a,a:visited{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+a:focus-visible{outline:2px solid var(--link);outline-offset:2px}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+code,pre,.sig{font-family:Consolas,'DejaVu Sans Mono',monospace}
+header{padding:18px 24px;border-bottom:1px solid var(--line)}
+header h1{margin:0;font-size:19px}
+header .meta{color:var(--mut);font-size:13px;margin-top:4px}
+.wrap{display:flex;align-items:flex-start}
+nav{width:290px;flex:0 0 290px;border-right:1px solid var(--line);padding:14px;position:sticky;top:0;max-height:100vh;overflow:auto}
+nav input{width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:5px;background:var(--bg);color:var(--fg);margin-bottom:10px}
+nav ul{list-style:none;margin:0;padding:0}
+nav li{margin:2px 0;font-size:13px}
+nav li.f{padding-left:14px;color:var(--mut)}
+nav a,nav a:visited{color:var(--link)}
+nav a:hover{text-decoration:underline}
+main{flex:1 1 auto;padding:18px 26px;min-width:0}
+section.part{border-top:1px solid var(--line);padding-top:16px;margin-top:26px}
+h2{font-size:20px;margin:0 0 4px}
+h3{font-size:15px;margin:22px 0 6px}
+.loc{color:var(--mut);font-size:12px}
+.sig{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--acc);border-radius:4px;padding:8px 10px;font-size:13px;overflow-x:auto;white-space:pre-wrap}
+.brief{margin:8px 0}
+.detail{color:var(--fg);white-space:pre-wrap;margin:6px 0}
+table{border-collapse:collapse;margin:8px 0;font-size:13px;width:100%}
+th,td{border:1px solid var(--line);padding:4px 8px;text-align:left;vertical-align:top}
+th{background:var(--card);font-weight:600}
+.tag{display:inline-block;font-size:11px;padding:1px 6px;border-radius:9px;border:1px solid var(--line);color:var(--mut);margin-left:6px}
+.auto{background:var(--autobg);color:var(--auto);border-color:transparent}
+.dep{color:var(--dep);border-color:var(--dep)}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:10px 14px;font-size:13px;display:inline-block}
+.graphwrap{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:6px;background:var(--card);height:78vh;margin:10px 0}
+svg#cg{width:100%;height:100%;display:block;cursor:grab;touch-action:none}
+svg#cg.drag{cursor:grabbing}
+.zoomctl{position:absolute;right:14px;bottom:14px;z-index:5;display:flex;flex-direction:column}
+.zoomctl button{width:34px;height:34px;margin-top:5px;font:16px/1 -apple-system,Segoe UI,Roboto,sans-serif;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:7px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.zoomctl button:hover{background:var(--card)}
+.zoomctl button:active{transform:translateY(1px)}
+svg#cg text{font-family:Consolas,'DejaVu Sans Mono',monospace;font-size:11px;fill:var(--fg);pointer-events:none}
+svg#cg g.n rect{stroke-width:1.2}
+svg#cg g.rt rect{stroke-width:2.6}
+svg#cg g.pv rect{stroke-dasharray:3 2}
+svg#cg g.rf rect{fill:var(--card);stroke:#8a949e;stroke-dasharray:4 3;stroke-width:1}
+svg#cg g.rf text{fill:var(--mut)}
+table.deps code{font-size:12px}
+svg#cg g.n{cursor:pointer}
+svg#cg path.e{fill:none;stroke:#8a949e;stroke-width:1.3;marker-end:url(#ah)}
+svg#cg path.e.b{stroke:#c0673a;stroke-dasharray:5 3;marker-end:url(#ahb)}
+svg#cg path.e.cb{stroke:#3a7bbf;stroke-dasharray:2 3}
+svg#cg .ahf{fill:#8a949e}
+svg#cg .ahbf{fill:#c0673a}
+svg#cg a{text-decoration:none}
+.legend{font-size:12px;color:var(--mut);margin:6px 0 14px}
+.legend span.sw{display:inline-block;width:11px;height:11px;border-radius:3px;border:1px solid var(--line);vertical-align:-1px;margin:0 4px 0 10px}
+svg#cg g.p1 rect{fill:hsl(47,62%,92%);stroke:hsl(47,45%,52%)}
+.sw1{background:hsl(47,62%,92%)}
+svg#cg g.p2 rect{fill:hsl(94,62%,92%);stroke:hsl(94,45%,52%)}
+.sw2{background:hsl(94,62%,92%)}
+svg#cg g.p3 rect{fill:hsl(141,62%,92%);stroke:hsl(141,45%,52%)}
+.sw3{background:hsl(141,62%,92%)}
+svg#cg g.p4 rect{fill:hsl(188,62%,92%);stroke:hsl(188,45%,52%)}
+.sw4{background:hsl(188,62%,92%)}
+@media (prefers-color-scheme:dark){
+svg#cg g.p1 rect{fill:hsl(47,30%,24%);stroke:hsl(47,40%,58%)}
+.sw1{background:hsl(47,30%,24%)}
+svg#cg g.p2 rect{fill:hsl(94,30%,24%);stroke:hsl(94,40%,58%)}
+.sw2{background:hsl(94,30%,24%)}
+svg#cg g.p3 rect{fill:hsl(141,30%,24%);stroke:hsl(141,40%,58%)}
+.sw3{background:hsl(141,30%,24%)}
+svg#cg g.p4 rect{fill:hsl(188,30%,24%);stroke:hsl(188,40%,58%)}
+.sw4{background:hsl(188,30%,24%)}
+}
+</style>
+</head><body>
+<header><h1>FreeBASIC documentatie
+ &mdash; Voorraad
+</h1><div class="meta">fbdoc 1.0.0 (build 2026-08-21 10:24:57) &middot; 10-16-2026 15:39:59 &middot; 4 parts &middot; 21 leden</div></header>
+<div class="wrap">
+<nav id="side">
+<input id="q" placeholder="Filter op naam...">
+<ul>
+<li><a href="#graph"><b>Aanroepstructuur</b></a></li>
+<li><a href="#deps"><b>Onopgeloste aanroepen</b></a></li>
+<li><a href="#dead"><b>Mogelijk ongebruikt</b></a></li>
+<li><a href="#p1">Module voorraad.bas</a></li>
+<li class="f"><a href="#m2">Waarde</a></li>
+<li class="f"><a href="#m3">SplitsRegel</a></li>
+<li class="f"><a href="#m4">LeesVoorraad</a></li>
+<li class="f"><a href="#m5">ToonVoorraad</a></li>
+<li class="f"><a href="#m6">MeldFout</a></li>
+<li class="f"><a href="#m7">OudeExportRoutine</a></li>
+<li><a href="#p2">Module voorraad.bi</a></li>
+<li class="f"><a href="#m20">LeesVoorraad</a></li>
+<li class="f"><a href="#m21">ToonVoorraad</a></li>
+<li><a href="#p3">Enumeratie ArtikelStatus</a></li>
+<li><a href="#p4">Type Artikel</a></li>
+<li class="f"><a href="#m19">Waarde</a></li>
+</ul>
+</nav>
+<main>
+<div class="stat">Documentatiedekking: <b>12</b> van <b>25</b> elementen heeft echt broncommentaar
+ (48.0%)
+</div>
+<h2 id="graph">Aanroepstructuur</h2>
+<div class="legend">
+5 functies, 13 relaties. Van links naar rechts: aanroeper voor aangeroepene. Klik een blok om naar de documentatie te springen; beweeg erover om alleen de eigen relaties te zien. Sleep om te verschuiven, scrollwiel of de knoppen rechtsonder om te zoomen.
+<br>Dikke rand = geen aanroeper binnen de gescande code (ingang of dode code). Gestippelde rand = private. Grijs gestippeld blok = referentieproject. Oranje gestippelde pijl = terugkoppeling of recursie. Blauwe fijngestippelde pijl = callback of onException van een service-aanroep.
+<br>Parts:
+<span class="sw sw1"></span>voorraad.bas
+</div>
+<div class="graphwrap">
+<div class="zoomctl">
+<button type="button" id="zin" title="Inzoomen">+</button>
+<button type="button" id="zout" title="Uitzoomen">&minus;</button>
+<button type="button" id="zfit" title="Alles passend maken">&#9635;</button>
+</div>
+<svg id="cg" viewBox="0 0 347 146" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="ah" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+<path d="M0,0 L8,3.5 L0,7 z" class="ahf"/></marker>
+<marker id="ahb" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+<path d="M0,0 L8,3.5 L0,7 z" class="ahbf"/></marker>
+</defs>
+<g id="vp">
+<path class="e" data-from="3" data-to="5" d="M 118 26 C 149 26, 149 60, 180 60"><title>LeesVoorraad -&gt; MeldFout</title></path>
+<path class="e" data-from="3" data-to="2" d="M 118 26 C 149 26, 149 26, 180 26"><title>LeesVoorraad -&gt; SplitsRegel</title></path>
+<path class="e" data-from="4" data-to="1" d="M 118 60 C 149 60, 149 94, 180 94"><title>ToonVoorraad -&gt; Waarde</title></path>
+<a href="#m2">
+<g class="n p1" data-id="1">
+<title>voorraad.bas.Waarde  (voorraad.bas:7)</title>
+<rect x="180" y="82" width="74" height="24" rx="5"/>
+<text x="189" y="98">Waarde</text>
+</g></a>
+<a href="#m3">
+<g class="n p1 pv" data-id="2">
+<title>voorraad.bas.SplitsRegel  (voorraad.bas:16)</title>
+<rect x="180" y="14" width="97" height="24" rx="5"/>
+<text x="189" y="30">SplitsRegel</text>
+</g></a>
+<a href="#m4">
+<g class="n p1 rt" data-id="3">
+<title>voorraad.bas.LeesVoorraad  (voorraad.bas:31)</title>
+<rect x="14" y="14" width="104" height="24" rx="5"/>
+<text x="23" y="30">LeesVoorraad</text>
+</g></a>
+<a href="#m5">
+<g class="n p1 rt" data-id="4">
+<title>voorraad.bas.ToonVoorraad  (voorraad.bas:54)</title>
+<rect x="14" y="48" width="104" height="24" rx="5"/>
+<text x="23" y="64">ToonVoorraad</text>
+</g></a>
+<a href="#m6">
+<g class="n p1" data-id="5">
+<title>voorraad.bas.MeldFout  (voorraad.bas:62)</title>
+<rect x="180" y="48" width="76" height="24" rx="5"/>
+<text x="189" y="64">MeldFout</text>
+</g></a>
+</g>
+</svg>
+</div>
+<h2 id="dead">Mogelijk ongebruikte code</h2>
+<div class="legend">3 functie(s) zonder aanroeper binnen de gescande code, 3 ingang(en) en 0 via een property gekoppelde functie(s).
+<br>Dit is een aanwijzing, geen bewijs: aanroepen via delegates, dynamische dictionary-toegang, gegenereerde Java of vanuit code buiten de scan worden niet gezien. Scan met --follow of --refs zo veel mogelijk mee voordat je iets weggooit.
+</div>
+<h3>Zonder aanroeper</h3>
+<table><tr><th>Functie</th><th>Part</th><th>Bestand</th><th>Roept zelf aan</th></tr>
+<tr><td><a href="#m4"><code>LeesVoorraad</code></a></td><td>voorraad.bas</td><td class="loc">voorraad.bas:31</td><td>2</td></tr>
+<tr><td><a href="#m5"><code>ToonVoorraad</code></a></td><td>voorraad.bas</td><td class="loc">voorraad.bas:54</td><td>1</td></tr>
+<tr><td><a href="#m7"><code>OudeExportRoutine</code></a> <span class="tag">private</span></td><td>voorraad.bas</td><td class="loc">voorraad.bas:68</td><td>0</td></tr>
+</table>
+<p class="loc">Een functie die zelf niets aanroept en door niemand wordt aangeroepen is de meest verdachte categorie. Roept hij wel van alles aan, dan hangt daar mogelijk een hele tak ongebruikte code onder.</p>
+<h3>Ingangen</h3>
+<div class="legend">Functies in een service, interface of programma: die worden per definitie van buiten aangeroepen.</div>
+<table><tr><th>Functie</th><th>Part</th></tr>
+<tr><td><a href="#m19"><code>Waarde</code></a></td><td>Type Artikel</td></tr>
+<tr><td><a href="#m20"><code>LeesVoorraad</code></a></td><td>Module voorraad.bi</td></tr>
+<tr><td><a href="#m21"><code>ToonVoorraad</code></a></td><td>Module voorraad.bi</td></tr>
+</table>
+<section class="part" id="p1">
+<h2>Module voorraad.bas</h2>
+<div class="loc">examplefreebasic/voorraad.bas:1</div>
+<div class="brief">Module voorraad.bas. Bevat 6 functie(s).<span class="tag auto">auto</span></div>
+<h3 id="m2">Waarde</h3>
+<div class="sig">function Waarde() returns(Double)</div>
+<div class="brief">Berekent de waarde van deze regel.</div>
+<div><b>Returns</b> <code>Double</code> &mdash; waarde van het type Double</div>
+<div><b>Aangeroepen door</b> <a href="#m5"><code>voorraad.bas.ToonVoorraad</code></a></div>
+<div class="loc">voorraad.bas:7</div>
+<h3 id="m3">SplitsRegel<span class="tag">private</span></h3>
+<div class="sig">private function SplitsRegel(ByRef regel As String, velden () As String) returns(Integer)</div>
+<div class="brief">Splitst een regel op puntkomma's.</div>
+<div class="detail">
+
+@param regel de ruwe tekstregel</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Richting</th><th>Beschrijving</th></tr>
+<tr><td><code>ByRef</code></td><td><code>regel As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+<tr><td><code>velden</code></td><td><code>() As String</code></td><td></td><td>de gevonden velden</td></tr>
+</table>
+<div><b>Returns</b> <code>Integer</code> &mdash; het aantal velden</div>
+<div><b>Aangeroepen door</b> <a href="#m4"><code>voorraad.bas.LeesVoorraad</code></a></div>
+<div class="loc">voorraad.bas:16</div>
+<h3 id="m4">LeesVoorraad<span class="tag auto">auto</span></h3>
+<div class="sig">function LeesVoorraad(ByRef pad As String, lijst () As Artikel) returns(Integer)</div>
+<div class="brief">Haalt voorraad op. Retourneert Integer.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Richting</th><th>Beschrijving</th></tr>
+<tr><td><code>ByRef</code></td><td><code>pad As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+<tr><td><code>lijst</code></td><td><code>() As Artikel</code></td><td></td><td>lijst<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>Integer</code> &mdash; waarde van het type Integer</div>
+<div><b>Roept aan</b> <a href="#m6"><code>voorraad.bas.MeldFout</code></a>, <a href="#m3"><code>voorraad.bas.SplitsRegel</code></a></div>
+<div class="loc">geen aanroepers binnen de gescande code</div>
+<div class="loc">voorraad.bas:31</div>
+<h3 id="m5">ToonVoorraad<span class="tag auto">auto</span></h3>
+<div class="sig">function ToonVoorraad(lijst () As Artikel)</div>
+<div class="brief">Toont voorraad.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Richting</th><th>Beschrijving</th></tr>
+<tr><td><code>lijst</code></td><td><code>() As Artikel</code></td><td></td><td>lijst<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Roept aan</b> <a href="#m2"><code>voorraad.bas.Waarde</code></a></div>
+<div class="loc">geen aanroepers binnen de gescande code</div>
+<div class="loc">voorraad.bas:54</div>
+<h3 id="m6">MeldFout</h3>
+<div class="sig">function MeldFout(ByRef tekst As String)</div>
+<div class="brief">Schrijft een foutmelding en houdt de teller bij.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Richting</th><th>Beschrijving</th></tr>
+<tr><td><code>ByRef</code></td><td><code>tekst As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Aangeroepen door</b> <a href="#m4"><code>voorraad.bas.LeesVoorraad</code></a></div>
+<div class="loc">voorraad.bas:62</div>
+<h3 id="m7">OudeExportRoutine<span class="tag">private</span></h3>
+<div class="sig">private function OudeExportRoutine()</div>
+<div class="brief">Wordt nergens aangeroepen: kandidaat voor het opruimlijstje.</div>
+<div class="loc">geen aanroepers binnen de gescande code</div>
+<div class="loc">voorraad.bas:68</div>
+<h3>Velden, constanten en waarden</h3>
+<table><tr><th>Naam</th><th>Type</th><th>Soort</th><th>Beschrijving</th></tr>
+<tr><td><code>leesFouten</code></td><td><code>Integer </code></td><td>variable</td><td>Interne teller voor het aantal leesfouten.</td></tr>
+<tr><td><code>artikelen</code></td><td><code>Artikel </code></td><td>variable</td><td>Variabele artikelen.<span class="tag auto">auto</span></td></tr>
+</table>
+</section>
+<section class="part" id="p2">
+<h2>Module voorraad.bi</h2>
+<div class="loc">examplefreebasic/voorraad.bi:1</div>
+<div class="brief">Module voorraad.bi. Bevat 2 functie(s).<span class="tag auto">auto</span></div>
+<h3 id="m20">LeesVoorraad<span class="tag">prototype</span></h3>
+<div class="sig">function LeesVoorraad(ByRef pad As String, lijst () As Artikel) returns(Integer)</div>
+<div class="brief">Leest de voorraad uit een bestand.</div>
+<div class="detail">
+
+@param pad het volledige pad naar het CSV-bestand</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Richting</th><th>Beschrijving</th></tr>
+<tr><td><code>ByRef</code></td><td><code>pad As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+<tr><td><code>lijst</code></td><td><code>() As Artikel</code></td><td></td><td>de gevulde artikelenlijst</td></tr>
+</table>
+<div><b>Returns</b> <code>Integer</code> &mdash; het aantal ingelezen regels, of -1 bij een leesfout</div>
+<div class="loc">geen aanroepers binnen de gescande code</div>
+<div class="loc">voorraad.bi:33</div>
+<h3 id="m21">ToonVoorraad<span class="tag">prototype</span><span class="tag auto">auto</span></h3>
+<div class="sig">function ToonVoorraad(lijst () As Artikel)</div>
+<div class="brief">Toont voorraad.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Richting</th><th>Beschrijving</th></tr>
+<tr><td><code>lijst</code></td><td><code>() As Artikel</code></td><td></td><td>lijst<span class="tag auto">auto</span></td></tr>
+</table>
+<div class="loc">geen aanroepers binnen de gescande code</div>
+<div class="loc">voorraad.bi:35</div>
+<h3>Velden, constanten en waarden</h3>
+<table><tr><th>Naam</th><th>Type</th><th>Soort</th><th>Beschrijving</th></tr>
+<tr><td><code>VOORRAAD_BI</code></td><td><code></code></td><td>macro</td><td>Functie VOORRAAD BI.<span class="tag auto">auto</span></td></tr>
+<tr><td><code>MAX_ARTIKELEN</code></td><td><code></code></td><td>constant</td><td>Maximaal aantal artikelen in het magazijn.</td></tr>
+</table>
+</section>
+<section class="part" id="p3">
+<h2>Enumeratie ArtikelStatus</h2>
+<div class="loc">examplefreebasic/voorraad.bi:8</div>
+<div class="brief">Status van een artikel in de voorraad.</div>
+<h3>Velden, constanten en waarden</h3>
+<table><tr><th>Naam</th><th>Type</th><th>Soort</th><th>Beschrijving</th></tr>
+<tr><td><code>ST_ONBEKEND</code></td><td><code></code></td><td>enum</td><td>Waarde ST ONBEKEND.<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ST_LEVERBAAR</code></td><td><code></code></td><td>enum</td><td>Artikel is leverbaar.</td></tr>
+<tr><td><code>ST_UITVERKOCHT</code></td><td><code></code></td><td>enum</td><td>Waarde ST UITVERKOCHT.<span class="tag auto">auto</span></td></tr>
+</table>
+</section>
+<section class="part" id="p4">
+<h2>Type Artikel</h2>
+<div class="loc">examplefreebasic/voorraad.bi:16</div>
+<div class="brief">Eén regel uit de voorraadadministratie.</div>
+<h3 id="m19">Waarde<span class="tag">prototype</span></h3>
+<div class="sig">function Waarde() returns(Double)</div>
+<div class="brief">Berekent de waarde van deze regel.</div>
+<div><b>Returns</b> <code>Double</code> &mdash; waarde van het type Double</div>
+<div class="loc">geen aanroepers binnen de gescande code</div>
+<div class="loc">voorraad.bi:25</div>
+<h3>Velden, constanten en waarden</h3>
+<table><tr><th>Naam</th><th>Type</th><th>Soort</th><th>Beschrijving</th></tr>
+<tr><td><code>nummer</code></td><td><code>Integer</code></td><td>variable</td><td>Uniek artikelnummer.</td></tr>
+<tr><td><code>omschrijving</code></td><td><code>String</code></td><td>variable</td><td>Variabele omschrijving.<span class="tag auto">auto</span></td></tr>
+<tr><td><code>aantal</code></td><td><code>Integer</code></td><td>variable</td><td>Variabele aantal.<span class="tag auto">auto</span></td></tr>
+<tr><td><code>prijs</code></td><td><code>Double</code></td><td>variable</td><td>Variabele prijs.<span class="tag auto">auto</span></td></tr>
+<tr><td><code>status</code></td><td><code>ArtikelStatus</code></td><td>variable</td><td>Variabele status.<span class="tag auto">auto</span></td></tr>
+</table>
+</section>
+</main></div>
+<script>
+(function(){var qi=document.getElementById('q');if(!qi)return;
+qi.addEventListener('input',function(){var v=this.value.toLowerCase();
+var li=document.querySelectorAll('#side li');
+for(var i=0;i<li.length;i++){li[i].style.display=li[i].textContent.toLowerCase().indexOf(v)>-1?'':'none';}});})();
+</script>
+<script>
+(function(){var svg=document.getElementById('cg');if(!svg)return;
+var eds=svg.getElementsByTagName('path'),nds=svg.getElementsByTagName('g');
+function reset(){for(var i=0;i<eds.length;i++){eds[i].style.opacity='';eds[i].style.strokeWidth='';}
+for(var j=0;j<nds.length;j++){nds[j].style.opacity='';}}
+function focusOn(id){for(var i=0;i<eds.length;i++){var p=eds[i];
+var f=p.getAttribute('data-from'),t=p.getAttribute('data-to');
+if(f===null){continue;}
+if(f===id||t===id){p.style.opacity='1';p.style.strokeWidth='2.4';}else{p.style.opacity='0.10';}}
+for(var j=0;j<nds.length;j++){var g=nds[j],gi=g.getAttribute('data-id');if(gi===null)continue;
+var keep=(gi===id);
+if(!keep){for(var k=0;k<eds.length;k++){var f2=eds[k].getAttribute('data-from'),t2=eds[k].getAttribute('data-to');
+if((f2===id&&t2===gi)||(t2===id&&f2===gi)){keep=true;break;}}}
+g.style.opacity=keep?'1':'0.25';}}
+for(var n=0;n<nds.length;n++){(function(g){if(g.getAttribute('data-id')===null)return;
+g.onmouseover=function(){focusOn(g.getAttribute('data-id'));};g.onmouseout=reset;})(nds[n]);}
+})();
+(function(){var svg=document.getElementById('cg');if(!svg)return;
+var vp=document.getElementById('vp');if(!vp)return;
+var k=1,tx=0,ty=0,drag=false,moved=false,px=0,py=0;
+function apply(){vp.setAttribute('transform','translate('+tx+','+ty+') scale('+k+')');}
+function pt(e){var p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;
+var m=svg.getScreenCTM();if(!m)return null;return p.matrixTransform(m.inverse());}
+function zoomAt(x,y,f){var n=k*f;if(n<0.08)n=0.08;if(n>8)n=8;
+tx=x-(x-tx)*(n/k);ty=y-(y-ty)*(n/k);k=n;apply();}
+function center(){var r=svg.getBoundingClientRect();
+return pt({clientX:r.left+r.width/2,clientY:r.top+r.height/2});}
+svg.addEventListener('wheel',function(e){var p=pt(e);if(!p)return;e.preventDefault();
+zoomAt(p.x,p.y,e.deltaY<0?1.15:1/1.15);},false);
+svg.addEventListener('mousedown',function(e){if(e.button!==0)return;
+var p=pt(e);if(!p)return;drag=true;moved=false;px=p.x;py=p.y;
+svg.setAttribute('class','drag');},false);
+window.addEventListener('mousemove',function(e){if(!drag)return;var p=pt(e);if(!p)return;
+var dx=p.x-px,dy=p.y-py;if(Math.abs(dx)+Math.abs(dy)>1)moved=true;
+tx+=dx;ty+=dy;apply();px=p.x;py=p.y;},false);
+window.addEventListener('mouseup',function(){if(!drag)return;drag=false;
+svg.setAttribute('class','');},false);
+svg.addEventListener('dragstart',function(e){e.preventDefault();},false);
+svg.addEventListener('click',function(e){if(moved){e.preventDefault();e.stopPropagation();moved=false;}},true);
+var zi=document.getElementById('zin'),zo=document.getElementById('zout'),zf=document.getElementById('zfit');
+if(zi)zi.onclick=function(){var c=center();if(c)zoomAt(c.x,c.y,1.3);};
+if(zo)zo.onclick=function(){var c=center();if(c)zoomAt(c.x,c.y,1/1.3);};
+if(zf)zf.onclick=function(){k=1;tx=0;ty=0;apply();};
+})();
+</script>
+</body></html>

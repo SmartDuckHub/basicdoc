@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MSX-BASIC documentatie - Ruimtejager</title>
+<style>
+:root{--bg:#ffffff;--fg:#1b1f24;--mut:#5b6570;--line:#dfe3e8;--card:#f6f8fa;--acc:#0b5fa4;--link:#0b5fa4;--auto:#8a5a00;--autobg:#fff4d6;--dep:#a11;--kw:#7a2e8e;--str:#a1561b;--rem:#3c7a3c;--deadbg:#fbe9e9;--sharedbg:#fff4d6;--tgt:#d8e8fb}
+@media (prefers-color-scheme:dark){:root{--bg:#12161a;--fg:#e6e9ec;--mut:#9aa4ae;--line:#2a3138;--card:#1a1f25;--acc:#5aa9f0;--link:#cdd6de;--auto:#e0b050;--autobg:#332a10;--dep:#f77;--kw:#d59be6;--str:#e2a36b;--rem:#86c286;--deadbg:#3a1f22;--sharedbg:#332a10;--tgt:#1d3550}}
+*{box-sizing:border-box}
+a,a:visited{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+a:focus-visible{outline:2px solid var(--link);outline-offset:2px}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+code,pre,.sig,.mono{font-family:Consolas,'DejaVu Sans Mono',monospace}
+header{padding:18px 24px;border-bottom:1px solid var(--line)}
+header h1{margin:0;font-size:19px}
+header .meta{color:var(--mut);font-size:13px;margin-top:4px}
+.wrap{display:flex;align-items:flex-start}
+nav{width:290px;flex:0 0 290px;border-right:1px solid var(--line);padding:14px;position:sticky;top:0;max-height:100vh;overflow:auto}
+nav input{width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:5px;background:var(--bg);color:var(--fg);margin-bottom:10px}
+nav ul{list-style:none;margin:0;padding:0}
+nav li{margin:2px 0;font-size:13px}
+nav li.f{padding-left:14px;color:var(--mut)}
+nav a,nav a:visited{color:var(--link)}
+main{flex:1 1 auto;padding:18px 26px;min-width:0}
+section.part{border-top:1px solid var(--line);padding-top:16px;margin-top:26px}
+h2{font-size:20px;margin:0 0 4px}
+h3{font-size:15px;margin:22px 0 6px}
+.loc{color:var(--mut);font-size:12px}
+.brief{margin:8px 0}
+.detail{color:var(--fg);white-space:pre-wrap;margin:6px 0}
+table{border-collapse:collapse;margin:8px 0;font-size:13px;width:100%}
+th,td{border:1px solid var(--line);padding:4px 8px;text-align:left;vertical-align:top}
+th{background:var(--card);font-weight:600}
+.tag{display:inline-block;font-size:11px;padding:1px 6px;border-radius:9px;border:1px solid var(--line);color:var(--mut);margin-left:6px;font-weight:400}
+.auto{background:var(--autobg);color:var(--auto);border-color:transparent}
+.dep{color:var(--dep);border-color:var(--dep)}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:10px 14px;font-size:13px;display:inline-block;margin-right:8px}
+.graphwrap{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:6px;background:var(--card);height:78vh;min-height:220px;margin:10px 0}
+svg#cg{width:100%;height:100%;display:block;cursor:grab;touch-action:none}
+svg#cg.drag{cursor:grabbing}
+.zoomctl{position:absolute;right:14px;bottom:14px;z-index:5;display:flex;flex-direction:column}
+.zoomctl button{width:34px;height:34px;margin-top:5px;font:16px/1 -apple-system,Segoe UI,Roboto,sans-serif;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:7px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.zoomctl button:hover{background:var(--card)}
+.zoomctl button:active{transform:translateY(1px)}
+svg#cg text{font-family:Consolas,'DejaVu Sans Mono',monospace;font-size:11px;fill:var(--fg);pointer-events:none}
+svg#cg tspan.nn{font-weight:700}svg#cg tspan.nk{fill:var(--mut);font-size:10px}
+svg#cg g.n rect{stroke-width:1.2}
+svg#cg g.rt rect{stroke-width:2.6}
+svg#cg g.dd rect{stroke-dasharray:4 3}
+svg#cg g.n{cursor:pointer}
+svg#cg path.e{fill:none;stroke:#8a949e;stroke-width:1.3;marker-end:url(#ah)}
+svg#cg path.e.b{stroke:#c0673a;stroke-dasharray:5 3;marker-end:url(#ahb)}
+svg#cg path.e.cb{stroke:#3a7bbf;stroke-dasharray:2 3}
+svg#cg .ahf{fill:#8a949e}
+svg#cg .ahbf{fill:#c0673a}
+svg#cg a{text-decoration:none}
+.legend{font-size:12px;color:var(--mut);margin:6px 0 14px}
+.legend span.sw{display:inline-block;width:11px;height:11px;border-radius:3px;border:1px solid var(--line);vertical-align:-1px;margin:0 4px 0 10px}
+svg#cg g.k-main rect{fill:hsl(210,62%,92%);stroke:hsl(210,45%,52%)}.sw-main{background:hsl(210,62%,92%)}
+svg#cg g.k-sub rect{fill:hsl(140,62%,92%);stroke:hsl(140,45%,42%)}.sw-sub{background:hsl(140,62%,92%)}
+svg#cg g.k-event rect{fill:hsl(42,62%,90%);stroke:hsl(42,55%,45%)}.sw-event{background:hsl(42,62%,90%)}
+svg#cg g.k-error rect{fill:hsl(6,62%,92%);stroke:hsl(6,50%,52%)}.sw-error{background:hsl(6,62%,92%)}
+@media (prefers-color-scheme:dark){
+svg#cg g.k-main rect{fill:hsl(210,30%,24%);stroke:hsl(210,40%,58%)}.sw-main{background:hsl(210,30%,24%)}
+svg#cg g.k-sub rect{fill:hsl(140,30%,22%);stroke:hsl(140,40%,55%)}.sw-sub{background:hsl(140,30%,22%)}
+svg#cg g.k-event rect{fill:hsl(42,30%,22%);stroke:hsl(42,45%,55%)}.sw-event{background:hsl(42,30%,22%)}
+svg#cg g.k-error rect{fill:hsl(6,30%,24%);stroke:hsl(6,45%,60%)}.sw-error{background:hsl(6,30%,24%)}
+}
+table.src{font-size:13px;border:1px solid var(--line)}table.src td{border:0;padding:1px 8px;white-space:pre-wrap}
+table.src td.own{white-space:nowrap;width:1%;font-size:11px;color:var(--mut)}
+table.src td.ln{text-align:right;color:var(--mut);width:1%;user-select:none}
+table.src tr.dead{background:var(--deadbg)}table.src tr.shared{background:var(--sharedbg)}table.src tr.entry td{border-top:1px solid var(--line)}
+table.src tr:target{background:var(--tgt)}
+.kw{color:var(--kw);font-weight:600}.str{color:var(--str)}.rem{color:var(--rem);font-style:italic}.dat{color:var(--str)}
+ul.warn{padding-left:20px}ul.warn li{margin:3px 0}
+ul.tree,ul.tree ul{list-style:none;padding-left:18px;margin:2px 0;font-size:13px}ul.tree{padding-left:0}
+summary{cursor:pointer;margin:4px 0}
+.legend span.bg{display:inline-block;padding:0 8px;margin-right:8px;border-radius:4px}
+</style>
+</head><body>
+<header><h1>MSX-BASIC documentatie &mdash; Ruimtejager</h1><div class="meta">msxbasicdoc 0.3.0 &middot; 20-10-2026 14:54:26 &middot; JAGER.BAS &middot; 67 regels &middot; 10 routines</div></header>
+<div class="wrap">
+<nav id="side">
+<input id="q" placeholder="Filter op naam of regel...">
+<ul>
+<li><a href="#graph"><b>Aanroepstructuur</b></a></li>
+<li><a href="#dead"><b>Mogelijk ongebruikt</b></a></li>
+<li><a href="#warn"><b>Waarschuwingen</b></a> (4)</li>
+<li><a href="#vars"><b>Variabelen</b></a></li>
+<li><a href="#misc"><b>Functies, DATA en extern</b></a></li>
+<li><a href="#src"><b>Broncode</b></a></li>
+<li><a href="#overview">Programma JAGER.BAS</a></li>
+<li class="f"><a href="#R10"><code>10</code> Hoofdprogramma</a></li>
+<li class="f"><a href="#R1000"><code>1000</code> Init</a></li>
+<li class="f"><a href="#R2000"><code>2000</code> Beweeg omhoog</a></li>
+<li class="f"><a href="#R2100"><code>2100</code> Beweeg rechts</a></li>
+<li class="f"><a href="#R2200"><code>2200</code> Beweeg omlaag</a></li>
+<li class="f"><a href="#R2300"><code>2300</code> Beweeg links</a></li>
+<li class="f"><a href="#R3000"><code>3000</code> Einde</a></li>
+<li class="f"><a href="#R4000"><code>4000</code> Teken</a></li>
+<li class="f"><a href="#R5000"><code>5000</code> Tik</a></li>
+<li class="f"><a href="#R6000"><code>6000</code> Vuur</a></li>
+<li class="f"><a href="#R9000"><code>9000</code> Fout</a></li>
+</ul>
+</nav>
+<main>
+<div class="stat">Documentatiedekking: <b>11</b> van <b>11</b> ingangen heeft echt broncommentaar (100,0%)</div>
+<div class="stat">Commentaarregels: <b>26</b> van <b>67</b> (38,8%)</div>
+<h2 id="graph" style="margin-top:26px">Aanroepstructuur</h2>
+<div class="legend">
+11 ingangen, 14 relaties. Van links naar rechts: aanroeper voor aangeroepene. Klik een blok om naar de documentatie te springen; beweeg erover om alleen de eigen relaties te zien. Sleep om te verschuiven, scrollwiel of de knoppen rechtsonder om te zoomen.
+<br>Dikke rand = geen aanroeper binnen bereikbare code (hoofdprogramma, of alleen aangeroepen vanuit dode code). Gestippelde rand = niet bereikbaar vanuit het hoofdprogramma. Oranje gestippelde pijl = terugkoppeling of recursie. Blauwe fijngestippelde pijl = registreert handler (ON INTERVAL/KEY/SPRITE/STRIG/STOP GOSUB, ON ERROR GOTO).
+<br>Soorten:<span class="sw sw-main"></span>hoofdprogramma<span class="sw sw-sub"></span>subroutine<span class="sw sw-event"></span>event-handler<span class="sw sw-error"></span>foutafhandeling
+</div>
+<div class=graphwrap style="height:min(78vh,554px)">
+<div class=zoomctl><button id=zin title=Inzoomen>+</button><button id=zout title=Uitzoomen>&minus;</button><button id=zfit title="Alles tonen">&#8634;</button></div>
+<svg id=cg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 792 544" preserveAspectRatio="xMidYMin meet" role=img aria-label="Aanroepstructuur">
+<defs><marker id=ah viewBox="0 0 10 10" refX=10 refY=5 markerWidth=7 markerHeight=7 orient=auto><path class=ahf d="M0,0 L10,5 L0,10 z"/></marker><marker id=ahb viewBox="0 0 10 10" refX=10 refY=5 markerWidth=7 markerHeight=7 orient=auto><path class=ahbf d="M0,0 L10,5 L0,10 z"/></marker></defs>
+<g id=vp>
+<path class="e" data-from="0" data-to="1" d="M204,247 C244,247 244,39 284,39"/>
+<path class="e" data-from="0" data-to="2" d="M204,247 C244,247 244,91 284,91"/>
+<path class="e" data-from="0" data-to="3" d="M204,247 C244,247 244,143 284,143"/>
+<path class="e" data-from="0" data-to="4" d="M204,247 C244,247 244,195 284,195"/>
+<path class="e" data-from="0" data-to="5" d="M204,247 C244,247 244,247 284,247"/>
+<path class="e" data-from="0" data-to="6" d="M204,247 C244,247 244,299 284,299"/>
+<path class="e cb" data-from="0" data-to="8" d="M204,247 C244,247 244,351 284,351"/>
+<path class="e cb" data-from="0" data-to="9" d="M204,247 C244,247 244,403 284,403"/>
+<path class="e cb" data-from="0" data-to="10" d="M204,247 C244,247 244,455 284,455"/>
+<path class="e" data-from="1" data-to="7" d="M468,39 C508,39 508,247 548,247"/>
+<path class="e" data-from="2" data-to="7" d="M468,91 C508,91 508,247 548,247"/>
+<path class="e" data-from="3" data-to="7" d="M468,143 C508,143 508,247 548,247"/>
+<path class="e" data-from="4" data-to="7" d="M468,195 C508,195 508,247 548,247"/>
+<path class="e" data-from="5" data-to="7" d="M468,247 C508,247 508,247 548,247"/>
+<a href="#R10"><g class="n k-main rt" data-id="0"><title>10 Hoofdprogramma (hoofdprogramma, 18 regels)</title><rect x="20" y="228" width="184" height="38" rx="5"/><text x="29" y="243"><tspan class=nn>10</tspan><tspan class=nk dx="6">hoofdprogramma</tspan></text><text x="29" y="258">Ruimtejager</text></g></a>
+<a href="#R1000"><g class="n k-sub" data-id="1"><title>1000 Init (subroutine, 6 regels)
+zet het speelveld klaar</title><rect x="284" y="20" width="184" height="38" rx="5"/><text x="293" y="35"><tspan class=nn>1000</tspan><tspan class=nk dx="6">subroutine</tspan></text><text x="293" y="50">Init</text></g></a>
+<a href="#R2000"><g class="n k-sub" data-id="2"><title>2000 Beweeg omhoog (subroutine, 5 regels)</title><rect x="284" y="72" width="184" height="38" rx="5"/><text x="293" y="87"><tspan class=nn>2000</tspan><tspan class=nk dx="6">subroutine</tspan></text><text x="293" y="102">Beweeg omhoog</text></g></a>
+<a href="#R2100"><g class="n k-sub" data-id="3"><title>2100 Beweeg rechts (subroutine, 5 regels)</title><rect x="284" y="124" width="184" height="38" rx="5"/><text x="293" y="139"><tspan class=nn>2100</tspan><tspan class=nk dx="6">subroutine</tspan></text><text x="293" y="154">Beweeg rechts</text></g></a>
+<a href="#R2200"><g class="n k-sub" data-id="4"><title>2200 Beweeg omlaag (subroutine, 5 regels)</title><rect x="284" y="176" width="184" height="38" rx="5"/><text x="293" y="191"><tspan class=nn>2200</tspan><tspan class=nk dx="6">subroutine</tspan></text><text x="293" y="206">Beweeg omlaag</text></g></a>
+<a href="#R2300"><g class="n k-sub" data-id="5"><title>2300 Beweeg links (subroutine, 4 regels)</title><rect x="284" y="228" width="184" height="38" rx="5"/><text x="293" y="243"><tspan class=nn>2300</tspan><tspan class=nk dx="6">subroutine</tspan></text><text x="293" y="258">Beweeg links</text></g></a>
+<a href="#R3000"><g class="n k-sub" data-id="6"><title>3000 Einde (subroutine, 4 regels)
+toon score en vraag om opnieuw</title><rect x="284" y="280" width="184" height="38" rx="5"/><text x="293" y="295"><tspan class=nn>3000</tspan><tspan class=nk dx="6">subroutine</tspan></text><text x="293" y="310">Einde</text></g></a>
+<a href="#R4000"><g class="n k-sub" data-id="7"><title>4000 Teken (subroutine, 3 regels)
+speler op X,Y zetten</title><rect x="548" y="228" width="184" height="38" rx="5"/><text x="557" y="243"><tspan class=nn>4000</tspan><tspan class=nk dx="6">subroutine</tspan></text><text x="557" y="258">Teken</text></g></a>
+<a href="#R5000"><g class="n k-event" data-id="8"><title>5000 Tik (event: ON INTERVAL, 4 regels)
+interval-handler, telt punten</title><rect x="284" y="332" width="184" height="38" rx="5"/><text x="293" y="347"><tspan class=nn>5000</tspan><tspan class=nk dx="6">event: ON INTERVAL</tspan></text><text x="293" y="362">Tik</text></g></a>
+<a href="#R6000"><g class="n k-event" data-id="9"><title>6000 Vuur (event: ON STRIG, 4 regels)
+spatiebalk ingedrukt</title><rect x="284" y="384" width="184" height="38" rx="5"/><text x="293" y="399"><tspan class=nn>6000</tspan><tspan class=nk dx="6">event: ON STRIG</tspan></text><text x="293" y="414">Vuur</text></g></a>
+<a href="#R9000"><g class="n k-error" data-id="10"><title>9000 Fout (ON ERROR, 4 regels)
+foutafhandeling</title><rect x="284" y="436" width="184" height="38" rx="5"/><text x="293" y="451"><tspan class=nn>9000</tspan><tspan class=nk dx="6">ON ERROR</tspan></text><text x="293" y="466">Fout</text></g></a>
+</g></svg></div>
+<details><summary class="loc">Als boomstructuur</summary>
+<ul class="tree">
+<li><a href="#R10"><code>10</code> Hoofdprogramma</a><ul>
+<li><a href="#R1000"><code>1000</code> Init</a><ul>
+<li><a href="#R4000"><code>4000</code> Teken</a></li>
+</ul>
+</li>
+<li><a href="#R2000"><code>2000</code> Beweeg omhoog</a><ul>
+<li><a href="#R4000"><code>4000</code> Teken</a></li>
+</ul>
+</li>
+<li><a href="#R2100"><code>2100</code> Beweeg rechts</a><ul>
+<li><a href="#R4000"><code>4000</code> Teken</a></li>
+</ul>
+</li>
+<li><a href="#R2200"><code>2200</code> Beweeg omlaag</a><ul>
+<li><a href="#R4000"><code>4000</code> Teken</a></li>
+</ul>
+</li>
+<li><a href="#R2300"><code>2300</code> Beweeg links</a><ul>
+<li><a href="#R4000"><code>4000</code> Teken</a></li>
+</ul>
+</li>
+<li><a href="#R3000"><code>3000</code> Einde</a></li>
+<li><span class=tag>registreert</span> <a href="#R5000"><code>5000</code> Tik</a></li>
+<li><span class=tag>registreert</span> <a href="#R6000"><code>6000</code> Vuur</a></li>
+<li><span class=tag>registreert</span> <a href="#R9000"><code>9000</code> Fout</a></li>
+</ul>
+</li>
+</ul></details>
+<h2 id="dead" style="margin-top:26px">Mogelijk ongebruikte code</h2>
+<div class="legend">In MSX-BASIC zijn sprongdoelen altijd vaste regelnummers, dus de analyse is binnen het programma volledig.
+<br>Niet gezien worden: binnenkomst via <code>RUN regel</code> of <code>GOTO</code> in direct mode, via een ander programma (<code>RUN "X",R</code>, <code>MERGE</code>) of via machinetaal. Controleer dat voordat je iets weggooit.</div>
+<h3>Onbereikbare regels</h3>
+<table><tr><th>Regels</th><th>Code-regels</th><th>Begint met</th></tr>
+<tr><td><a href="#L6040">6040</a>&ndash;<a href="#L6050">6050</a></td><td>2</td><td><code>PRINT &quot;Deze regel wordt nooit bereikt&quot;</code></td></tr>
+</table>
+<h2 id="warn" style="margin-top:26px">Waarschuwingen</h2>
+<ul class="warn">
+<li>Regel 6050: GOTO verwijst naar niet-bestaande regel 7777 <a href="#L6050">&rarr;</a></li>
+<li>Regels 2400-2410 horen bij meerdere routines: 2000, 2100, 2200, 2300 <a href="#L2400">&rarr;</a></li>
+<li>Regels 6040-6050 zijn onbereikbaar <a href="#L6040">&rarr;</a></li>
+<li>PUNTEN, PUNT zijn in MSX-BASIC dezelfde variabele (alleen de eerste 2 tekens tellen) <a href="#L160">&rarr;</a></li>
+</ul>
+<section class="part" id="overview">
+<h2>Programma Ruimtejager</h2>
+<div class="loc">JAGER.BAS</div>
+<div class="brief">demoprogramma voor msxbasicdoc</div>
+<div class="detail">Klein spelletje om subroutines, events en
+foutafhandeling te laten zien.</div>
+<table><tr><th>Tag</th><th>Waarde</th></tr>
+<tr><td><code>@auteur</code></td><td>Marcel</td></tr>
+<tr><td><code>@versie</code></td><td>0.1</td></tr>
+</table>
+</section>
+<section class="part" id="R10">
+<h2>10 &middot; Hoofdprogramma<span class="tag">hoofdprogramma</span></h2>
+<div class="loc">JAGER.BAS:10 &middot; 18 regels: <a href="#L10">10</a>&ndash;<a href="#L310">310</a></div>
+<div class="brief">Begin van het programma en alles wat daar zonder GOSUB uit volgt.</div>
+<div><b>Roept aan</b> <a href="#R1000"><code>1000</code> Init</a>, <a href="#R2000"><code>2000</code> Beweeg omhoog</a>, <a href="#R2100"><code>2100</code> Beweeg rechts</a>, <a href="#R2200"><code>2200</code> Beweeg omlaag</a>, <a href="#R2300"><code>2300</code> Beweeg links</a>, <a href="#R3000"><code>3000</code> Einde</a></div>
+<div><b>Registreert</b> <a href="#R5000"><code>5000</code> Tik</a> <span class="tag">event: ON INTERVAL</span>, <a href="#R6000"><code>6000</code> Vuur</a> <span class="tag">event: ON STRIG</span>, <a href="#R9000"><code>9000</code> Fout</a> <span class="tag">ON ERROR</span></div>
+<div><b>Eindigt via</b> <code>END/STOP</code> <a href="#L310">310</a></div>
+<table><tr><th>Variabele</th><th>Type</th><th>Gebruik</th></tr>
+<tr><td><a href="#V0"><code>S</code></a></td><td><code>integer</code></td><td>schrijft, leest</td></tr>
+<tr><td><a href="#V1"><code>PUNTEN, PUNT</code></a></td><td><code>integer</code></td><td>leest</td></tr>
+<tr><td><a href="#V2"><code>A$</code></a></td><td><code>string</code></td><td>leest</td></tr>
+</table>
+</section>
+<section class="part" id="R1000">
+<h2>1000 &middot; Init<span class="tag">subroutine</span></h2>
+<div class="loc">JAGER.BAS:1000 &middot; 6 regels: <a href="#L1000">1000</a>&ndash;<a href="#L1050">1050</a></div>
+<div class="brief">zet het speelveld klaar</div>
+<table><tr><th>Tag</th><th>Waarde</th></tr>
+<tr><td><code>@uit</code></td><td>X,Y startpositie; PUNTEN=0</td></tr>
+</table>
+<div><b>Roept aan</b> <a href="#R4000"><code>4000</code> Teken</a></div>
+<div><b>Aangeroepen door</b> regel <a href="#L100">100</a> (<a href="#R10">Hoofdprogramma</a>)</div>
+<div><b>Eindigt via</b> <code>RETURN</code> <a href="#L1050">1050</a></div>
+<table><tr><th>Variabele</th><th>Type</th><th>Gebruik</th></tr>
+<tr><td><a href="#V1"><code>PUNTEN, PUNT</code></a></td><td><code>integer</code></td><td>schrijft</td></tr>
+<tr><td><a href="#V3"><code>X</code></a></td><td><code>integer</code></td><td>schrijft</td></tr>
+<tr><td><a href="#V4"><code>Y</code></a></td><td><code>integer</code></td><td>schrijft</td></tr>
+<tr><td><a href="#V5"><code>LEVEN</code></a></td><td><code>integer</code></td><td>schrijft</td></tr>
+<tr><td><a href="#V6"><code>I</code></a></td><td><code>integer</code></td><td>schrijft, leest</td></tr>
+<tr><td><a href="#V7"><code>D</code></a></td><td><code>integer</code></td><td>schrijft, leest</td></tr>
+</table>
+</section>
+<section class="part" id="R2000">
+<h2>2000 &middot; Beweeg omhoog<span class="tag">subroutine</span></h2>
+<div class="loc">JAGER.BAS:2000 &middot; 5 regels: <a href="#L2000">2000</a>&ndash;<a href="#L2020">2020</a>, <a href="#L2400">2400</a>&ndash;<a href="#L2410">2410</a></div>
+<div><b>Roept aan</b> <a href="#R4000"><code>4000</code> Teken</a></div>
+<div><b>Aangeroepen door</b> regel <a href="#L150">150</a> (<a href="#R10">Hoofdprogramma</a>)</div>
+<div><b>Eindigt via</b> <code>RETURN</code> <a href="#L2410">2410</a></div>
+<table><tr><th>Variabele</th><th>Type</th><th>Gebruik</th></tr>
+<tr><td><a href="#V4"><code>Y</code></a></td><td><code>integer</code></td><td>schrijft, leest</td></tr>
+</table>
+</section>
+<section class="part" id="R2100">
+<h2>2100 &middot; Beweeg rechts<span class="tag">subroutine</span></h2>
+<div class="loc">JAGER.BAS:2100 &middot; 5 regels: <a href="#L2100">2100</a>&ndash;<a href="#L2120">2120</a>, <a href="#L2400">2400</a>&ndash;<a href="#L2410">2410</a></div>
+<div><b>Roept aan</b> <a href="#R4000"><code>4000</code> Teken</a></div>
+<div><b>Aangeroepen door</b> regel <a href="#L150">150</a> (<a href="#R10">Hoofdprogramma</a>)</div>
+<div><b>Eindigt via</b> <code>RETURN</code> <a href="#L2410">2410</a></div>
+<table><tr><th>Variabele</th><th>Type</th><th>Gebruik</th></tr>
+<tr><td><a href="#V3"><code>X</code></a></td><td><code>integer</code></td><td>schrijft, leest</td></tr>
+</table>
+</section>
+<section class="part" id="R2200">
+<h2>2200 &middot; Beweeg omlaag<span class="tag">subroutine</span></h2>
+<div class="loc">JAGER.BAS:2200 &middot; 5 regels: <a href="#L2200">2200</a>&ndash;<a href="#L2220">2220</a>, <a href="#L2400">2400</a>&ndash;<a href="#L2410">2410</a></div>
+<div><b>Roept aan</b> <a href="#R4000"><code>4000</code> Teken</a></div>
+<div><b>Aangeroepen door</b> regel <a href="#L150">150</a> (<a href="#R10">Hoofdprogramma</a>)</div>
+<div><b>Eindigt via</b> <code>RETURN</code> <a href="#L2410">2410</a></div>
+<table><tr><th>Variabele</th><th>Type</th><th>Gebruik</th></tr>
+<tr><td><a href="#V4"><code>Y</code></a></td><td><code>integer</code></td><td>schrijft, leest</td></tr>
+</table>
+</section>
+<section class="part" id="R2300">
+<h2>2300 &middot; Beweeg links<span class="tag">subroutine</span></h2>
+<div class="loc">JAGER.BAS:2300 &middot; 4 regels: <a href="#L2300">2300</a>&ndash;<a href="#L2410">2410</a></div>
+<div><b>Roept aan</b> <a href="#R4000"><code>4000</code> Teken</a></div>
+<div><b>Aangeroepen door</b> regel <a href="#L150">150</a> (<a href="#R10">Hoofdprogramma</a>)</div>
+<div><b>Eindigt via</b> <code>RETURN</code> <a href="#L2410">2410</a></div>
+<table><tr><th>Variabele</th><th>Type</th><th>Gebruik</th></tr>
+<tr><td><a href="#V3"><code>X</code></a></td><td><code>integer</code></td><td>schrijft, leest</td></tr>
+</table>
+</section>
+<section class="part" id="R3000">
+<h2>3000 &middot; Einde<span class="tag">subroutine</span></h2>
+<div class="loc">JAGER.BAS:3000 &middot; 4 regels: <a href="#L3000">3000</a>&ndash;<a href="#L3030">3030</a></div>
+<div class="brief">toon score en vraag om opnieuw</div>
+<div><b>Aangeroepen door</b> regel <a href="#L300">300</a> (<a href="#R10">Hoofdprogramma</a>)</div>
+<div><b>Eindigt via</b> <code>RETURN</code> <a href="#L3030">3030</a></div>
+<table><tr><th>Variabele</th><th>Type</th><th>Gebruik</th></tr>
+<tr><td><a href="#V1"><code>PUNTEN, PUNT</code></a></td><td><code>integer</code></td><td>leest</td></tr>
+<tr><td><a href="#V2"><code>A$</code></a></td><td><code>string</code></td><td>schrijft</td></tr>
+</table>
+</section>
+<section class="part" id="R4000">
+<h2>4000 &middot; Teken<span class="tag">subroutine</span></h2>
+<div class="loc">JAGER.BAS:4000 &middot; 3 regels: <a href="#L4000">4000</a>&ndash;<a href="#L4020">4020</a></div>
+<div class="brief">speler op X,Y zetten</div>
+<div><b>Aangeroepen door</b> regel <a href="#L1040">1040</a> (<a href="#R1000">Init</a>), <a href="#L2410">2410</a> (<a href="#R2000">Beweeg omhoog</a>, <a href="#R2100">Beweeg rechts</a>, <a href="#R2200">Beweeg omlaag</a>, <a href="#R2300">Beweeg links</a>)</div>
+<div><b>Eindigt via</b> <code>RETURN</code> <a href="#L4020">4020</a></div>
+<table><tr><th>Variabele</th><th>Type</th><th>Gebruik</th></tr>
+<tr><td><a href="#V3"><code>X</code></a></td><td><code>integer</code></td><td>leest</td></tr>
+<tr><td><a href="#V4"><code>Y</code></a></td><td><code>integer</code></td><td>leest</td></tr>
+</table>
+</section>
+<section class="part" id="R5000">
+<h2>5000 &middot; Tik<span class="tag">event: ON INTERVAL</span></h2>
+<div class="loc">JAGER.BAS:5000 &middot; 4 regels: <a href="#L5000">5000</a>&ndash;<a href="#L5030">5030</a></div>
+<div class="brief">interval-handler, telt punten</div>
+<div><b>Geregistreerd in</b> regel <a href="#L110">110</a> (<a href="#R10">Hoofdprogramma</a>)</div>
+<div><b>Eindigt via</b> <code>RETURN</code> <a href="#L5030">5030</a></div>
+<table><tr><th>Variabele</th><th>Type</th><th>Gebruik</th></tr>
+<tr><td><a href="#V1"><code>PUNTEN, PUNT</code></a></td><td><code>integer</code></td><td>schrijft, leest</td></tr>
+</table>
+</section>
+<section class="part" id="R6000">
+<h2>6000 &middot; Vuur<span class="tag">event: ON STRIG</span></h2>
+<div class="loc">JAGER.BAS:6000 &middot; 4 regels: <a href="#L6000">6000</a>&ndash;<a href="#L6030">6030</a></div>
+<div class="brief">spatiebalk ingedrukt</div>
+<div><b>Geregistreerd in</b> regel <a href="#L120">120</a> (<a href="#R10">Hoofdprogramma</a>)</div>
+<div><b>Eindigt via</b> <code>RETURN</code> <a href="#L6030">6030</a></div>
+<table><tr><th>Variabele</th><th>Type</th><th>Gebruik</th></tr>
+<tr><td><a href="#V1"><code>PUNTEN, PUNT</code></a></td><td><code>integer</code></td><td>schrijft, leest</td></tr>
+<tr><td><a href="#V8"><code>E</code></a></td><td><code>integer</code></td><td>schrijft, leest</td></tr>
+</table>
+</section>
+<section class="part" id="R9000">
+<h2>9000 &middot; Fout<span class="tag">ON ERROR</span></h2>
+<div class="loc">JAGER.BAS:9000 &middot; 4 regels: <a href="#L9000">9000</a>&ndash;<a href="#L9030">9030</a></div>
+<div class="brief">foutafhandeling</div>
+<div><b>Geregistreerd in</b> regel <a href="#L80">80</a> (<a href="#R10">Hoofdprogramma</a>)</div>
+<div><b>Eindigt via</b> <code>RESUME 140</code> <a href="#L9030">9030</a></div>
+</section>
+<section class="part" id="vars">
+<h2>Variabelen</h2>
+<div class="legend">MSX-BASIC onderscheidt variabelen alleen op de eerste twee tekens en het type. Zonder suffix of DEFxxx is het type double.</div>
+<table><tr><th>Naam</th><th>Type</th><th>Geschreven / DIM</th><th>Gelezen</th></tr>
+<tr id="V2"><td><code>A$</code></td><td><code>string</code></td><td><a href="#L3020">3020</a></td><td><a href="#L310">310</a></td></tr>
+<tr id="V7"><td><code>D</code></td><td><code>integer</code></td><td><a href="#L1030">1030</a></td><td><a href="#L1030">1030</a></td></tr>
+<tr id="V8"><td><code>E</code></td><td><code>integer</code></td><td><a href="#L6020">6020</a></td><td><a href="#L6020">6020</a></td></tr>
+<tr id="V6"><td><code>I</code></td><td><code>integer</code></td><td><a href="#L1030">1030</a></td><td><a href="#L1030">1030</a></td></tr>
+<tr id="V5"><td><code>LEVEN</code></td><td><code>integer</code></td><td><a href="#L1020">1020</a></td><td><span class="tag">nooit</span></td></tr>
+<tr id="V1"><td><code>PUNTEN, PUNT</code></td><td><code>integer</code></td><td><a href="#L1020">1020</a>, <a href="#L5010">5010</a>, <a href="#L6020">6020</a></td><td><a href="#L160">160</a>, <a href="#L3010">3010</a>, <a href="#L5010">5010</a>, <a href="#L5020">5020</a>, <a href="#L6020">6020</a></td></tr>
+<tr id="V0"><td><code>S</code></td><td><code>integer</code></td><td><a href="#L140">140</a></td><td><a href="#L140">140</a>, <a href="#L150">150</a></td></tr>
+<tr id="V3"><td><code>X</code></td><td><code>integer</code></td><td><a href="#L1020">1020</a>, <a href="#L2110">2110</a>, <a href="#L2310">2310</a></td><td><a href="#L2110">2110</a>, <a href="#L2310">2310</a>, <a href="#L4010">4010</a></td></tr>
+<tr id="V4"><td><code>Y</code></td><td><code>integer</code></td><td><a href="#L1020">1020</a>, <a href="#L2010">2010</a>, <a href="#L2210">2210</a></td><td><a href="#L2010">2010</a>, <a href="#L2210">2210</a>, <a href="#L4010">4010</a></td></tr>
+</table></section>
+<section class="part" id="misc">
+<h2>Functies, DATA en externe verwijzingen</h2>
+<h3>DEF FN</h3>
+<table><tr><th>Functie</th><th>Gedefinieerd</th><th>Gebruikt in</th></tr>
+<tr><td><code>FNR</code></td><td><a href="#L90">90</a></td><td><a href="#L6020">6020</a></td></tr>
+</table>
+<h3>DATA</h3>
+<div><b>DATA-regels</b> <a href="#L8000">8000</a></div>
+<div><b>RESTORE</b> <a href="#L1030">1030</a> &rarr; <a href="#L8000">8000</a></div>
+<h3>Externe verwijzingen</h3>
+<table><tr><th>Soort</th><th>Naam</th><th>Regels</th></tr>
+<tr><td>CALL</td><td><code>TURBO</code></td><td><a href="#L6010">6010</a></td></tr>
+</table>
+</section>
+<section class="part" id="src">
+<h2>Broncode</h2>
+<div class="legend"><span class="bg" style="background:var(--deadbg)">onbereikbaar</span><span class="bg" style="background:var(--sharedbg)">gedeeld door meerdere routines</span>Linkerkolom: routines waartoe de regel hoort (H = hoofdprogramma). Sprongdoelen zijn klikbaar.</div>
+<table class="src">
+<tr id="L10" class="entry"><td class=own><a href="#R10">H</a></td><td class=ln>10</td><td class="code mono"><span class=rem>'## Ruimtejager - demoprogramma voor msxbasicdoc</span></td></tr>
+<tr id="L20" class=""><td class=own><a href="#R10">H</a></td><td class=ln>20</td><td class="code mono"><span class=rem>' Klein spelletje om subroutines, events en</span></td></tr>
+<tr id="L30" class=""><td class=own><a href="#R10">H</a></td><td class=ln>30</td><td class="code mono"><span class=rem>' foutafhandeling te laten zien.</span></td></tr>
+<tr id="L40" class=""><td class=own><a href="#R10">H</a></td><td class=ln>40</td><td class="code mono"><span class=rem>'@auteur Marcel</span></td></tr>
+<tr id="L50" class=""><td class=own><a href="#R10">H</a></td><td class=ln>50</td><td class="code mono"><span class=rem>'@versie 0.1</span></td></tr>
+<tr id="L60" class=""><td class=own><a href="#R10">H</a></td><td class=ln>60</td><td class="code mono"><span class=kw>DEFINT</span> A-Z</td></tr>
+<tr id="L70" class=""><td class=own><a href="#R10">H</a></td><td class=ln>70</td><td class="code mono"><span class=kw>SCREEN</span> 1:<span class=kw>COLOR</span> 15,1,1:<span class=kw>KEY</span> <span class=kw>OFF</span></td></tr>
+<tr id="L80" class=""><td class=own><a href="#R10">H</a></td><td class=ln>80</td><td class="code mono"><span class=kw>ON</span> <span class=kw>ERROR</span> <span class=kw>GOTO</span> <a href="#L9000">9000</a></td></tr>
+<tr id="L90" class=""><td class=own><a href="#R10">H</a></td><td class=ln>90</td><td class="code mono"><span class=kw>DEF</span> <span class=kw>FN</span>R(X)=<span class=kw>INT</span>(<span class=kw>RND</span>(-<span class=kw>TIME</span>)*X)+1</td></tr>
+<tr id="L100" class=""><td class=own><a href="#R10">H</a></td><td class=ln>100</td><td class="code mono"><span class=kw>GOSUB</span> <a href="#L1000">1000</a></td></tr>
+<tr id="L110" class=""><td class=own><a href="#R10">H</a></td><td class=ln>110</td><td class="code mono"><span class=kw>ON</span> <span class=kw>INTERVAL</span>=50 <span class=kw>GOSUB</span> <a href="#L5000">5000</a>:<span class=kw>INTERVAL</span> <span class=kw>ON</span></td></tr>
+<tr id="L120" class=""><td class=own><a href="#R10">H</a></td><td class=ln>120</td><td class="code mono"><span class=kw>ON</span> <span class=kw>STRIG</span> <span class=kw>GOSUB</span> <a href="#L6000">6000</a>:<span class=kw>STRIG</span>(0) <span class=kw>ON</span></td></tr>
+<tr id="L130" class=""><td class=own><a href="#R10">H</a></td><td class=ln>130</td><td class="code mono"><span class=rem>'--- hoofdlus ---</span></td></tr>
+<tr id="L140" class=""><td class=own><a href="#R10">H</a></td><td class=ln>140</td><td class="code mono">S=<span class=kw>STICK</span>(0):<span class=kw>IF</span> S=0 <span class=kw>THEN</span> <a href="#L140">140</a></td></tr>
+<tr id="L150" class=""><td class=own><a href="#R10">H</a></td><td class=ln>150</td><td class="code mono"><span class=kw>ON</span> S <span class=kw>GOSUB</span> <a href="#L2000">2000</a>,<a href="#L2000">2000</a>,<a href="#L2100">2100</a>,<a href="#L2100">2100</a>,<a href="#L2200">2200</a>,<a href="#L2200">2200</a>,<a href="#L2300">2300</a>,<a href="#L2300">2300</a></td></tr>
+<tr id="L160" class=""><td class=own><a href="#R10">H</a></td><td class=ln>160</td><td class="code mono"><span class=kw>IF</span> PUNTEN&gt;=100 <span class=kw>THEN</span> <a href="#L300">300</a> <span class=kw>ELSE</span> <a href="#L140">140</a></td></tr>
+<tr id="L300" class=""><td class=own><a href="#R10">H</a></td><td class=ln>300</td><td class="code mono"><span class=kw>GOSUB</span> <a href="#L3000">3000</a></td></tr>
+<tr id="L310" class=""><td class=own><a href="#R10">H</a></td><td class=ln>310</td><td class="code mono"><span class=kw>IF</span> A$=<span class=str>&quot;J&quot;</span> <span class=kw>THEN</span> <span class=kw>RUN</span> <span class=kw>ELSE</span> <span class=kw>END</span></td></tr>
+<tr id="L990" class=""><td class=own></td><td class=ln>990</td><td class="code mono"><span class=rem>'</span></td></tr>
+<tr id="L1000" class="entry"><td class=own><a href="#R1000">1000</a></td><td class=ln>1000</td><td class="code mono"><span class=rem>'## Init - zet het speelveld klaar</span></td></tr>
+<tr id="L1010" class=""><td class=own><a href="#R1000">1000</a></td><td class=ln>1010</td><td class="code mono"><span class=rem>'@uit X,Y startpositie; PUNTEN=0</span></td></tr>
+<tr id="L1020" class=""><td class=own><a href="#R1000">1000</a></td><td class=ln>1020</td><td class="code mono"><span class=kw>CLS</span>:X=15:Y=10:PUNTEN=0:LEVEN=3</td></tr>
+<tr id="L1030" class=""><td class=own><a href="#R1000">1000</a></td><td class=ln>1030</td><td class="code mono"><span class=kw>RESTORE</span> <a href="#L8000">8000</a>:<span class=kw>FOR</span> I=0 <span class=kw>TO</span> 7:<span class=kw>READ</span> D:<span class=kw>VPOKE</span> <span class=kw>BASE</span>(7)+I,D:<span class=kw>NEXT</span> I</td></tr>
+<tr id="L1040" class=""><td class=own><a href="#R1000">1000</a></td><td class=ln>1040</td><td class="code mono"><span class=kw>GOSUB</span> <a href="#L4000">4000</a></td></tr>
+<tr id="L1050" class=""><td class=own><a href="#R1000">1000</a></td><td class=ln>1050</td><td class="code mono"><span class=kw>RETURN</span></td></tr>
+<tr id="L1990" class=""><td class=own></td><td class=ln>1990</td><td class="code mono"><span class=rem>'</span></td></tr>
+<tr id="L2000" class="entry"><td class=own><a href="#R2000">2000</a></td><td class=ln>2000</td><td class="code mono"><span class=rem>' Beweeg omhoog</span></td></tr>
+<tr id="L2010" class=""><td class=own><a href="#R2000">2000</a></td><td class=ln>2010</td><td class="code mono"><span class=kw>IF</span> Y&gt;0 <span class=kw>THEN</span> Y=Y-1</td></tr>
+<tr id="L2020" class=""><td class=own><a href="#R2000">2000</a></td><td class=ln>2020</td><td class="code mono"><span class=kw>GOTO</span> <a href="#L2400">2400</a></td></tr>
+<tr id="L2100" class="entry"><td class=own><a href="#R2100">2100</a></td><td class=ln>2100</td><td class="code mono"><span class=rem>' Beweeg rechts</span></td></tr>
+<tr id="L2110" class=""><td class=own><a href="#R2100">2100</a></td><td class=ln>2110</td><td class="code mono"><span class=kw>IF</span> X&lt;31 <span class=kw>THEN</span> X=X+1</td></tr>
+<tr id="L2120" class=""><td class=own><a href="#R2100">2100</a></td><td class=ln>2120</td><td class="code mono"><span class=kw>GOTO</span> <a href="#L2400">2400</a></td></tr>
+<tr id="L2200" class="entry"><td class=own><a href="#R2200">2200</a></td><td class=ln>2200</td><td class="code mono"><span class=rem>' Beweeg omlaag</span></td></tr>
+<tr id="L2210" class=""><td class=own><a href="#R2200">2200</a></td><td class=ln>2210</td><td class="code mono"><span class=kw>IF</span> Y&lt;22 <span class=kw>THEN</span> Y=Y+1</td></tr>
+<tr id="L2220" class=""><td class=own><a href="#R2200">2200</a></td><td class=ln>2220</td><td class="code mono"><span class=kw>GOTO</span> <a href="#L2400">2400</a></td></tr>
+<tr id="L2300" class="entry"><td class=own><a href="#R2300">2300</a></td><td class=ln>2300</td><td class="code mono"><span class=rem>' Beweeg links</span></td></tr>
+<tr id="L2310" class=""><td class=own><a href="#R2300">2300</a></td><td class=ln>2310</td><td class="code mono"><span class=kw>IF</span> X&gt;0 <span class=kw>THEN</span> X=X-1</td></tr>
+<tr id="L2400" class="shared"><td class=own><a href="#R2000">2000</a> <a href="#R2100">2100</a> <a href="#R2200">2200</a> <a href="#R2300">2300</a></td><td class=ln>2400</td><td class="code mono"><span class=rem>' gezamenlijk: speler opnieuw tekenen</span></td></tr>
+<tr id="L2410" class="shared"><td class=own><a href="#R2000">2000</a> <a href="#R2100">2100</a> <a href="#R2200">2200</a> <a href="#R2300">2300</a></td><td class=ln>2410</td><td class="code mono"><span class=kw>GOSUB</span> <a href="#L4000">4000</a>:<span class=kw>RETURN</span></td></tr>
+<tr id="L2990" class=""><td class=own></td><td class=ln>2990</td><td class="code mono"><span class=rem>'</span></td></tr>
+<tr id="L3000" class="entry"><td class=own><a href="#R3000">3000</a></td><td class=ln>3000</td><td class="code mono"><span class=rem>'## Einde - toon score en vraag om opnieuw</span></td></tr>
+<tr id="L3010" class=""><td class=own><a href="#R3000">3000</a></td><td class=ln>3010</td><td class="code mono"><span class=kw>LOCATE</span> 5,10:<span class=kw>PRINT</span> <span class=str>&quot;Score:&quot;</span>;PUNT</td></tr>
+<tr id="L3020" class=""><td class=own><a href="#R3000">3000</a></td><td class=ln>3020</td><td class="code mono"><span class=kw>LOCATE</span> 5,12:<span class=kw>INPUT</span> <span class=str>&quot;Nog een keer (J/N)&quot;</span>;A$</td></tr>
+<tr id="L3030" class=""><td class=own><a href="#R3000">3000</a></td><td class=ln>3030</td><td class="code mono"><span class=kw>RETURN</span></td></tr>
+<tr id="L3990" class=""><td class=own></td><td class=ln>3990</td><td class="code mono"><span class=rem>'</span></td></tr>
+<tr id="L4000" class="entry"><td class=own><a href="#R4000">4000</a></td><td class=ln>4000</td><td class="code mono"><span class=rem>'## Teken - speler op X,Y zetten</span></td></tr>
+<tr id="L4010" class=""><td class=own><a href="#R4000">4000</a></td><td class=ln>4010</td><td class="code mono"><span class=kw>LOCATE</span> X,Y:<span class=kw>PRINT</span> <span class=kw>CHR$</span>(128);</td></tr>
+<tr id="L4020" class=""><td class=own><a href="#R4000">4000</a></td><td class=ln>4020</td><td class="code mono"><span class=kw>RETURN</span></td></tr>
+<tr id="L4990" class=""><td class=own></td><td class=ln>4990</td><td class="code mono"><span class=rem>'</span></td></tr>
+<tr id="L5000" class="entry"><td class=own><a href="#R5000">5000</a></td><td class=ln>5000</td><td class="code mono"><span class=rem>'## Tik - interval-handler, telt punten</span></td></tr>
+<tr id="L5010" class=""><td class=own><a href="#R5000">5000</a></td><td class=ln>5010</td><td class="code mono">PUNTEN=PUNTEN+1</td></tr>
+<tr id="L5020" class=""><td class=own><a href="#R5000">5000</a></td><td class=ln>5020</td><td class="code mono"><span class=kw>IF</span> PUNTEN <span class=kw>MOD</span> 10=0 <span class=kw>THEN</span> <span class=kw>BEEP</span></td></tr>
+<tr id="L5030" class=""><td class=own><a href="#R5000">5000</a></td><td class=ln>5030</td><td class="code mono"><span class=kw>RETURN</span></td></tr>
+<tr id="L5990" class=""><td class=own></td><td class=ln>5990</td><td class="code mono"><span class=rem>'</span></td></tr>
+<tr id="L6000" class="entry"><td class=own><a href="#R6000">6000</a></td><td class=ln>6000</td><td class="code mono"><span class=rem>'## Vuur - spatiebalk ingedrukt</span></td></tr>
+<tr id="L6010" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>6010</td><td class="code mono">_TURBO <span class=kw>ON</span></td></tr>
+<tr id="L6020" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>6020</td><td class="code mono">E=<span class=kw>FN</span>R(6):PUNTEN=PUNTEN+E</td></tr>
+<tr id="L6030" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>6030</td><td class="code mono"><span class=kw>RETURN</span></td></tr>
+<tr id="L6040" class="dead"><td class=own></td><td class=ln>6040</td><td class="code mono"><span class=kw>PRINT</span> <span class=str>&quot;Deze regel wordt nooit bereikt&quot;</span></td></tr>
+<tr id="L6050" class="dead"><td class=own></td><td class=ln>6050</td><td class="code mono"><span class=kw>GOTO</span> 7777</td></tr>
+<tr id="L6990" class=""><td class=own></td><td class=ln>6990</td><td class="code mono"><span class=rem>'</span></td></tr>
+<tr id="L8000" class=""><td class=own></td><td class=ln>8000</td><td class="code mono"><span class=kw>DATA</span><span class=dat> 24,60,126,219,255,36,90,165</span></td></tr>
+<tr id="L8990" class=""><td class=own></td><td class=ln>8990</td><td class="code mono"><span class=rem>'</span></td></tr>
+<tr id="L9000" class="entry"><td class=own><a href="#R9000">9000</a></td><td class=ln>9000</td><td class="code mono"><span class=rem>'## Fout - foutafhandeling</span></td></tr>
+<tr id="L9010" class=""><td class=own><a href="#R9000">9000</a></td><td class=ln>9010</td><td class="code mono"><span class=kw>PRINT</span> <span class=str>&quot;Fout&quot;</span>;<span class=kw>ERR</span>;<span class=str>&quot;in regel&quot;</span>;<span class=kw>ERL</span></td></tr>
+<tr id="L9020" class=""><td class=own><a href="#R9000">9000</a></td><td class=ln>9020</td><td class="code mono"><span class=kw>IF</span> <span class=kw>ERR</span>=5 <span class=kw>THEN</span> <span class=kw>RESUME</span> <span class=kw>NEXT</span></td></tr>
+<tr id="L9030" class=""><td class=own><a href="#R9000">9000</a></td><td class=ln>9030</td><td class="code mono"><span class=kw>RESUME</span> <a href="#L140">140</a></td></tr>
+</table></section>
+</main></div>
+<script>
+(function(){var qi=document.getElementById('q');if(!qi)return;
+qi.addEventListener('input',function(){var v=this.value.toLowerCase();
+var li=document.querySelectorAll('#side li');
+for(var i=0;i<li.length;i++){li[i].style.display=li[i].textContent.toLowerCase().indexOf(v)>-1?'':'none';}});})();
+</script>
+<script>
+(function(){var svg=document.getElementById('cg');if(!svg)return;
+var eds=svg.getElementsByTagName('path'),nds=svg.getElementsByTagName('g');
+function reset(){for(var i=0;i<eds.length;i++){eds[i].style.opacity='';eds[i].style.strokeWidth='';}
+for(var j=0;j<nds.length;j++){nds[j].style.opacity='';}}
+function focusOn(id){for(var i=0;i<eds.length;i++){var p=eds[i];
+var f=p.getAttribute('data-from'),t=p.getAttribute('data-to');
+if(f===null){continue;}
+if(f===id||t===id){p.style.opacity='1';p.style.strokeWidth='2.4';}else{p.style.opacity='0.10';}}
+for(var j=0;j<nds.length;j++){var g=nds[j],gi=g.getAttribute('data-id');if(gi===null)continue;
+var keep=(gi===id);
+if(!keep){for(var k=0;k<eds.length;k++){var f2=eds[k].getAttribute('data-from'),t2=eds[k].getAttribute('data-to');
+if((f2===id&&t2===gi)||(t2===id&&f2===gi)){keep=true;break;}}}
+g.style.opacity=keep?'1':'0.25';}}
+for(var n=0;n<nds.length;n++){(function(g){if(g.getAttribute('data-id')===null)return;
+g.onmouseover=function(){focusOn(g.getAttribute('data-id'));};g.onmouseout=reset;})(nds[n]);}
+})();
+(function(){var svg=document.getElementById('cg');if(!svg)return;
+var vp=document.getElementById('vp');if(!vp)return;
+var k=1,tx=0,ty=0,drag=false,moved=false,px=0,py=0;
+function apply(){vp.setAttribute('transform','translate('+tx+','+ty+') scale('+k+')');}
+function pt(e){var p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;
+var m=svg.getScreenCTM();if(!m)return null;return p.matrixTransform(m.inverse());}
+function zoomAt(x,y,f){var n=k*f;if(n<0.08)n=0.08;if(n>8)n=8;
+tx=x-(x-tx)*(n/k);ty=y-(y-ty)*(n/k);k=n;apply();}
+function center(){var r=svg.getBoundingClientRect();
+return pt({clientX:r.left+r.width/2,clientY:r.top+r.height/2});}
+svg.addEventListener('wheel',function(e){var p=pt(e);if(!p)return;e.preventDefault();
+zoomAt(p.x,p.y,e.deltaY<0?1.15:1/1.15);},false);
+svg.addEventListener('mousedown',function(e){if(e.button!==0)return;
+var p=pt(e);if(!p)return;drag=true;moved=false;px=p.x;py=p.y;
+svg.setAttribute('class','drag');},false);
+window.addEventListener('mousemove',function(e){if(!drag)return;var p=pt(e);if(!p)return;
+var dx=p.x-px,dy=p.y-py;if(Math.abs(dx)+Math.abs(dy)>1)moved=true;
+tx+=dx;ty+=dy;apply();px=p.x;py=p.y;},false);
+window.addEventListener('mouseup',function(){if(!drag)return;drag=false;
+svg.setAttribute('class','');},false);
+svg.addEventListener('dragstart',function(e){e.preventDefault();},false);
+svg.addEventListener('click',function(e){if(moved){e.preventDefault();e.stopPropagation();moved=false;}},true);
+var zi=document.getElementById('zin'),zo=document.getElementById('zout'),zf=document.getElementById('zfit');
+if(zi)zi.onclick=function(){var c=center();if(c)zoomAt(c.x,c.y,1.3);};
+if(zo)zo.onclick=function(){var c=center();if(c)zoomAt(c.x,c.y,1/1.3);};
+if(zf)zf.onclick=function(){k=1;tx=0;ty=0;apply();};
+})();
+</script>
+</body></html>
