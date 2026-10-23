@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Module out_html.bas</title>
+<link rel="stylesheet" href="style.css">
+</head><body>
+<main>
+<div class="crumb"><a href="overview.html">Overview</a> &rsaquo; out_html.bas</div>
+<section class="part" id="p12">
+<h2>Module out_html.bas</h2>
+<div class="loc">fbdoc/inc/out_html.bas:1</div>
+<div class="brief">Module out html.bas. Contains 20 function(s).<span class="tag auto">auto</span></div>
+<h3 id="m254">SafeName</h3>
+<div class="sig">function SafeName(ByRef s As String) returns(String)</div>
+<div class="brief">Bestandsnaamveilige variant van een partnaam.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>s As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div><b>Calls</b> <code>IsIdentCh</code></div>
+<div><b>Called by</b> <a href="p12-out_html_bas.html#m255"><code>out_html.bas.PartFile</code></a></div>
+<div class="loc">out_html.bas:6</div>
+<h3 id="m255">PartFile<span class="tag auto">auto</span></h3>
+<div class="sig">function PartFile(ByVal pidx As Integer) returns(String)</div>
+<div class="brief">Function part file. Returns String.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByVal</code></td><td><code>pidx As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div><b>Calls</b> <a href="p12-out_html_bas.html#m254"><code>out_html.bas.SafeName</code></a></div>
+<div><b>Called by</b> <a href="p12-out_html_bas.html#m256"><code>out_html.bas.PartHref</code></a>, <a href="p12-out_html_bas.html#m257"><code>out_html.bas.MemberHref</code></a>, <a href="p12-out_html_bas.html#m273"><code>out_html.bas.OutHtmlSplit</code></a></div>
+<div class="loc">out_html.bas:18</div>
+<h3 id="m256">PartHref</h3>
+<div class="sig">function PartHref(ByVal pidx As Integer) returns(String)</div>
+<div class="brief">Verwijzing naar een part: los bestand of anker in dezelfde pagina.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByVal</code></td><td><code>pidx As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div><b>Calls</b> <a href="p12-out_html_bas.html#m255"><code>out_html.bas.PartFile</code></a></div>
+<div><b>Called by</b> <a href="p12-out_html_bas.html#m265"><code>out_html.bas.EmitNavList</code></a></div>
+<div class="loc">out_html.bas:24</div>
+<h3 id="m257">MemberHref</h3>
+<div class="sig">function MemberHref(ByVal midx As Integer) returns(String)</div>
+<div class="brief">Verwijzing naar een functie.</div>
+<div class="detail">Leeg wanneer er geen pagina voor bestaat, zoals bij functies uit referentieprojecten.
+</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByVal</code></td><td><code>midx As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div><b>Calls</b> <a href="p12-out_html_bas.html#m255"><code>out_html.bas.PartFile</code></a></div>
+<div><b>Called by</b> <a href="p12-out_html_bas.html#m265"><code>out_html.bas.EmitNavList</code></a>, <a href="p12-out_html_bas.html#m268"><code>out_html.bas.EmitDeadSection</code></a>, <a href="p12-out_html_bas.html#m269"><code>out_html.bas.EmitPartSection</code></a></div>
+<div class="loc">out_html.bas:33</div>
+<h3 id="m258">GraphHref<span class="tag auto">auto</span></h3>
+<div class="sig">function GraphHref() returns(String)</div>
+<div class="brief">Function graph href. Returns String.</div>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div><b>Called by</b> <a href="p12-out_html_bas.html#m265"><code>out_html.bas.EmitNavList</code></a></div>
+<div class="loc">out_html.bas:43</div>
+<h3 id="m259">DepsHref<span class="tag auto">auto</span></h3>
+<div class="sig">function DepsHref() returns(String)</div>
+<div class="brief">Function deps href. Returns String.</div>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div><b>Called by</b> <a href="p12-out_html_bas.html#m265"><code>out_html.bas.EmitNavList</code></a></div>
+<div class="loc">out_html.bas:48</div>
+<h3 id="m260">DeadHref<span class="tag auto">auto</span></h3>
+<div class="sig">function DeadHref() returns(String)</div>
+<div class="brief">Function dead href. Returns String.</div>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div><b>Called by</b> <a href="p12-out_html_bas.html#m265"><code>out_html.bas.EmitNavList</code></a></div>
+<div class="loc">out_html.bas:53</div>
+<h3 id="m261">EmitStyleBody<span class="tag auto">auto</span></h3>
+<div class="sig">function EmitStyleBody()</div>
+<div class="brief">Function emit style body.</div>
+<div><b>Calls</b> <code>Emit</code> (63x)</div>
+<div><b>Called by</b> <a href="p12-out_html_bas.html#m262"><code>out_html.bas.EmitDocHead</code></a>, <a href="p12-out_html_bas.html#m273"><code>out_html.bas.OutHtmlSplit</code></a></div>
+<div class="loc">out_html.bas:58</div>
+<h3 id="m262">EmitDocHead</h3>
+<div class="sig">function EmitDocHead(ByRef titleTxt As String)</div>
+<div class="brief">&lt;head&gt; met stylesheet: als los bestand (split) of inline (een pagina).</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>titleTxt As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Calls</b> <code>Emit</code> (10x), <code>HtmlEsc</code>, <a href="p12-out_html_bas.html#m261"><code>out_html.bas.EmitStyleBody</code></a></div>
+<div><b>Called by</b> <a href="p12-out_html_bas.html#m272"><code>out_html.bas.OutHtml</code></a>, <a href="p12-out_html_bas.html#m273"><code>out_html.bas.OutHtmlSplit</code></a></div>
+<div class="loc">out_html.bas:135</div>
+<h3 id="m263">EmitHeaderBar<span class="tag auto">auto</span></h3>
+<div class="sig">function EmitHeaderBar()</div>
+<div class="brief">Function emit header bar.</div>
+<div><b>Calls</b> <code>Emit</code> (2x), <code>Tr</code>, <code>HtmlEsc</code>, <code>Tr1</code> (2x)</div>
+<div><b>Called by</b> <a href="p12-out_html_bas.html#m272"><code>out_html.bas.OutHtml</code></a>, <a href="p12-out_html_bas.html#m273"><code>out_html.bas.OutHtmlSplit</code></a></div>
+<div class="loc">out_html.bas:154</div>
+<h3 id="m264">EmitCoverageBlock<span class="tag auto">auto</span></h3>
+<div class="sig">function EmitCoverageBlock()</div>
+<div class="brief">Function emit coverage block.</div>
+<div><b>Calls</b> <code>Emit</code> (2x), <code>Tr2</code>, <code>Fmt1</code></div>
+<div><b>Called by</b> <a href="p12-out_html_bas.html#m272"><code>out_html.bas.OutHtml</code></a>, <a href="p12-out_html_bas.html#m273"><code>out_html.bas.OutHtmlSplit</code></a></div>
+<div class="loc">out_html.bas:162</div>
+<h3 id="m265">EmitNavList<span class="tag auto">auto</span></h3>
+<div class="sig">function EmitNavList(ByVal frames As Integer)</div>
+<div class="brief">Function emit nav list.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByVal</code></td><td><code>frames As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Calls</b> <code>Emit</code> (8x), <code>Tr</code> (4x), <a href="p12-out_html_bas.html#m258"><code>out_html.bas.GraphHref</code></a>, <a href="p12-out_html_bas.html#m259"><code>out_html.bas.DepsHref</code></a>, <a href="p12-out_html_bas.html#m260"><code>out_html.bas.DeadHref</code></a>, <a href="p12-out_html_bas.html#m256"><code>out_html.bas.PartHref</code></a>, <code>HtmlEsc</code> (2x), <code>KindLabel</code>, <a href="p12-out_html_bas.html#m257"><code>out_html.bas.MemberHref</code></a></div>
+<div><b>Called by</b> <a href="p12-out_html_bas.html#m272"><code>out_html.bas.OutHtml</code></a>, <a href="p12-out_html_bas.html#m273"><code>out_html.bas.OutHtmlSplit</code></a></div>
+<div class="loc">out_html.bas:185</div>
+<h3 id="m266">EmitGraphSection<span class="tag auto">auto</span></h3>
+<div class="sig">function EmitGraphSection()</div>
+<div class="brief">Function emit graph section.</div>
+<div><b>Calls</b> <code>BuildGraph</code>, <code>Emit</code> (7x), <code>Tr</code> (2x), <code>Tr2</code>, <code>HtmlEsc</code>, <code>EmitGraphSvg</code></div>
+<div><b>Called by</b> <a href="p12-out_html_bas.html#m272"><code>out_html.bas.OutHtml</code></a>, <a href="p12-out_html_bas.html#m273"><code>out_html.bas.OutHtmlSplit</code></a></div>
+<div class="loc">out_html.bas:210</div>
+<h3 id="m267">EmitDepsSection<span class="tag auto">auto</span></h3>
+<div class="sig">function EmitDepsSection()</div>
+<div class="brief">Function emit deps section.</div>
+<div><b>Calls</b> <code>CollectExterns</code>, <code>Emit</code> (5x), <code>Tr</code> (5x), <code>HtmlEsc</code> (3x), <code>ReplaceAll</code></div>
+<div><b>Called by</b> <a href="p12-out_html_bas.html#m272"><code>out_html.bas.OutHtml</code></a>, <a href="p12-out_html_bas.html#m273"><code>out_html.bas.OutHtmlSplit</code></a></div>
+<div class="loc">out_html.bas:235</div>
+<h3 id="m268">EmitDeadSection<span class="tag auto">auto</span></h3>
+<div class="sig">function EmitDeadSection()</div>
+<div class="brief">Function emit dead section.</div>
+<div><b>Calls</b> <code>DeadKind</code> (4x), <code>Emit</code> (20x), <code>Tr</code> (15x), <code>Tr3</code>, <a href="p12-out_html_bas.html#m257"><code>out_html.bas.MemberHref</code></a> (6x), <code>HtmlEsc</code> (11x), <code>PathBase</code> (2x), <code>CalleeCount</code>, <code>KindLabel</code></div>
+<div><b>Called by</b> <a href="p12-out_html_bas.html#m272"><code>out_html.bas.OutHtml</code></a>, <a href="p12-out_html_bas.html#m273"><code>out_html.bas.OutHtmlSplit</code></a></div>
+<div class="loc">out_html.bas:257</div>
+<h3 id="m269">EmitPartSection<span class="tag auto">auto</span></h3>
+<div class="sig">function EmitPartSection(ByVal i As Integer)</div>
+<div class="brief">Function emit part section.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByVal</code></td><td><code>i As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Calls</b> <code>Emit</code> (23x), <code>HtmlEsc</code> (28x), <code>KindLabel</code>, <code>NormSep</code>, <code>Tr1</code>, <code>Tr</code> (15x), <code>ReplaceAll</code> (2x), <a href="p12-out_html_bas.html#m257"><code>out_html.bas.MemberHref</code></a> (2x), <code>MemberFullName</code> (4x), <code>EdgeKindLabel</code>, <code>PathBase</code></div>
+<div><b>Called by</b> <a href="p12-out_html_bas.html#m272"><code>out_html.bas.OutHtml</code></a>, <a href="p12-out_html_bas.html#m273"><code>out_html.bas.OutHtmlSplit</code></a></div>
+<div class="loc">out_html.bas:338</div>
+<h3 id="m270">EmitFilterScript</h3>
+<div class="sig">function EmitFilterScript()</div>
+<div class="brief">Filterveld in de navigatiekolom.</div>
+<div class="detail">Met een null-check, want in de gesplitste uitvoer staat dit veld op een andere pagina dan het diagram.
+</div>
+<div><b>Calls</b> <code>Emit</code> (6x)</div>
+<div><b>Called by</b> <a href="p12-out_html_bas.html#m272"><code>out_html.bas.OutHtml</code></a>, <a href="p12-out_html_bas.html#m273"><code>out_html.bas.OutHtmlSplit</code></a></div>
+<div class="loc">out_html.bas:464</div>
+<h3 id="m271">EmitGraphScript<span class="tag auto">auto</span></h3>
+<div class="sig">function EmitGraphScript()</div>
+<div class="brief">Function emit graph script.</div>
+<div><b>Calls</b> <code>Emit</code> (45x)</div>
+<div><b>Called by</b> <a href="p12-out_html_bas.html#m272"><code>out_html.bas.OutHtml</code></a>, <a href="p12-out_html_bas.html#m273"><code>out_html.bas.OutHtmlSplit</code></a></div>
+<div class="loc">out_html.bas:473</div>
+<h3 id="m272">OutHtml</h3>
+<div class="sig">function OutHtml()</div>
+<div class="brief">Alles in een pagina.</div>
+<div><b>Calls</b> <a href="p12-out_html_bas.html#m273"><code>out_html.bas.OutHtmlSplit</code></a>, <a href="p12-out_html_bas.html#m262"><code>out_html.bas.EmitDocHead</code></a>, <code>Tr</code>, <a href="p12-out_html_bas.html#m263"><code>out_html.bas.EmitHeaderBar</code></a>, <code>Emit</code> (6x), <a href="p12-out_html_bas.html#m265"><code>out_html.bas.EmitNavList</code></a>, <a href="p12-out_html_bas.html#m264"><code>out_html.bas.EmitCoverageBlock</code></a>, <a href="p12-out_html_bas.html#m266"><code>out_html.bas.EmitGraphSection</code></a>, <a href="p12-out_html_bas.html#m267"><code>out_html.bas.EmitDepsSection</code></a>, <a href="p12-out_html_bas.html#m268"><code>out_html.bas.EmitDeadSection</code></a>, <a href="p12-out_html_bas.html#m269"><code>out_html.bas.EmitPartSection</code></a>, <a href="p12-out_html_bas.html#m270"><code>out_html.bas.EmitFilterScript</code></a>, <a href="p12-out_html_bas.html#m271"><code>out_html.bas.EmitGraphScript</code></a></div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">out_html.bas:527</div>
+<h3 id="m273">OutHtmlSplit</h3>
+<div class="sig">function OutHtmlSplit()</div>
+<div class="brief">Alles verdeeld over een map met losse pagina's, met een navigatiekolom in een iframe.</div>
+<div class="detail">Geen &lt;frameset&gt;: die is uit de HTML-standaard verwijderd, maar de indeling en werking zijn hetzelfde.
+</div>
+<div><b>Calls</b> <code>BuildGraph</code>, <code>CollectExterns</code>, <code>OpenOut</code> (8x), <a href="p12-out_html_bas.html#m261"><code>out_html.bas.EmitStyleBody</code></a>, <code>Emit</code> (43x), <code>CloseOut</code> (8x), <code>Tr</code> (17x), <code>HtmlEsc</code> (5x), <a href="p12-out_html_bas.html#m262"><code>out_html.bas.EmitDocHead</code></a> (6x), <a href="p12-out_html_bas.html#m265"><code>out_html.bas.EmitNavList</code></a>, <a href="p12-out_html_bas.html#m270"><code>out_html.bas.EmitFilterScript</code></a>, <a href="p12-out_html_bas.html#m263"><code>out_html.bas.EmitHeaderBar</code></a>, <a href="p12-out_html_bas.html#m264"><code>out_html.bas.EmitCoverageBlock</code></a>, <a href="p12-out_html_bas.html#m255"><code>out_html.bas.PartFile</code></a> (2x), <code>KindLabel</code> (2x), <a href="p12-out_html_bas.html#m266"><code>out_html.bas.EmitGraphSection</code></a>, <a href="p12-out_html_bas.html#m271"><code>out_html.bas.EmitGraphScript</code></a>, <a href="p12-out_html_bas.html#m267"><code>out_html.bas.EmitDepsSection</code></a>, <a href="p12-out_html_bas.html#m268"><code>out_html.bas.EmitDeadSection</code></a>, <a href="p12-out_html_bas.html#m269"><code>out_html.bas.EmitPartSection</code></a>, <code>Say</code>, <code>Tr2</code></div>
+<div><b>Called by</b> <a href="p12-out_html_bas.html#m272"><code>out_html.bas.OutHtml</code></a></div>
+<div class="loc">out_html.bas:559</div>
+</section>
+</main></body></html>

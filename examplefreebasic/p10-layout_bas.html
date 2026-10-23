@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Module layout.bas</title>
+<link rel="stylesheet" href="style.css">
+</head><body>
+<main>
+<div class="crumb"><a href="overview.html">Overview</a> &rsaquo; layout.bas</div>
+<section class="part" id="p10">
+<h2>Module layout.bas</h2>
+<div class="loc">fbdoc/inc/layout.bas:1</div>
+<div class="brief">Module layout.bas. Contains 3 function(s).<span class="tag auto">auto</span></div>
+<h3 id="m248">NodeLabelW</h3>
+<div class="sig">function NodeLabelW(ByVal midx As Integer) returns(Integer)</div>
+<div class="brief">===================================================================== fbdoc - Layout van de aanroepgraaf (SVG)</div>
+<div class="detail">
+Gelaagd van links naar rechts: de laag van een knoop is de lengte van het langste pad ernaartoe (afgekapt op 24 om cycli op te vangen). Binnen een laag worden knopen eerst op part+naam gesorteerd en daarna met twee barycenter-passes verschoven, wat het aantal kruisende lijnen flink terugbrengt zonder een volledige Sugiyama-implementatie. =====================================================================
+</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByVal</code></td><td><code>midx As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>Integer</code> &mdash; value of type Integer</div>
+<div><b>Called by</b> <a href="p10-layout_bas.html#m249"><code>layout.bas.BuildGraph</code></a></div>
+<div class="loc">layout.bas:11</div>
+<h3 id="m249">BuildGraph<span class="tag auto">auto</span></h3>
+<div class="sig">function BuildGraph()</div>
+<div class="brief">Creates graph.</div>
+<div><b>Calls</b> <code>GraphVisible</code> (2x), <code>LC</code> (2x), <a href="p10-layout_bas.html#m248"><code>layout.bas.NodeLabelW</code></a></div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">layout.bas:19</div>
+<h3 id="m250">EmitGraphSvg<span class="tag auto">auto</span></h3>
+<div class="sig">function EmitGraphSvg()</div>
+<div class="brief">Function emit graph svg.</div>
+<div><b>Calls</b> <code>Emit</code> (32x), <code>Tr</code> (6x), <code>Tr1</code> (2x), <code>HtmlEsc</code> (5x), <code>EdgeKindLabel</code>, <code>CallerCount</code>, <code>MemberFullName</code> (2x), <code>PathBase</code> (2x), <code>MemberHref</code></div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">layout.bas:209</div>
+</section>
+</main></body></html>

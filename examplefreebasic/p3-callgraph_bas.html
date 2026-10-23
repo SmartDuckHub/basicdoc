@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Module callgraph.bas</title>
+<link rel="stylesheet" href="style.css">
+</head><body>
+<main>
+<div class="crumb"><a href="overview.html">Overview</a> &rsaquo; callgraph.bas</div>
+<section class="part" id="p3">
+<h2>Module callgraph.bas</h2>
+<div class="loc">fbdoc/inc/callgraph.bas:1</div>
+<div class="brief">Module callgraph.bas. Contains 17 function(s).<span class="tag auto">auto</span></div>
+<h3 id="m27">CallTargetAt</h3>
+<div class="sig">function CallTargetAt(ByVal i As Integer, ByRef nameOut As String) returns(Integer)</div>
+<div class="brief">Herkent  naam(  en  a.b.naam(  en geeft de index van '(' terug (0 = geen).</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByVal</code></td><td><code>i As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByRef</code></td><td><code>nameOut As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>Integer</code> &mdash; value of type Integer</div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">callgraph.bas:6</div>
+<h3 id="m28">QualNameStr</h3>
+<div class="sig">function QualNameStr(ByVal i As Integer) returns(String)</div>
+<div class="brief">Geeft a.b.c terug vanaf tokenpositie i.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByVal</code></td><td><code>i As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div><b>Called by</b> <a href="p3-callgraph_bas.html#m33"><code>callgraph.bas.ScanBindings</code></a></div>
+<div class="loc">callgraph.bas:28</div>
+<h3 id="m29">AddCall<span class="tag auto">auto</span></h3>
+<div class="sig">function AddCall(ByVal fromM As Integer, ByRef nm As String, ByVal ln As Integer, ByVal kindC As Integer)</div>
+<div class="brief">Adds call.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByVal</code></td><td><code>fromM As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByRef</code></td><td><code>nm As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByVal</code></td><td><code>ln As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByVal</code></td><td><code>kindC As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Calls</b> <code>IsBuiltinMethod</code>, <code>LC</code> (5x)</div>
+<div><b>Called by</b> <a href="p3-callgraph_bas.html#m33"><code>callgraph.bas.ScanBindings</code></a></div>
+<div class="loc">callgraph.bas:48</div>
+<h3 id="m30">FindPartByName<span class="tag auto">auto</span></h3>
+<div class="sig">function FindPartByName(ByRef nm As String) returns(Integer)</div>
+<div class="brief">Searches for part by name. Returns Integer.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>nm As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>Integer</code> &mdash; value of type Integer</div>
+<div><b>Calls</b> <code>LC</code> (2x)</div>
+<div><b>Called by</b> <a href="p3-callgraph_bas.html#m32"><code>callgraph.bas.ResolveCalls</code></a></div>
+<div class="loc">callgraph.bas:112</div>
+<h3 id="m31">FindFuncInPart<span class="tag auto">auto</span></h3>
+<div class="sig">function FindFuncInPart(ByVal pidx As Integer, ByRef nm As String) returns(Integer)</div>
+<div class="brief">Searches for func in part. Returns Integer.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByVal</code></td><td><code>pidx As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByRef</code></td><td><code>nm As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>Integer</code> &mdash; value of type Integer</div>
+<div><b>Calls</b> <code>LC</code> (2x)</div>
+<div><b>Called by</b> <a href="p3-callgraph_bas.html#m32"><code>callgraph.bas.ResolveCalls</code></a>, <a href="p3-callgraph_bas.html#m34"><code>callgraph.bas.ResolveBindings</code></a></div>
+<div class="loc">callgraph.bas:120</div>
+<h3 id="m32">ResolveCalls<span class="tag auto">auto</span></h3>
+<div class="sig">function ResolveCalls()</div>
+<div class="brief">Function resolve calls.</div>
+<div><b>Calls</b> <code>IsSysLibName</code>, <code>LC</code> (5x), <a href="p3-callgraph_bas.html#m30"><code>callgraph.bas.FindPartByName</code></a>, <a href="p3-callgraph_bas.html#m31"><code>callgraph.bas.FindFuncInPart</code></a> (2x)</div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">callgraph.bas:133</div>
+<h3 id="m33">ScanBindings</h3>
+<div class="sig">function ScanBindings(ByVal a As Integer, ByVal b As Integer, ByVal ownerPart As Integer, ByVal ownerFunc As Integer)</div>
+<div class="brief">Zoekt in een tokenbereik naar koppelingen als  onClick = doeIets  of onConstructionFunction = start.</div>
+<div class="detail">Zulke functies worden nergens expliciet aangeroepen maar zijn wel degelijk in gebruik; zonder deze scan komen ze onterecht in het overzicht van mogelijk dode code terecht.
+</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByVal</code></td><td><code>a As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByVal</code></td><td><code>b As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByVal</code></td><td><code>ownerPart As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByVal</code></td><td><code>ownerFunc As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Calls</b> <a href="p3-callgraph_bas.html#m28"><code>callgraph.bas.QualNameStr</code></a>, <a href="p3-callgraph_bas.html#m29"><code>callgraph.bas.AddCall</code></a></div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">callgraph.bas:221</div>
+<h3 id="m34">ResolveBindings<span class="tag auto">auto</span></h3>
+<div class="sig">function ResolveBindings()</div>
+<div class="brief">Function resolve bindings.</div>
+<div><b>Calls</b> <a href="p3-callgraph_bas.html#m31"><code>callgraph.bas.FindFuncInPart</code></a></div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">callgraph.bas:247</div>
+<h3 id="m35">DeadKind</h3>
+<div class="sig">function DeadKind(ByVal midx As Integer) returns(Integer)</div>
+<div class="brief">Waarom heeft deze functie geen aanroeper? 0 = wel aangeroepen 1 = mogelijk ongebruikt 2 = ingang van een service, dus van buiten aangeroepen 3 = gekoppeld via een property (event handler, onConstructionFunction)</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByVal</code></td><td><code>midx As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>Integer</code> &mdash; value of type Integer</div>
+<div><b>Calls</b> <a href="p3-callgraph_bas.html#m38"><code>callgraph.bas.CallerCount</code></a>, <code>LC</code></div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">callgraph.bas:260</div>
+<h3 id="m36">EdgeKindLabel</h3>
+<div class="sig">function EdgeKindLabel(ByVal kindC As Integer) returns(String)</div>
+<div class="brief">Korte aanduiding van het soort relatie.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByVal</code></td><td><code>kindC As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">callgraph.bas:281</div>
+<h3 id="m37">CalleeCount<span class="tag auto">auto</span></h3>
+<div class="sig">function CalleeCount(ByVal midx As Integer) returns(Integer)</div>
+<div class="brief">Function callee count. Returns Integer.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByVal</code></td><td><code>midx As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>Integer</code> &mdash; value of type Integer</div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">callgraph.bas:288</div>
+<h3 id="m38">CallerCount<span class="tag auto">auto</span></h3>
+<div class="sig">function CallerCount(ByVal midx As Integer) returns(Integer)</div>
+<div class="brief">Function caller count. Returns Integer.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByVal</code></td><td><code>midx As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>Integer</code> &mdash; value of type Integer</div>
+<div><b>Called by</b> <a href="p3-callgraph_bas.html#m35"><code>callgraph.bas.DeadKind</code></a></div>
+<div class="loc">callgraph.bas:300</div>
+<h3 id="m39">MemberFullName<span class="tag auto">auto</span></h3>
+<div class="sig">function MemberFullName(ByVal midx As Integer) returns(String)</div>
+<div class="brief">Function member full name. Returns String.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByVal</code></td><td><code>midx As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">callgraph.bas:309</div>
+<h3 id="m40">CollectExterns</h3>
+<div class="sig">function CollectExterns()</div>
+<div class="brief">Verzamelt de niet-opgeloste aanroepen per qualifier: dat zijn precies de bibliotheken uit andere projecten waarvan deze code afhankelijk is.</div>
+<div><b>Calls</b> <code>IsSysLibName</code>, <code>LC</code> (3x)</div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">callgraph.bas:319</div>
+<h3 id="m41">CollectAmbig<span class="tag auto">auto</span></h3>
+<div class="sig">function CollectAmbig()</div>
+<div class="brief">Function collect ambig.</div>
+<div><b>Calls</b> <code>LC</code> (2x)</div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">callgraph.bas:354</div>
+<h3 id="m42">ComputeRefDist</h3>
+<div class="sig">function ComputeRefDist()</div>
+<div class="brief">Hoe ver staat een referentiefunctie van de gedocumenteerde code af?</div>
+<div class="detail">
+--follow trekt hele projecten naar binnen. Voor de graaf wil je alleen de grens zien: welke functies roept jouw code aan, en eventueel een paar stappen daarachter. Alles wat verder weg ligt valt buiten beeld, anders krijg je een diagram met tienduizenden knopen.
+</div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">callgraph.bas:384</div>
+<h3 id="m43">GraphVisible</h3>
+<div class="sig">function GraphVisible(ByVal midx As Integer) returns(Integer)</div>
+<div class="brief">Hoort deze functie in de graaf?</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByVal</code></td><td><code>midx As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>Integer</code> &mdash; value of type Integer</div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">callgraph.bas:414</div>
+</section>
+</main></body></html>

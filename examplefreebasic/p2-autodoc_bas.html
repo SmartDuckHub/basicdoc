@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Module autodoc.bas</title>
+<link rel="stylesheet" href="style.css">
+</head><body>
+<main>
+<div class="crumb"><a href="overview.html">Overview</a> &rsaquo; autodoc.bas</div>
+<section class="part" id="p2">
+<h2>Module autodoc.bas</h2>
+<div class="loc">fbdoc/inc/autodoc.bas:1</div>
+<div class="brief">Module autodoc.bas. Contains 4 function(s).<span class="tag auto">auto</span></div>
+<h3 id="m23">Humanize</h3>
+<div class="sig">function Humanize(ByRef s As String) returns(String)</div>
+<div class="brief">===================================================================== fbdoc - Automatische beschrijvingen bij ontbrekend commentaar =====================================================================</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>s As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div><b>Calls</b> <code>IsDigitCh</code> (3x)</div>
+<div><b>Called by</b> <a href="p2-autodoc_bas.html#m24"><code>autodoc.bas.GenMemberBrief</code></a>, <a href="p2-autodoc_bas.html#m25"><code>autodoc.bas.GenPartBrief</code></a>, <a href="p2-autodoc_bas.html#m26"><code>autodoc.bas.GenerateMissing</code></a></div>
+<div class="loc">autodoc.bas:5</div>
+<h3 id="m24">GenMemberBrief<span class="tag auto">auto</span></h3>
+<div class="sig">function GenMemberBrief(ByVal midx As Integer) returns(String)</div>
+<div class="brief">Function gen member brief. Returns String.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByVal</code></td><td><code>midx As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div><b>Calls</b> <code>Tr1</code> (36x), <a href="p2-autodoc_bas.html#m23"><code>autodoc.bas.Humanize</code></a> (5x), <code>Tr</code></div>
+<div><b>Called by</b> <a href="p2-autodoc_bas.html#m26"><code>autodoc.bas.GenerateMissing</code></a></div>
+<div class="loc">autodoc.bas:57</div>
+<h3 id="m25">GenPartBrief<span class="tag auto">auto</span></h3>
+<div class="sig">function GenPartBrief(ByVal pidx As Integer) returns(String)</div>
+<div class="brief">Function gen part brief. Returns String.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByVal</code></td><td><code>pidx As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div><b>Calls</b> <code>KindLabel</code>, <a href="p2-autodoc_bas.html#m23"><code>autodoc.bas.Humanize</code></a>, <code>Tr1</code></div>
+<div><b>Called by</b> <a href="p2-autodoc_bas.html#m26"><code>autodoc.bas.GenerateMissing</code></a></div>
+<div class="loc">autodoc.bas:153</div>
+<h3 id="m26">GenerateMissing<span class="tag auto">auto</span></h3>
+<div class="sig">function GenerateMissing()</div>
+<div class="brief">Creates missing.</div>
+<div><b>Calls</b> <a href="p2-autodoc_bas.html#m25"><code>autodoc.bas.GenPartBrief</code></a>, <a href="p2-autodoc_bas.html#m24"><code>autodoc.bas.GenMemberBrief</code></a>, <a href="p2-autodoc_bas.html#m23"><code>autodoc.bas.Humanize</code></a>, <code>Tr1</code></div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">autodoc.bas:168</div>
+</section>
+</main></body></html>

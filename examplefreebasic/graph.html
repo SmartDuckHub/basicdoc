@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Call structure</title>
+<link rel="stylesheet" href="style.css">
+</head><body>
+<main>
+<h2 id="graph">Call structure</h2>
+<div class="legend">
+88 functions, 1584 relations. From left to right: caller before callee. Click a block to jump to its documentation; hover over it to see only its own relations. Drag to pan, use the scroll wheel or the buttons at the bottom right to zoom.
+<br>Thick border = no caller within the scanned code (entry point or dead code). Dashed border = private. Grey dashed block = reference project. Orange dashed arrow = feedback or recursion. Blue finely dotted arrow = callback or onException of a service call.
+<br>Parts:
+<span class="sw sw2"></span>autodoc.bas
+<span class="sw sw3"></span>callgraph.bas
+<span class="sw sw5"></span>doccomment.bas
+<span class="sw sw6"></span>files.bas
+<span class="sw sw9"></span>lang.bas
+<span class="sw sw10"></span>layout.bas
+<span class="sw sw11"></span>out_graph.bas
+<span class="sw sw12"></span>out_html.bas
+<span class="sw sw13"></span>out_text.bas
+<span class="sw sw14"></span>parser.bas
+<span class="sw sw15"></span>tokenizer.bas
+<span class="sw sw21"></span>util.bas
+</div>
+<div class="graphwrap">
+<div class="zoomctl">
+<button type="button" id="zin" title="Zoom in">+</button>
+<button type="button" id="zout" title="Zoom out">&minus;</button>
+<button type="button" id="zfit" title="Fit everything">&#9635;</button>
+</div>
+<svg id="cg" viewBox="0 0 1053 1098" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="ah" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+<path d="M0,0 L8,3.5 L0,7 z" class="ahf"/></marker>
+<marker id="ahb" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+<path d="M0,0 L8,3.5 L0,7 z" class="ahbf"/></marker>
+</defs>
+<g id="vp">
+<path class="e" data-from="2" data-to="1" d="M 319 26 C 350 26, 350 26, 381 26"><title>GenMemberBrief -&gt; Humanize (5x)</title></path>
+<path class="e" data-from="3" data-to="1" d="M 305 60 C 343 60, 343 26, 381 26"><title>GenPartBrief -&gt; Humanize</title></path>
+<path class="e" data-from="4" data-to="3" d="M 139 26 C 170 26, 170 60, 201 60"><title>GenerateMissing -&gt; GenPartBrief</title></path>
+<path class="e" data-from="4" data-to="2" d="M 139 26 C 170 26, 170 26, 201 26"><title>GenerateMissing -&gt; GenMemberBrief</title></path>
+<path class="e" data-from="4" data-to="1" d="M 139 26 C 260 26, 260 26, 381 26"><title>GenerateMissing -&gt; Humanize</title></path>
+<path class="e" data-from="9" data-to="7" d="M 118 196 C 159 196, 160 264, 201 264"><title>ResolveCalls -&gt; FindPartByName</title></path>
+<path class="e" data-from="9" data-to="8" d="M 118 196 C 159 196, 160 196, 201 196"><title>ResolveCalls -&gt; FindFuncInPart (2x)</title></path>
+<path class="e" data-from="10" data-to="5" d="M 118 230 C 159 230, 160 298, 201 298"><title>ScanBindings -&gt; QualNameStr</title></path>
+<path class="e" data-from="10" data-to="6" d="M 118 230 C 159 230, 160 332, 201 332"><title>ScanBindings -&gt; AddCall</title></path>
+<path class="e" data-from="11" data-to="8" d="M 139 162 C 170 162, 170 196, 201 196"><title>ResolveBindings -&gt; FindFuncInPart</title></path>
+<path class="e" data-from="12" data-to="13" d="M 90 60 C 145 60, 146 162, 201 162"><title>DeadKind -&gt; CallerCount</title></path>
+<path class="e" data-from="15" data-to="14" d="M 90 264 C 145 264, 146 366, 201 366"><title>ApplyDoc -&gt; NextDocLine</title></path>
+<path class="e" data-from="19" data-to="16" d="M 319 128 C 350 128, 350 94, 381 94"><title>ResolveInclude -&gt; PathParent</title></path>
+<path class="e" data-from="19" data-to="17" d="M 319 128 C 350 128, 350 128, 381 128"><title>ResolveInclude -&gt; FileExists2 (3x)</title></path>
+<path class="e" data-from="20" data-to="19" d="M 132 298 C 166 298, 167 128, 201 128"><title>FollowIncludes -&gt; ResolveInclude</title></path>
+<path class="e" data-from="20" data-to="18" d="M 132 298 C 166 298, 167 400, 201 400"><title>FollowIncludes -&gt; AlreadyVisited</title></path>
+<path class="e" data-from="20" data-to="21" d="M 132 298 C 166 298, 167 468, 201 468"><title>FollowIncludes -&gt; AddFileToList</title></path>
+<path class="e b" data-from="22" data-to="22" d="M 104 327 C 146 306, 146 358, 104 337"><title>recursive</title></path>
+<path class="e" data-from="22" data-to="21" d="M 104 332 C 152 332, 153 468, 201 468"><title>ScanDirRec -&gt; AddFileToList</title></path>
+<path class="e" data-from="24" data-to="23" d="M 656 26 C 705 26, 706 26, 755 26"><title>TrAdd -&gt; TrHash</title></path>
+<path class="e" data-from="25" data-to="23" d="M 275 94 C 515 94, 515 26, 755 26"><title>Tr -&gt; TrHash</title></path>
+<path class="e" data-from="27" data-to="26" d="M 88 468 C 144 468, 145 502, 201 502"><title>Tr1 -&gt; TrFill</title></path>
+<path class="e" data-from="27" data-to="25" d="M 88 468 C 144 468, 145 94, 201 94"><title>Tr1 -&gt; Tr</title></path>
+<path class="e" data-from="28" data-to="26" d="M 88 502 C 144 502, 145 502, 201 502"><title>Tr2 -&gt; TrFill</title></path>
+<path class="e" data-from="28" data-to="25" d="M 88 502 C 144 502, 145 94, 201 94"><title>Tr2 -&gt; Tr</title></path>
+<path class="e" data-from="29" data-to="26" d="M 88 536 C 144 536, 145 502, 201 502"><title>Tr3 -&gt; TrFill</title></path>
+<path class="e" data-from="29" data-to="25" d="M 88 536 C 144 536, 145 94, 201 94"><title>Tr3 -&gt; Tr</title></path>
+<path class="e" data-from="31" data-to="24" d="M 455 60 C 518 60, 519 26, 582 26"><title>PoFlush -&gt; TrAdd</title></path>
+<path class="e" data-from="32" data-to="31" d="M 275 230 C 328 230, 328 60, 381 60"><title>LoadPo -&gt; PoFlush (2x)</title></path>
+<path class="e" data-from="32" data-to="30" d="M 275 230 C 328 230, 328 162, 381 162"><title>LoadPo -&gt; PoUnq (5x)</title></path>
+<path class="e" data-from="33" data-to="32" d="M 97 400 C 149 400, 149 230, 201 230"><title>LangEarly -&gt; LoadPo (3x)</title></path>
+<path class="e" data-from="35" data-to="34" d="M 104 570 C 152 570, 153 536, 201 536"><title>BuildGraph -&gt; NodeLabelW</title></path>
+<path class="e" data-from="37" data-to="36" d="M 88 604 C 144 604, 145 570, 201 570"><title>OutDot -&gt; DotEsc (7x)</title></path>
+<path class="e" data-from="39" data-to="38" d="M 831 60 C 869 60, 869 26, 907 26"><title>PartFile -&gt; SafeName</title></path>
+<path class="e" data-from="40" data-to="39" d="M 658 60 C 706 60, 707 60, 755 60"><title>PartHref -&gt; PartFile</title></path>
+<path class="e" data-from="41" data-to="39" d="M 672 94 C 713 94, 714 60, 755 60"><title>MemberHref -&gt; PartFile</title></path>
+<path class="e" data-from="46" data-to="45" d="M 478 298 C 530 298, 530 264, 582 264"><title>EmitDocHead -&gt; EmitStyleBody</title></path>
+<path class="e" data-from="49" data-to="42" d="M 478 196 C 530 196, 530 128, 582 128"><title>EmitNavList -&gt; GraphHref</title></path>
+<path class="e" data-from="49" data-to="43" d="M 478 196 C 530 196, 530 196, 582 196"><title>EmitNavList -&gt; DepsHref</title></path>
+<path class="e" data-from="49" data-to="44" d="M 478 196 C 530 196, 530 230, 582 230"><title>EmitNavList -&gt; DeadHref</title></path>
+<path class="e" data-from="49" data-to="40" d="M 478 196 C 530 196, 530 60, 582 60"><title>EmitNavList -&gt; PartHref</title></path>
+<path class="e" data-from="49" data-to="41" d="M 478 196 C 530 196, 530 94, 582 94"><title>EmitNavList -&gt; MemberHref</title></path>
+<path class="e" data-from="52" data-to="41" d="M 506 230 C 544 230, 544 94, 582 94"><title>EmitDeadSection -&gt; MemberHref (6x)</title></path>
+<path class="e" data-from="53" data-to="41" d="M 506 264 C 544 264, 544 94, 582 94"><title>EmitPartSection -&gt; MemberHref (2x)</title></path>
+<path class="e" data-from="56" data-to="57" d="M 88 366 C 144 366, 145 434, 201 434"><title>OutHtml -&gt; OutHtmlSplit</title></path>
+<path class="e" data-from="56" data-to="46" d="M 88 366 C 234 366, 235 298, 381 298"><title>OutHtml -&gt; EmitDocHead</title></path>
+<path class="e" data-from="56" data-to="47" d="M 88 366 C 234 366, 235 332, 381 332"><title>OutHtml -&gt; EmitHeaderBar</title></path>
+<path class="e" data-from="56" data-to="49" d="M 88 366 C 234 366, 235 196, 381 196"><title>OutHtml -&gt; EmitNavList</title></path>
+<path class="e" data-from="56" data-to="48" d="M 88 366 C 234 366, 235 366, 381 366"><title>OutHtml -&gt; EmitCoverageBlock</title></path>
+<path class="e" data-from="56" data-to="50" d="M 88 366 C 234 366, 235 434, 381 434"><title>OutHtml -&gt; EmitGraphSection</title></path>
+<path class="e" data-from="56" data-to="51" d="M 88 366 C 234 366, 235 468, 381 468"><title>OutHtml -&gt; EmitDepsSection</title></path>
+<path class="e" data-from="56" data-to="52" d="M 88 366 C 234 366, 235 230, 381 230"><title>OutHtml -&gt; EmitDeadSection</title></path>
+<path class="e" data-from="56" data-to="53" d="M 88 366 C 234 366, 235 264, 381 264"><title>OutHtml -&gt; EmitPartSection</title></path>
+<path class="e" data-from="56" data-to="54" d="M 88 366 C 234 366, 235 502, 381 502"><title>OutHtml -&gt; EmitFilterScript</title></path>
+<path class="e" data-from="56" data-to="55" d="M 88 366 C 234 366, 235 536, 381 536"><title>OutHtml -&gt; EmitGraphScript</title></path>
+<path class="e" data-from="57" data-to="45" d="M 305 434 C 443 434, 444 264, 582 264"><title>OutHtmlSplit -&gt; EmitStyleBody</title></path>
+<path class="e" data-from="57" data-to="46" d="M 305 434 C 343 434, 343 298, 381 298"><title>OutHtmlSplit -&gt; EmitDocHead (6x)</title></path>
+<path class="e" data-from="57" data-to="49" d="M 305 434 C 343 434, 343 196, 381 196"><title>OutHtmlSplit -&gt; EmitNavList</title></path>
+<path class="e" data-from="57" data-to="54" d="M 305 434 C 343 434, 343 502, 381 502"><title>OutHtmlSplit -&gt; EmitFilterScript</title></path>
+<path class="e" data-from="57" data-to="47" d="M 305 434 C 343 434, 343 332, 381 332"><title>OutHtmlSplit -&gt; EmitHeaderBar</title></path>
+<path class="e" data-from="57" data-to="48" d="M 305 434 C 343 434, 343 366, 381 366"><title>OutHtmlSplit -&gt; EmitCoverageBlock</title></path>
+<path class="e" data-from="57" data-to="39" d="M 305 434 C 530 434, 530 60, 755 60"><title>OutHtmlSplit -&gt; PartFile (2x)</title></path>
+<path class="e" data-from="57" data-to="50" d="M 305 434 C 343 434, 343 434, 381 434"><title>OutHtmlSplit -&gt; EmitGraphSection</title></path>
+<path class="e" data-from="57" data-to="55" d="M 305 434 C 343 434, 343 536, 381 536"><title>OutHtmlSplit -&gt; EmitGraphScript</title></path>
+<path class="e" data-from="57" data-to="51" d="M 305 434 C 343 434, 343 468, 381 468"><title>OutHtmlSplit -&gt; EmitDepsSection</title></path>
+<path class="e" data-from="57" data-to="52" d="M 305 434 C 343 434, 343 230, 381 230"><title>OutHtmlSplit -&gt; EmitDeadSection</title></path>
+<path class="e" data-from="57" data-to="53" d="M 305 434 C 343 434, 343 264, 381 264"><title>OutHtmlSplit -&gt; EmitPartSection</title></path>
+<path class="e" data-from="59" data-to="58" d="M 88 638 C 234 638, 235 570, 381 570"><title>OutText -&gt; Emit (24x)</title></path>
+<path class="e" data-from="60" data-to="58" d="M 88 672 C 234 672, 235 570, 381 570"><title>OutMd -&gt; Emit (52x)</title></path>
+<path class="e" data-from="61" data-to="58" d="M 88 706 C 234 706, 235 570, 381 570"><title>OutJson -&gt; Emit (15x)</title></path>
+<path class="e" data-from="62" data-to="58" d="M 90 740 C 235 740, 236 570, 381 570"><title>OutUndoc -&gt; Emit (6x)</title></path>
+<path class="e" data-from="63" data-to="58" d="M 312 604 C 346 604, 347 570, 381 570"><title>OutExternText -&gt; Emit (13x)</title></path>
+<path class="e" data-from="64" data-to="58" d="M 291 638 C 336 638, 336 570, 381 570"><title>TreeBranch -&gt; Emit (5x)</title></path>
+<path class="e b" data-from="64" data-to="64" d="M 291 633 C 333 612, 333 664, 291 643"><title>recursive</title></path>
+<path class="e" data-from="65" data-to="58" d="M 88 774 C 234 774, 235 570, 381 570"><title>OutTree -&gt; Emit (23x)</title></path>
+<path class="e" data-from="65" data-to="64" d="M 88 774 C 144 774, 145 638, 201 638"><title>OutTree -&gt; TreeBranch</title></path>
+<path class="e" data-from="65" data-to="63" d="M 88 774 C 144 774, 145 604, 201 604"><title>OutTree -&gt; OutExternText</title></path>
+<path class="e" data-from="73" data-to="70" d="M 111 808 C 156 808, 156 842, 201 842"><title>ParseTokens -&gt; IsProcKw</title></path>
+<path class="e" data-from="73" data-to="72" d="M 111 808 C 156 808, 156 910, 201 910"><title>ParseTokens -&gt; IsCallExcluded</title></path>
+<path class="e" data-from="73" data-to="71" d="M 111 808 C 156 808, 156 876, 201 876"><title>ParseTokens -&gt; IsModifierKw</title></path>
+<path class="e" data-from="73" data-to="67" d="M 111 808 C 156 808, 156 740, 201 740"><title>ParseTokens -&gt; NewPart (7x)</title></path>
+<path class="e" data-from="73" data-to="66" d="M 111 808 C 156 808, 156 706, 201 706"><title>ParseTokens -&gt; SkipQual (2x)</title></path>
+<path class="e" data-from="73" data-to="68" d="M 111 808 C 156 808, 156 774, 201 774"><title>ParseTokens -&gt; NewMember (7x)</title></path>
+<path class="e" data-from="73" data-to="69" d="M 111 808 C 156 808, 156 808, 201 808"><title>ParseTokens -&gt; AddParamTok (2x)</title></path>
+<path class="e" data-from="73" data-to="74" d="M 111 808 C 156 808, 156 944, 201 944"><title>ParseTokens -&gt; MemberSig</title></path>
+<path class="e" data-from="77" data-to="75" d="M 118 842 C 159 842, 160 978, 201 978"><title>TokenizeFile -&gt; AddCmt (5x)</title></path>
+<path class="e" data-from="77" data-to="76" d="M 118 842 C 159 842, 160 1012, 201 1012"><title>TokenizeFile -&gt; AddTok (8x)</title></path>
+<path class="e b" data-from="78" data-to="78" d="M 455 599 C 497 578, 497 630, 455 609"><title>recursive</title></path>
+<path class="e" data-from="81" data-to="80" d="M 88 94 C 421 94, 422 94, 755 94"><title>HtmlEsc -&gt; ReplaceAll (4x)</title></path>
+<path class="e" data-from="82" data-to="80" d="M 88 128 C 421 128, 422 94, 755 94"><title>JsonEsc -&gt; ReplaceAll (5x)</title></path>
+<path class="e" data-from="83" data-to="80" d="M 656 162 C 705 162, 706 94, 755 94"><title>NormSep -&gt; ReplaceAll</title></path>
+<path class="e" data-from="84" data-to="83" d="M 457 400 C 519 400, 520 162, 582 162"><title>PathBase -&gt; NormSep</title></path>
+<path class="e" data-from="85" data-to="84" d="M 284 672 C 332 672, 333 400, 381 400"><title>PathExtOf -&gt; PathBase</title></path>
+<path class="e" data-from="85" data-to="78" d="M 284 672 C 332 672, 333 604, 381 604"><title>PathExtOf -&gt; LC</title></path>
+<path class="e" data-from="86" data-to="85" d="M 97 876 C 149 876, 149 672, 201 672"><title>ExtWanted -&gt; PathExtOf</title></path>
+<path class="e" data-from="87" data-to="78" d="M 104 434 C 242 434, 243 604, 381 604"><title>IsExcluded -&gt; LC (2x)</title></path>
+<path class="e" data-from="87" data-to="83" d="M 104 434 C 343 434, 343 162, 582 162"><title>IsExcluded -&gt; NormSep</title></path>
+<path class="e" data-from="88" data-to="79" d="M 97 910 C 149 910, 149 1046, 201 1046"><title>IsDirPath -&gt; Say (2x)</title></path>
+<a href="p2-autodoc_bas.html#m23">
+<g class="n p2" data-id="1">
+<title>autodoc.bas.Humanize  (autodoc.bas:5)</title>
+<rect x="381" y="14" width="76" height="24" rx="5"/>
+<text x="390" y="30">Humanize</text>
+</g></a>
+<a href="p2-autodoc_bas.html#m24">
+<g class="n p2" data-id="2">
+<title>autodoc.bas.GenMemberBrief  (autodoc.bas:57)</title>
+<rect x="201" y="14" width="118" height="24" rx="5"/>
+<text x="210" y="30">GenMemberBrief</text>
+</g></a>
+<a href="p2-autodoc_bas.html#m25">
+<g class="n p2" data-id="3">
+<title>autodoc.bas.GenPartBrief  (autodoc.bas:153)</title>
+<rect x="201" y="48" width="104" height="24" rx="5"/>
+<text x="210" y="64">GenPartBrief</text>
+</g></a>
+<a href="p2-autodoc_bas.html#m26">
+<g class="n p2 rt" data-id="4">
+<title>autodoc.bas.GenerateMissing  (autodoc.bas:168)</title>
+<rect x="14" y="14" width="125" height="24" rx="5"/>
+<text x="23" y="30">GenerateMissing</text>
+</g></a>
+<a href="p3-callgraph_bas.html#m28">
+<g class="n p3" data-id="5">
+<title>callgraph.bas.QualNameStr  (callgraph.bas:28)</title>
+<rect x="201" y="286" width="97" height="24" rx="5"/>
+<text x="210" y="302">QualNameStr</text>
+</g></a>
+<a href="p3-callgraph_bas.html#m29">
+<g class="n p3" data-id="6">
+<title>callgraph.bas.AddCall  (callgraph.bas:48)</title>
+<rect x="201" y="320" width="74" height="24" rx="5"/>
+<text x="210" y="336">AddCall</text>
+</g></a>
+<a href="p3-callgraph_bas.html#m30">
+<g class="n p3" data-id="7">
+<title>callgraph.bas.FindPartByName  (callgraph.bas:112)</title>
+<rect x="201" y="252" width="118" height="24" rx="5"/>
+<text x="210" y="268">FindPartByName</text>
+</g></a>
+<a href="p3-callgraph_bas.html#m31">
+<g class="n p3" data-id="8">
+<title>callgraph.bas.FindFuncInPart  (callgraph.bas:120)</title>
+<rect x="201" y="184" width="118" height="24" rx="5"/>
+<text x="210" y="200">FindFuncInPart</text>
+</g></a>
+<a href="p3-callgraph_bas.html#m32">
+<g class="n p3 rt" data-id="9">
+<title>callgraph.bas.ResolveCalls  (callgraph.bas:133)</title>
+<rect x="14" y="184" width="104" height="24" rx="5"/>
+<text x="23" y="200">ResolveCalls</text>
+</g></a>
+<a href="p3-callgraph_bas.html#m33">
+<g class="n p3 rt" data-id="10">
+<title>callgraph.bas.ScanBindings  (callgraph.bas:221)</title>
+<rect x="14" y="218" width="104" height="24" rx="5"/>
+<text x="23" y="234">ScanBindings</text>
+</g></a>
+<a href="p3-callgraph_bas.html#m34">
+<g class="n p3 rt" data-id="11">
+<title>callgraph.bas.ResolveBindings  (callgraph.bas:247)</title>
+<rect x="14" y="150" width="125" height="24" rx="5"/>
+<text x="23" y="166">ResolveBindings</text>
+</g></a>
+<a href="p3-callgraph_bas.html#m35">
+<g class="n p3 rt" data-id="12">
+<title>callgraph.bas.DeadKind  (callgraph.bas:260)</title>
+<rect x="14" y="48" width="76" height="24" rx="5"/>
+<text x="23" y="64">DeadKind</text>
+</g></a>
+<a href="p3-callgraph_bas.html#m38">
+<g class="n p3" data-id="13">
+<title>callgraph.bas.CallerCount  (callgraph.bas:300)</title>
+<rect x="201" y="150" width="97" height="24" rx="5"/>
+<text x="210" y="166">CallerCount</text>
+</g></a>
+<a href="p5-doccomment_bas.html#m159">
+<g class="n p5" data-id="14">
+<title>doccomment.bas.NextDocLine  (doccomment.bas:5)</title>
+<rect x="201" y="354" width="97" height="24" rx="5"/>
+<text x="210" y="370">NextDocLine</text>
+</g></a>
+<a href="p5-doccomment_bas.html#m160">
+<g class="n p5 rt" data-id="15">
+<title>doccomment.bas.ApplyDoc  (doccomment.bas:25)</title>
+<rect x="14" y="252" width="76" height="24" rx="5"/>
+<text x="23" y="268">ApplyDoc</text>
+</g></a>
+<a href="p6-files_bas.html#m161">
+<g class="n p6" data-id="16">
+<title>files.bas.PathParent  (files.bas:9)</title>
+<rect x="381" y="82" width="90" height="24" rx="5"/>
+<text x="390" y="98">PathParent</text>
+</g></a>
+<a href="p6-files_bas.html#m162">
+<g class="n p6" data-id="17">
+<title>files.bas.FileExists2  (files.bas:25)</title>
+<rect x="381" y="116" width="97" height="24" rx="5"/>
+<text x="390" y="132">FileExists2</text>
+</g></a>
+<a href="p6-files_bas.html#m163">
+<g class="n p6" data-id="18">
+<title>files.bas.AlreadyVisited  (files.bas:33)</title>
+<rect x="201" y="388" width="118" height="24" rx="5"/>
+<text x="210" y="404">AlreadyVisited</text>
+</g></a>
+<a href="p6-files_bas.html#m165">
+<g class="n p6" data-id="19">
+<title>files.bas.ResolveInclude  (files.bas:56)</title>
+<rect x="201" y="116" width="118" height="24" rx="5"/>
+<text x="210" y="132">ResolveInclude</text>
+</g></a>
+<a href="p6-files_bas.html#m166">
+<g class="n p6 rt" data-id="20">
+<title>files.bas.FollowIncludes  (files.bas:84)</title>
+<rect x="14" y="286" width="118" height="24" rx="5"/>
+<text x="23" y="302">FollowIncludes</text>
+</g></a>
+<a href="p6-files_bas.html#m167">
+<g class="n p6" data-id="21">
+<title>files.bas.AddFileToList  (files.bas:119)</title>
+<rect x="201" y="456" width="111" height="24" rx="5"/>
+<text x="210" y="472">AddFileToList</text>
+</g></a>
+<a href="p6-files_bas.html#m168">
+<g class="n p6" data-id="22">
+<title>files.bas.ScanDirRec  (files.bas:137)</title>
+<rect x="14" y="320" width="90" height="24" rx="5"/>
+<text x="23" y="336">ScanDirRec</text>
+</g></a>
+<a href="p9-lang_bas.html#m237">
+<g class="n p9" data-id="23">
+<title>lang.bas.TrHash  (lang.bas:21)</title>
+<rect x="755" y="14" width="74" height="24" rx="5"/>
+<text x="764" y="30">TrHash</text>
+</g></a>
+<a href="p9-lang_bas.html#m238">
+<g class="n p9" data-id="24">
+<title>lang.bas.TrAdd  (lang.bas:31)</title>
+<rect x="582" y="14" width="74" height="24" rx="5"/>
+<text x="591" y="30">TrAdd</text>
+</g></a>
+<a href="p9-lang_bas.html#m239">
+<g class="n p9" data-id="25">
+<title>lang.bas.Tr  (lang.bas:56)</title>
+<rect x="201" y="82" width="74" height="24" rx="5"/>
+<text x="210" y="98">Tr</text>
+</g></a>
+<a href="p9-lang_bas.html#m240">
+<g class="n p9" data-id="26">
+<title>lang.bas.TrFill  (lang.bas:70)</title>
+<rect x="201" y="490" width="74" height="24" rx="5"/>
+<text x="210" y="506">TrFill</text>
+</g></a>
+<a href="p9-lang_bas.html#m241">
+<g class="n p9 rt" data-id="27">
+<title>lang.bas.Tr1  (lang.bas:100)</title>
+<rect x="14" y="456" width="74" height="24" rx="5"/>
+<text x="23" y="472">Tr1</text>
+</g></a>
+<a href="p9-lang_bas.html#m242">
+<g class="n p9 rt" data-id="28">
+<title>lang.bas.Tr2  (lang.bas:104)</title>
+<rect x="14" y="490" width="74" height="24" rx="5"/>
+<text x="23" y="506">Tr2</text>
+</g></a>
+<a href="p9-lang_bas.html#m243">
+<g class="n p9 rt" data-id="29">
+<title>lang.bas.Tr3  (lang.bas:108)</title>
+<rect x="14" y="524" width="74" height="24" rx="5"/>
+<text x="23" y="540">Tr3</text>
+</g></a>
+<a href="p9-lang_bas.html#m244">
+<g class="n p9" data-id="30">
+<title>lang.bas.PoUnq  (lang.bas:113)</title>
+<rect x="381" y="150" width="74" height="24" rx="5"/>
+<text x="390" y="166">PoUnq</text>
+</g></a>
+<a href="p9-lang_bas.html#m245">
+<g class="n p9" data-id="31">
+<title>lang.bas.PoFlush  (lang.bas:144)</title>
+<rect x="381" y="48" width="74" height="24" rx="5"/>
+<text x="390" y="64">PoFlush</text>
+</g></a>
+<a href="p9-lang_bas.html#m246">
+<g class="n p9" data-id="32">
+<title>lang.bas.LoadPo  (lang.bas:169)</title>
+<rect x="201" y="218" width="74" height="24" rx="5"/>
+<text x="210" y="234">LoadPo</text>
+</g></a>
+<a href="p9-lang_bas.html#m247">
+<g class="n p9 rt" data-id="33">
+<title>lang.bas.LangEarly  (lang.bas:231)</title>
+<rect x="14" y="388" width="83" height="24" rx="5"/>
+<text x="23" y="404">LangEarly</text>
+</g></a>
+<a href="p10-layout_bas.html#m248">
+<g class="n p10" data-id="34">
+<title>layout.bas.NodeLabelW  (layout.bas:11)</title>
+<rect x="201" y="524" width="90" height="24" rx="5"/>
+<text x="210" y="540">NodeLabelW</text>
+</g></a>
+<a href="p10-layout_bas.html#m249">
+<g class="n p10 rt" data-id="35">
+<title>layout.bas.BuildGraph  (layout.bas:19)</title>
+<rect x="14" y="558" width="90" height="24" rx="5"/>
+<text x="23" y="574">BuildGraph</text>
+</g></a>
+<a href="p11-out_graph_bas.html#m251">
+<g class="n p11" data-id="36">
+<title>out_graph.bas.DotEsc  (out_graph.bas:6)</title>
+<rect x="201" y="558" width="74" height="24" rx="5"/>
+<text x="210" y="574">DotEsc</text>
+</g></a>
+<a href="p11-out_graph_bas.html#m252">
+<g class="n p11 rt" data-id="37">
+<title>out_graph.bas.OutDot  (out_graph.bas:16)</title>
+<rect x="14" y="592" width="74" height="24" rx="5"/>
+<text x="23" y="608">OutDot</text>
+</g></a>
+<a href="p12-out_html_bas.html#m254">
+<g class="n p12" data-id="38">
+<title>out_html.bas.SafeName  (out_html.bas:6)</title>
+<rect x="907" y="14" width="76" height="24" rx="5"/>
+<text x="916" y="30">SafeName</text>
+</g></a>
+<a href="p12-out_html_bas.html#m255">
+<g class="n p12" data-id="39">
+<title>out_html.bas.PartFile  (out_html.bas:18)</title>
+<rect x="755" y="48" width="76" height="24" rx="5"/>
+<text x="764" y="64">PartFile</text>
+</g></a>
+<a href="p12-out_html_bas.html#m256">
+<g class="n p12" data-id="40">
+<title>out_html.bas.PartHref  (out_html.bas:24)</title>
+<rect x="582" y="48" width="76" height="24" rx="5"/>
+<text x="591" y="64">PartHref</text>
+</g></a>
+<a href="p12-out_html_bas.html#m257">
+<g class="n p12" data-id="41">
+<title>out_html.bas.MemberHref  (out_html.bas:33)</title>
+<rect x="582" y="82" width="90" height="24" rx="5"/>
+<text x="591" y="98">MemberHref</text>
+</g></a>
+<a href="p12-out_html_bas.html#m258">
+<g class="n p12" data-id="42">
+<title>out_html.bas.GraphHref  (out_html.bas:43)</title>
+<rect x="582" y="116" width="83" height="24" rx="5"/>
+<text x="591" y="132">GraphHref</text>
+</g></a>
+<a href="p12-out_html_bas.html#m259">
+<g class="n p12" data-id="43">
+<title>out_html.bas.DepsHref  (out_html.bas:48)</title>
+<rect x="582" y="184" width="76" height="24" rx="5"/>
+<text x="591" y="200">DepsHref</text>
+</g></a>
+<a href="p12-out_html_bas.html#m260">
+<g class="n p12" data-id="44">
+<title>out_html.bas.DeadHref  (out_html.bas:53)</title>
+<rect x="582" y="218" width="76" height="24" rx="5"/>
+<text x="591" y="234">DeadHref</text>
+</g></a>
+<a href="p12-out_html_bas.html#m261">
+<g class="n p12" data-id="45">
+<title>out_html.bas.EmitStyleBody  (out_html.bas:58)</title>
+<rect x="582" y="252" width="111" height="24" rx="5"/>
+<text x="591" y="268">EmitStyleBody</text>
+</g></a>
+<a href="p12-out_html_bas.html#m262">
+<g class="n p12" data-id="46">
+<title>out_html.bas.EmitDocHead  (out_html.bas:135)</title>
+<rect x="381" y="286" width="97" height="24" rx="5"/>
+<text x="390" y="302">EmitDocHead</text>
+</g></a>
+<a href="p12-out_html_bas.html#m263">
+<g class="n p12" data-id="47">
+<title>out_html.bas.EmitHeaderBar  (out_html.bas:154)</title>
+<rect x="381" y="320" width="111" height="24" rx="5"/>
+<text x="390" y="336">EmitHeaderBar</text>
+</g></a>
+<a href="p12-out_html_bas.html#m264">
+<g class="n p12" data-id="48">
+<title>out_html.bas.EmitCoverageBlock  (out_html.bas:162)</title>
+<rect x="381" y="354" width="139" height="24" rx="5"/>
+<text x="390" y="370">EmitCoverageBlock</text>
+</g></a>
+<a href="p12-out_html_bas.html#m265">
+<g class="n p12" data-id="49">
+<title>out_html.bas.EmitNavList  (out_html.bas:185)</title>
+<rect x="381" y="184" width="97" height="24" rx="5"/>
+<text x="390" y="200">EmitNavList</text>
+</g></a>
+<a href="p12-out_html_bas.html#m266">
+<g class="n p12" data-id="50">
+<title>out_html.bas.EmitGraphSection  (out_html.bas:210)</title>
+<rect x="381" y="422" width="132" height="24" rx="5"/>
+<text x="390" y="438">EmitGraphSection</text>
+</g></a>
+<a href="p12-out_html_bas.html#m267">
+<g class="n p12" data-id="51">
+<title>out_html.bas.EmitDepsSection  (out_html.bas:235)</title>
+<rect x="381" y="456" width="125" height="24" rx="5"/>
+<text x="390" y="472">EmitDepsSection</text>
+</g></a>
+<a href="p12-out_html_bas.html#m268">
+<g class="n p12" data-id="52">
+<title>out_html.bas.EmitDeadSection  (out_html.bas:257)</title>
+<rect x="381" y="218" width="125" height="24" rx="5"/>
+<text x="390" y="234">EmitDeadSection</text>
+</g></a>
+<a href="p12-out_html_bas.html#m269">
+<g class="n p12" data-id="53">
+<title>out_html.bas.EmitPartSection  (out_html.bas:338)</title>
+<rect x="381" y="252" width="125" height="24" rx="5"/>
+<text x="390" y="268">EmitPartSection</text>
+</g></a>
+<a href="p12-out_html_bas.html#m270">
+<g class="n p12" data-id="54">
+<title>out_html.bas.EmitFilterScript  (out_html.bas:464)</title>
+<rect x="381" y="490" width="132" height="24" rx="5"/>
+<text x="390" y="506">EmitFilterScript</text>
+</g></a>
+<a href="p12-out_html_bas.html#m271">
+<g class="n p12" data-id="55">
+<title>out_html.bas.EmitGraphScript  (out_html.bas:473)</title>
+<rect x="381" y="524" width="125" height="24" rx="5"/>
+<text x="390" y="540">EmitGraphScript</text>
+</g></a>
+<a href="p12-out_html_bas.html#m272">
+<g class="n p12 rt" data-id="56">
+<title>out_html.bas.OutHtml  (out_html.bas:527)</title>
+<rect x="14" y="354" width="74" height="24" rx="5"/>
+<text x="23" y="370">OutHtml</text>
+</g></a>
+<a href="p12-out_html_bas.html#m273">
+<g class="n p12" data-id="57">
+<title>out_html.bas.OutHtmlSplit  (out_html.bas:559)</title>
+<rect x="201" y="422" width="104" height="24" rx="5"/>
+<text x="210" y="438">OutHtmlSplit</text>
+</g></a>
+<a href="p13-out_text_bas.html#m274">
+<g class="n p13" data-id="58">
+<title>out_text.bas.Emit  (out_text.bas:5)</title>
+<rect x="381" y="558" width="74" height="24" rx="5"/>
+<text x="390" y="574">Emit</text>
+</g></a>
+<a href="p13-out_text_bas.html#m277">
+<g class="n p13 rt" data-id="59">
+<title>out_text.bas.OutText  (out_text.bas:33)</title>
+<rect x="14" y="626" width="74" height="24" rx="5"/>
+<text x="23" y="642">OutText</text>
+</g></a>
+<a href="p13-out_text_bas.html#m278">
+<g class="n p13 rt" data-id="60">
+<title>out_text.bas.OutMd  (out_text.bas:127)</title>
+<rect x="14" y="660" width="74" height="24" rx="5"/>
+<text x="23" y="676">OutMd</text>
+</g></a>
+<a href="p13-out_text_bas.html#m279">
+<g class="n p13 rt" data-id="61">
+<title>out_text.bas.OutJson  (out_text.bas:243)</title>
+<rect x="14" y="694" width="74" height="24" rx="5"/>
+<text x="23" y="710">OutJson</text>
+</g></a>
+<a href="p13-out_text_bas.html#m280">
+<g class="n p13 rt" data-id="62">
+<title>out_text.bas.OutUndoc  (out_text.bas:346)</title>
+<rect x="14" y="728" width="76" height="24" rx="5"/>
+<text x="23" y="744">OutUndoc</text>
+</g></a>
+<a href="p13-out_text_bas.html#m281">
+<g class="n p13" data-id="63">
+<title>out_text.bas.OutExternText  (out_text.bas:372)</title>
+<rect x="201" y="592" width="111" height="24" rx="5"/>
+<text x="210" y="608">OutExternText</text>
+</g></a>
+<a href="p13-out_text_bas.html#m282">
+<g class="n p13" data-id="64">
+<title>out_text.bas.TreeBranch  (out_text.bas:412)</title>
+<rect x="201" y="626" width="90" height="24" rx="5"/>
+<text x="210" y="642">TreeBranch</text>
+</g></a>
+<a href="p13-out_text_bas.html#m283">
+<g class="n p13 rt" data-id="65">
+<title>out_text.bas.OutTree  (out_text.bas:471)</title>
+<rect x="14" y="762" width="74" height="24" rx="5"/>
+<text x="23" y="778">OutTree</text>
+</g></a>
+<a href="p14-parser_bas.html#m284">
+<g class="n p14" data-id="66">
+<title>parser.bas.SkipQual  (parser.bas:5)</title>
+<rect x="201" y="694" width="76" height="24" rx="5"/>
+<text x="210" y="710">SkipQual</text>
+</g></a>
+<a href="p14-parser_bas.html#m287">
+<g class="n p14" data-id="67">
+<title>parser.bas.NewPart  (parser.bas:50)</title>
+<rect x="201" y="728" width="74" height="24" rx="5"/>
+<text x="210" y="744">NewPart</text>
+</g></a>
+<a href="p14-parser_bas.html#m288">
+<g class="n p14" data-id="68">
+<title>parser.bas.NewMember  (parser.bas:70)</title>
+<rect x="201" y="762" width="83" height="24" rx="5"/>
+<text x="210" y="778">NewMember</text>
+</g></a>
+<a href="p14-parser_bas.html#m289">
+<g class="n p14" data-id="69">
+<title>parser.bas.AddParamTok  (parser.bas:99)</title>
+<rect x="201" y="796" width="97" height="24" rx="5"/>
+<text x="210" y="812">AddParamTok</text>
+</g></a>
+<a href="p14-parser_bas.html#m291">
+<g class="n p14" data-id="70">
+<title>parser.bas.IsProcKw  (parser.bas:145)</title>
+<rect x="201" y="830" width="76" height="24" rx="5"/>
+<text x="210" y="846">IsProcKw</text>
+</g></a>
+<a href="p14-parser_bas.html#m292">
+<g class="n p14" data-id="71">
+<title>parser.bas.IsModifierKw  (parser.bas:154)</title>
+<rect x="201" y="864" width="104" height="24" rx="5"/>
+<text x="210" y="880">IsModifierKw</text>
+</g></a>
+<a href="p14-parser_bas.html#m293">
+<g class="n p14" data-id="72">
+<title>parser.bas.IsCallExcluded  (parser.bas:166)</title>
+<rect x="201" y="898" width="118" height="24" rx="5"/>
+<text x="210" y="914">IsCallExcluded</text>
+</g></a>
+<a href="p14-parser_bas.html#m298">
+<g class="n p14 rt" data-id="73">
+<title>parser.bas.ParseTokens  (parser.bas:242)</title>
+<rect x="14" y="796" width="97" height="24" rx="5"/>
+<text x="23" y="812">ParseTokens</text>
+</g></a>
+<a href="p14-parser_bas.html#m299">
+<g class="n p14" data-id="74">
+<title>parser.bas.MemberSig  (parser.bas:708)</title>
+<rect x="201" y="932" width="83" height="24" rx="5"/>
+<text x="210" y="948">MemberSig</text>
+</g></a>
+<a href="p15-tokenizer_bas.html#m300">
+<g class="n p15" data-id="75">
+<title>tokenizer.bas.AddCmt  (tokenizer.bas:5)</title>
+<rect x="201" y="966" width="74" height="24" rx="5"/>
+<text x="210" y="982">AddCmt</text>
+</g></a>
+<a href="p15-tokenizer_bas.html#m301">
+<g class="n p15" data-id="76">
+<title>tokenizer.bas.AddTok  (tokenizer.bas:22)</title>
+<rect x="201" y="1000" width="74" height="24" rx="5"/>
+<text x="210" y="1016">AddTok</text>
+</g></a>
+<a href="p15-tokenizer_bas.html#m303">
+<g class="n p15 rt" data-id="77">
+<title>tokenizer.bas.TokenizeFile  (tokenizer.bas:61)</title>
+<rect x="14" y="830" width="104" height="24" rx="5"/>
+<text x="23" y="846">TokenizeFile</text>
+</g></a>
+<a href="p21-util_bas.html#m375">
+<g class="n p21" data-id="78">
+<title>util.bas.LC  (util.bas:5)</title>
+<rect x="381" y="592" width="74" height="24" rx="5"/>
+<text x="390" y="608">LC</text>
+</g></a>
+<a href="p21-util_bas.html#m376">
+<g class="n p21" data-id="79">
+<title>util.bas.Say  (util.bas:12)</title>
+<rect x="201" y="1034" width="74" height="24" rx="5"/>
+<text x="210" y="1050">Say</text>
+</g></a>
+<a href="p21-util_bas.html#m381">
+<g class="n p21" data-id="80">
+<title>util.bas.ReplaceAll  (util.bas:76)</title>
+<rect x="755" y="82" width="90" height="24" rx="5"/>
+<text x="764" y="98">ReplaceAll</text>
+</g></a>
+<a href="p21-util_bas.html#m382">
+<g class="n p21 rt" data-id="81">
+<title>util.bas.HtmlEsc  (util.bas:93)</title>
+<rect x="14" y="82" width="74" height="24" rx="5"/>
+<text x="23" y="98">HtmlEsc</text>
+</g></a>
+<a href="p21-util_bas.html#m383">
+<g class="n p21 rt" data-id="82">
+<title>util.bas.JsonEsc  (util.bas:102)</title>
+<rect x="14" y="116" width="74" height="24" rx="5"/>
+<text x="23" y="132">JsonEsc</text>
+</g></a>
+<a href="p21-util_bas.html#m384">
+<g class="n p21" data-id="83">
+<title>util.bas.NormSep  (util.bas:112)</title>
+<rect x="582" y="150" width="74" height="24" rx="5"/>
+<text x="591" y="166">NormSep</text>
+</g></a>
+<a href="p21-util_bas.html#m385">
+<g class="n p21" data-id="84">
+<title>util.bas.PathBase  (util.bas:116)</title>
+<rect x="381" y="388" width="76" height="24" rx="5"/>
+<text x="390" y="404">PathBase</text>
+</g></a>
+<a href="p21-util_bas.html#m386">
+<g class="n p21" data-id="85">
+<title>util.bas.PathExtOf  (util.bas:126)</title>
+<rect x="201" y="660" width="83" height="24" rx="5"/>
+<text x="210" y="676">PathExtOf</text>
+</g></a>
+<a href="p21-util_bas.html#m387">
+<g class="n p21 rt" data-id="86">
+<title>util.bas.ExtWanted  (util.bas:136)</title>
+<rect x="14" y="864" width="83" height="24" rx="5"/>
+<text x="23" y="880">ExtWanted</text>
+</g></a>
+<a href="p21-util_bas.html#m388">
+<g class="n p21 rt" data-id="87">
+<title>util.bas.IsExcluded  (util.bas:144)</title>
+<rect x="14" y="422" width="90" height="24" rx="5"/>
+<text x="23" y="438">IsExcluded</text>
+</g></a>
+<a href="p21-util_bas.html#m389">
+<g class="n p21 rt" data-id="88">
+<title>util.bas.IsDirPath  (util.bas:161)</title>
+<rect x="14" y="898" width="83" height="24" rx="5"/>
+<text x="23" y="914">IsDirPath</text>
+</g></a>
+</g>
+</svg>
+</div>
+</main>
+<script>
+(function(){var svg=document.getElementById('cg');if(!svg)return;
+var eds=svg.getElementsByTagName('path'),nds=svg.getElementsByTagName('g');
+function reset(){for(var i=0;i<eds.length;i++){eds[i].style.opacity='';eds[i].style.strokeWidth='';}
+for(var j=0;j<nds.length;j++){nds[j].style.opacity='';}}
+function focusOn(id){for(var i=0;i<eds.length;i++){var p=eds[i];
+var f=p.getAttribute('data-from'),t=p.getAttribute('data-to');
+if(f===null){continue;}
+if(f===id||t===id){p.style.opacity='1';p.style.strokeWidth='2.4';}else{p.style.opacity='0.10';}}
+for(var j=0;j<nds.length;j++){var g=nds[j],gi=g.getAttribute('data-id');if(gi===null)continue;
+var keep=(gi===id);
+if(!keep){for(var k=0;k<eds.length;k++){var f2=eds[k].getAttribute('data-from'),t2=eds[k].getAttribute('data-to');
+if((f2===id&&t2===gi)||(t2===id&&f2===gi)){keep=true;break;}}}
+g.style.opacity=keep?'1':'0.25';}}
+for(var n=0;n<nds.length;n++){(function(g){if(g.getAttribute('data-id')===null)return;
+g.onmouseover=function(){focusOn(g.getAttribute('data-id'));};g.onmouseout=reset;})(nds[n]);}
+})();
+(function(){var svg=document.getElementById('cg');if(!svg)return;
+var vp=document.getElementById('vp');if(!vp)return;
+var k=1,tx=0,ty=0,drag=false,moved=false,px=0,py=0;
+function apply(){vp.setAttribute('transform','translate('+tx+','+ty+') scale('+k+')');}
+function pt(e){var p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;
+var m=svg.getScreenCTM();if(!m)return null;return p.matrixTransform(m.inverse());}
+function zoomAt(x,y,f){var n=k*f;if(n<0.08)n=0.08;if(n>8)n=8;
+tx=x-(x-tx)*(n/k);ty=y-(y-ty)*(n/k);k=n;apply();}
+function center(){var r=svg.getBoundingClientRect();
+return pt({clientX:r.left+r.width/2,clientY:r.top+r.height/2});}
+svg.addEventListener('wheel',function(e){var p=pt(e);if(!p)return;e.preventDefault();
+zoomAt(p.x,p.y,e.deltaY<0?1.15:1/1.15);},false);
+svg.addEventListener('mousedown',function(e){if(e.button!==0)return;
+var p=pt(e);if(!p)return;drag=true;moved=false;px=p.x;py=p.y;
+svg.setAttribute('class','drag');},false);
+window.addEventListener('mousemove',function(e){if(!drag)return;var p=pt(e);if(!p)return;
+var dx=p.x-px,dy=p.y-py;if(Math.abs(dx)+Math.abs(dy)>1)moved=true;
+tx+=dx;ty+=dy;apply();px=p.x;py=p.y;},false);
+window.addEventListener('mouseup',function(){if(!drag)return;drag=false;
+svg.setAttribute('class','');},false);
+svg.addEventListener('dragstart',function(e){e.preventDefault();},false);
+svg.addEventListener('click',function(e){if(moved){e.preventDefault();e.stopPropagation();moved=false;}},true);
+var zi=document.getElementById('zin'),zo=document.getElementById('zout'),zf=document.getElementById('zfit');
+if(zi)zi.onclick=function(){var c=center();if(c)zoomAt(c.x,c.y,1.3);};
+if(zo)zo.onclick=function(){var c=center();if(c)zoomAt(c.x,c.y,1/1.3);};
+if(zf)zf.onclick=function(){k=1;tx=0;ty=0;apply();};
+})();
+</script>
+</body></html>

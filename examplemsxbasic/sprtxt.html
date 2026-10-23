@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MSX-BASIC documentation - Sprite Designer 0.4</title>
+<style>
+:root{--bg:#ffffff;--fg:#1b1f24;--mut:#5b6570;--line:#dfe3e8;--card:#f6f8fa;--acc:#0b5fa4;--link:#0b5fa4;--auto:#8a5a00;--autobg:#fff4d6;--dep:#a11;--kw:#7a2e8e;--str:#a1561b;--rem:#3c7a3c;--deadbg:#fbe9e9;--sharedbg:#fff4d6;--tgt:#d8e8fb}
+@media (prefers-color-scheme:dark){:root{--bg:#12161a;--fg:#e6e9ec;--mut:#9aa4ae;--line:#2a3138;--card:#1a1f25;--acc:#5aa9f0;--link:#cdd6de;--auto:#e0b050;--autobg:#332a10;--dep:#f77;--kw:#d59be6;--str:#e2a36b;--rem:#86c286;--deadbg:#3a1f22;--sharedbg:#332a10;--tgt:#1d3550}}
+*{box-sizing:border-box}
+a,a:visited{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+a:focus-visible{outline:2px solid var(--link);outline-offset:2px}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+code,pre,.sig,.mono{font-family:Consolas,'DejaVu Sans Mono',monospace}
+header{padding:18px 24px;border-bottom:1px solid var(--line)}
+header h1{margin:0;font-size:19px}
+header .meta{color:var(--mut);font-size:13px;margin-top:4px}
+.wrap{display:flex;align-items:flex-start}
+nav{width:290px;flex:0 0 290px;border-right:1px solid var(--line);padding:14px;position:sticky;top:0;max-height:100vh;overflow:auto}
+nav input{width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:5px;background:var(--bg);color:var(--fg);margin-bottom:10px}
+nav ul{list-style:none;margin:0;padding:0}
+nav li{margin:2px 0;font-size:13px}
+nav li.f{padding-left:14px;color:var(--mut)}
+nav a,nav a:visited{color:var(--link)}
+main{flex:1 1 auto;padding:18px 26px;min-width:0}
+section.part{border-top:1px solid var(--line);padding-top:16px;margin-top:26px}
+h2{font-size:20px;margin:0 0 4px}
+h3{font-size:15px;margin:22px 0 6px}
+.loc{color:var(--mut);font-size:12px}
+.brief{margin:8px 0}
+.detail{color:var(--fg);white-space:pre-wrap;margin:6px 0}
+table{border-collapse:collapse;margin:8px 0;font-size:13px;width:100%}
+th,td{border:1px solid var(--line);padding:4px 8px;text-align:left;vertical-align:top}
+th{background:var(--card);font-weight:600}
+.tag{display:inline-block;font-size:11px;padding:1px 6px;border-radius:9px;border:1px solid var(--line);color:var(--mut);margin-left:6px;font-weight:400}
+.auto{background:var(--autobg);color:var(--auto);border-color:transparent}
+.dep{color:var(--dep);border-color:var(--dep)}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:10px 14px;font-size:13px;display:inline-block;margin-right:8px}
+.graphwrap{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:6px;background:var(--card);height:78vh;min-height:220px;margin:10px 0}
+svg#cg{width:100%;height:100%;display:block;cursor:grab;touch-action:none}
+svg#cg.drag{cursor:grabbing}
+.zoomctl{position:absolute;right:14px;bottom:14px;z-index:5;display:flex;flex-direction:column}
+.zoomctl button{width:34px;height:34px;margin-top:5px;font:16px/1 -apple-system,Segoe UI,Roboto,sans-serif;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:7px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.zoomctl button:hover{background:var(--card)}
+.zoomctl button:active{transform:translateY(1px)}
+svg#cg text{font-family:Consolas,'DejaVu Sans Mono',monospace;font-size:11px;fill:var(--fg);pointer-events:none}
+svg#cg tspan.nn{font-weight:700}svg#cg tspan.nk{fill:var(--mut);font-size:10px}
+svg#cg g.n rect{stroke-width:1.2}
+svg#cg g.rt rect{stroke-width:2.6}
+svg#cg g.dd rect{stroke-dasharray:4 3}
+svg#cg g.n{cursor:pointer}
+svg#cg path.e{fill:none;stroke:#8a949e;stroke-width:1.3;marker-end:url(#ah)}
+svg#cg path.e.b{stroke:#c0673a;stroke-dasharray:5 3;marker-end:url(#ahb)}
+svg#cg path.e.cb{stroke:#3a7bbf;stroke-dasharray:2 3}
+svg#cg .ahf{fill:#8a949e}
+svg#cg .ahbf{fill:#c0673a}
+svg#cg a{text-decoration:none}
+.legend{font-size:12px;color:var(--mut);margin:6px 0 14px}
+.legend span.sw{display:inline-block;width:11px;height:11px;border-radius:3px;border:1px solid var(--line);vertical-align:-1px;margin:0 4px 0 10px}
+svg#cg g.k-main rect{fill:hsl(210,62%,92%);stroke:hsl(210,45%,52%)}.sw-main{background:hsl(210,62%,92%)}
+svg#cg g.k-sub rect{fill:hsl(140,62%,92%);stroke:hsl(140,45%,42%)}.sw-sub{background:hsl(140,62%,92%)}
+svg#cg g.k-event rect{fill:hsl(42,62%,90%);stroke:hsl(42,55%,45%)}.sw-event{background:hsl(42,62%,90%)}
+svg#cg g.k-error rect{fill:hsl(6,62%,92%);stroke:hsl(6,50%,52%)}.sw-error{background:hsl(6,62%,92%)}
+@media (prefers-color-scheme:dark){
+svg#cg g.k-main rect{fill:hsl(210,30%,24%);stroke:hsl(210,40%,58%)}.sw-main{background:hsl(210,30%,24%)}
+svg#cg g.k-sub rect{fill:hsl(140,30%,22%);stroke:hsl(140,40%,55%)}.sw-sub{background:hsl(140,30%,22%)}
+svg#cg g.k-event rect{fill:hsl(42,30%,22%);stroke:hsl(42,45%,55%)}.sw-event{background:hsl(42,30%,22%)}
+svg#cg g.k-error rect{fill:hsl(6,30%,24%);stroke:hsl(6,45%,60%)}.sw-error{background:hsl(6,30%,24%)}
+}
+table.src{font-size:13px;border:1px solid var(--line)}table.src td{border:0;padding:1px 8px;white-space:pre-wrap}
+table.src td.own{white-space:nowrap;width:1%;font-size:11px;color:var(--mut)}
+table.src td.ln{text-align:right;color:var(--mut);width:1%;user-select:none}
+table.src tr.dead{background:var(--deadbg)}table.src tr.shared{background:var(--sharedbg)}table.src tr.entry td{border-top:1px solid var(--line)}
+table.src tr:target{background:var(--tgt)}
+.kw{color:var(--kw);font-weight:600}.str{color:var(--str)}.rem{color:var(--rem);font-style:italic}.dat{color:var(--str)}
+ul.warn{padding-left:20px}ul.warn li{margin:3px 0}
+ul.tree,ul.tree ul{list-style:none;padding-left:18px;margin:2px 0;font-size:13px}ul.tree{padding-left:0}
+summary{cursor:pointer;margin:4px 0}
+.legend span.bg{display:inline-block;padding:0 8px;margin-right:8px;border-radius:4px}
+</style>
+</head><body>
+<header><h1>MSX-BASIC documentation &mdash; Sprite Designer 0.4</h1><div class="meta">msxbasicdoc 0.4.0 &middot; 2026-10-23 16:38:53 &middot; sprtxt.bas &middot; 290 lines &middot; 23 routines</div></header>
+<div class="wrap">
+<nav id="side">
+<input id="q" placeholder="Filter by name or line...">
+<ul>
+<li><a href="#graph"><b>Call structure</b></a></li>
+<li><a href="#dead"><b>Possibly unused</b></a></li>
+<li><a href="#warn"><b>Warnings</b></a> (10)</li>
+<li><a href="#vars"><b>Variables</b></a></li>
+<li><a href="#misc"><b>Functions, DATA and external</b></a></li>
+<li><a href="#src"><b>Source code</b></a></li>
+<li><a href="#overview">Program sprtxt.bas</a></li>
+<li class="f"><a href="#R10"><code>10</code> Main program</a></li>
+<li class="f"><a href="#R800"><code>800</code> Zandloper aan (dubbel aanroepen is veilig)</a></li>
+<li class="f"><a href="#R850"><code>850</code> Zandloper uit</a></li>
+<li class="f"><a href="#R990"><code>990</code> Cursor tekenen (eigen kleuren, GC blijft ongemoeid)</a></li>
+<li class="f"><a href="#R1000"><code>1000</code> Titel</a></li>
+<li class="f"><a href="#R1500"><code>1500</code> Potlood</a></li>
+<li class="f"><a href="#R3000"><code>3000</code> Raster tekenen: rasterlijnen in een keer, daarna alleen gevulde vakjes</a></li>
+<li class="f"><a href="#R5000"><code>5000</code> Programma stoppen (QT=1 als het echt mag)</a></li>
+<li class="f"><a href="#R6000"><code>6000</code> Klik afhandelen: kleurslots, palet en knoppen</a></li>
+<li class="f"><a href="#R6200"><code>6200</code> Vakje in het raster tekenen of gummen</a></li>
+<li class="f"><a href="#R8400"><code>8400</code> Een vakje (DX,DY) opnieuw tekenen</a></li>
+<li class="f"><a href="#R8600"><code>8600</code> Patroonbyte van rij DY (linker of rechter helft) bijwerken voor alle lagen</a></li>
+<li class="f"><a href="#R8700"><code>8700</code> Preview tonen</a></li>
+<li class="f"><a href="#R8800"><code>8800</code> Alle patronen opnieuw opbouwen (laden, grootte, nieuw)</a></li>
+<li class="f"><a href="#R8900"><code>8900</code> Kleurslots tekenen, actief slot wit omrand</a></li>
+<li class="f"><a href="#R14000"><code>14000</code> Kleuren in de sprite zoeken en in slot 1-3 zetten</a></li>
+<li class="f"><a href="#R15000"><code>15000</code> Bestandsnaam invoeren (A-Z, 0-9, - en _)</a></li>
+<li class="f"><a href="#R16000"><code>16000</code> Openen dialoog</a></li>
+<li class="f"><a href="#R17900"><code>17900</code> Machinecode: BDOS zoek eerste (USR) / volgende (USR1) boven HIMEM</a></li>
+<li class="f"><a href="#R17930"><code>17930</code> FCB voor ????????.SPD opnieuw klaarzetten</a></li>
+<li class="f"><a href="#R18000"><code>18000</code> Opslaan check (CN=1 als de gebruiker annuleert)</a></li>
+<li class="f"><a href="#R19000"><code>19000</code> Toetsenbordbuffer leegmaken</a></li>
+<li class="f"><a href="#R19100"><code>19100</code> Melding M1$/M2$ tonen en op een toets wachten</a></li>
+<li class="f"><a href="#R30000"><code>30000</code> Foutafhandeling: schijffouten netjes melden, programmeerfouten tonen</a></li>
+</ul>
+</nav>
+<main>
+<div class="stat">Documentation coverage: <b>24</b> of <b>24</b> entry points have real source comments (100.0%)</div>
+<div class="stat">Comment lines: <b>46</b> of <b>290</b> (15.9%)</div>
+<h2 id="graph" style="margin-top:26px">Call structure</h2>
+<div class="legend">
+24 entry points, 44 relations. From left to right: caller before callee. Click a block to jump to its documentation; hover over it to see only its own relations. Drag to pan, use the scroll wheel or the buttons at the bottom right to zoom.
+<br>Thick border = no caller within reachable code (main program, or only called from dead code). Dashed border = not reachable from the main program. Orange dashed arrow = feedback or recursion. Blue finely dotted arrow = registers a handler (ON INTERVAL/KEY/SPRITE/STRIG/STOP GOSUB, ON ERROR GOTO).
+<br>Kinds:<span class="sw sw-main"></span>main program<span class="sw sw-sub"></span>subroutine<span class="sw sw-event"></span>event handler<span class="sw sw-error"></span>error handling
+</div>
+<div class=graphwrap style="height:min(78vh,606px)">
+<div class=zoomctl><button id=zin title="Zoom in">+</button><button id=zout title="Zoom out">&minus;</button><button id=zfit title="Show all">&#8634;</button></div>
+<svg id=cg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 596" preserveAspectRatio="xMidYMin meet" role=img aria-label="Call structure">
+<defs><marker id=ah viewBox="0 0 10 10" refX=10 refY=5 markerWidth=7 markerHeight=7 orient=auto><path class=ahf d="M0,0 L10,5 L0,10 z"/></marker><marker id=ahb viewBox="0 0 10 10" refX=10 refY=5 markerWidth=7 markerHeight=7 orient=auto><path class=ahbf d="M0,0 L10,5 L0,10 z"/></marker></defs>
+<g id=vp>
+<path class="e" data-from="0" data-to="2" d="M204,273 C508,273 508,221 812,221"/>
+<path class="e" data-from="0" data-to="3" d="M204,273 C640,273 640,247 1076,247"/>
+<path class="e" data-from="0" data-to="4" d="M204,273 C376,273 376,39 548,39"/>
+<path class="e" data-from="0" data-to="5" d="M204,273 C244,273 244,143 284,143"/>
+<path class="e" data-from="0" data-to="6" d="M204,273 C376,273 376,91 548,91"/>
+<path class="e" data-from="0" data-to="7" d="M204,273 C244,273 244,195 284,195"/>
+<path class="e" data-from="0" data-to="8" d="M204,273 C244,273 244,247 284,247"/>
+<path class="e" data-from="0" data-to="9" d="M204,273 C244,273 244,403 284,403"/>
+<path class="e" data-from="0" data-to="13" d="M204,273 C376,273 376,351 548,351"/>
+<path class="e" data-from="0" data-to="14" d="M204,273 C376,273 376,403 548,403"/>
+<path class="e" data-from="0" data-to="18" d="M204,273 C244,273 244,299 284,299"/>
+<path class="e" data-from="0" data-to="22" d="M204,273 C376,273 376,247 548,247"/>
+<path class="e cb" data-from="0" data-to="23" d="M204,273 C244,273 244,351 284,351"/>
+<path class="e" data-from="1" data-to="3" d="M996,169 C1036,169 1036,247 1076,247"/>
+<path class="e" data-from="2" data-to="3" d="M996,221 C1036,221 1036,247 1076,247"/>
+<path class="e" data-from="7" data-to="6" d="M468,195 C508,195 508,91 548,91"/>
+<path class="e" data-from="7" data-to="20" d="M468,195 C640,195 640,325 812,325"/>
+<path class="e" data-from="8" data-to="1" d="M468,247 C640,247 640,169 812,169"/>
+<path class="e" data-from="8" data-to="2" d="M468,247 C640,247 640,221 812,221"/>
+<path class="e" data-from="8" data-to="3" d="M468,247 C772,247 772,247 1076,247"/>
+<path class="e" data-from="8" data-to="4" d="M468,247 C508,247 508,39 548,39"/>
+<path class="e" data-from="8" data-to="6" d="M468,247 C508,247 508,91 548,91"/>
+<path class="e" data-from="8" data-to="11" d="M468,247 C640,247 640,273 812,273"/>
+<path class="e" data-from="8" data-to="12" d="M468,247 C508,247 508,455 548,455"/>
+<path class="e" data-from="8" data-to="13" d="M468,247 C508,247 508,351 548,351"/>
+<path class="e" data-from="8" data-to="14" d="M468,247 C508,247 508,403 548,403"/>
+<path class="e" data-from="8" data-to="15" d="M468,247 C508,247 508,143 548,143"/>
+<path class="e" data-from="8" data-to="16" d="M468,247 C508,247 508,195 548,195"/>
+<path class="e" data-from="8" data-to="17" d="M468,247 C508,247 508,299 548,299"/>
+<path class="e" data-from="8" data-to="20" d="M468,247 C640,247 640,325 812,325"/>
+<path class="e" data-from="8" data-to="21" d="M468,247 C772,247 772,299 1076,299"/>
+<path class="e" data-from="8" data-to="22" d="M468,247 C508,247 508,247 548,247"/>
+<path class="e" data-from="9" data-to="10" d="M468,403 C508,403 508,507 548,507"/>
+<path class="e" data-from="9" data-to="11" d="M468,403 C640,403 640,273 812,273"/>
+<path class="e" data-from="13" data-to="11" d="M732,351 C772,351 772,273 812,273"/>
+<path class="e" data-from="15" data-to="21" d="M732,143 C904,143 904,299 1076,299"/>
+<path class="e" data-from="16" data-to="21" d="M732,195 C904,195 904,299 1076,299"/>
+<path class="e" data-from="17" data-to="1" d="M732,299 C772,299 772,169 812,169"/>
+<path class="e" data-from="17" data-to="2" d="M732,299 C772,299 772,221 812,221"/>
+<path class="e" data-from="17" data-to="19" d="M732,299 C772,299 772,377 812,377"/>
+<path class="e" data-from="17" data-to="20" d="M732,299 C772,299 772,325 812,325"/>
+<path class="e" data-from="17" data-to="21" d="M732,299 C904,299 904,299 1076,299"/>
+<path class="e" data-from="20" data-to="21" d="M996,325 C1036,325 1036,299 1076,299"/>
+<path class="e" data-from="22" data-to="21" d="M732,247 C904,247 904,299 1076,299"/>
+<a href="#R10"><g class="n k-main rt" data-id="0"><title>10 Main program (main program, 31 lines)</title><rect x="20" y="254" width="184" height="38" rx="5"/><text x="29" y="269"><tspan class=nn>10</tspan><tspan class=nk dx="6">main program</tspan></text><text x="29" y="284">Sprite Designer 0.4</text></g></a>
+<a href="#R800"><g class="n k-sub" data-id="1"><title>800 Zandloper aan (dubbel aanroepen is veilig) (subroutine, 2 lines)</title><rect x="812" y="150" width="184" height="38" rx="5"/><text x="821" y="165"><tspan class=nn>800</tspan><tspan class=nk dx="6">subroutine</tspan></text><text x="821" y="180">Zandloper aan (dubbel a&#8230;</text></g></a>
+<a href="#R850"><g class="n k-sub" data-id="2"><title>850 Zandloper uit (subroutine, 2 lines)</title><rect x="812" y="202" width="184" height="38" rx="5"/><text x="821" y="217"><tspan class=nn>850</tspan><tspan class=nk dx="6">subroutine</tspan></text><text x="821" y="232">Zandloper uit</text></g></a>
+<a href="#R990"><g class="n k-sub" data-id="3"><title>990 Cursor tekenen (eigen kleuren, GC blijft ongemoeid) (subroutine, 4 lines)</title><rect x="1076" y="228" width="184" height="38" rx="5"/><text x="1085" y="243"><tspan class=nn>990</tspan><tspan class=nk dx="6">subroutine</tspan></text><text x="1085" y="258">Cursor tekenen (eigen k&#8230;</text></g></a>
+<a href="#R1000"><g class="n k-sub" data-id="4"><title>1000 Titel (subroutine, 3 lines)</title><rect x="548" y="20" width="184" height="38" rx="5"/><text x="557" y="35"><tspan class=nn>1000</tspan><tspan class=nk dx="6">subroutine</tspan></text><text x="557" y="50">Titel</text></g></a>
+<a href="#R1500"><g class="n k-sub" data-id="5"><title>1500 Potlood (subroutine, 10 lines)</title><rect x="284" y="124" width="184" height="38" rx="5"/><text x="293" y="139"><tspan class=nn>1500</tspan><tspan class=nk dx="6">subroutine</tspan></text><text x="293" y="154">Potlood</text></g></a>
+<a href="#R3000"><g class="n k-sub" data-id="6"><title>3000 Raster tekenen: rasterlijnen in een keer, daarna alleen gevulde vakjes (subroutine, 8 lines)</title><rect x="548" y="72" width="184" height="38" rx="5"/><text x="557" y="87"><tspan class=nn>3000</tspan><tspan class=nk dx="6">subroutine</tspan></text><text x="557" y="102">Raster tekenen: rasterl&#8230;</text></g></a>
+<a href="#R5000"><g class="n k-sub" data-id="7"><title>5000 Programma stoppen (QT=1 als het echt mag) (subroutine, 2 lines)</title><rect x="284" y="176" width="184" height="38" rx="5"/><text x="293" y="191"><tspan class=nn>5000</tspan><tspan class=nk dx="6">subroutine</tspan></text><text x="293" y="206">Programma stoppen (QT=1&#8230;</text></g></a>
+<a href="#R6000"><g class="n k-sub" data-id="8"><title>6000 Klik afhandelen: kleurslots, palet en knoppen (subroutine, 101 lines)</title><rect x="284" y="228" width="184" height="38" rx="5"/><text x="293" y="243"><tspan class=nn>6000</tspan><tspan class=nk dx="6">subroutine</tspan></text><text x="293" y="258">Klik afhandelen: kleurs&#8230;</text></g></a>
+<a href="#R6200"><g class="n k-sub" data-id="9"><title>6200 Vakje in het raster tekenen of gummen (subroutine, 9 lines)</title><rect x="284" y="384" width="184" height="38" rx="5"/><text x="293" y="399"><tspan class=nn>6200</tspan><tspan class=nk dx="6">subroutine</tspan></text><text x="293" y="414">Vakje in het raster tek&#8230;</text></g></a>
+<a href="#R8400"><g class="n k-sub" data-id="10"><title>8400 Een vakje (DX,DY) opnieuw tekenen (subroutine, 3 lines)</title><rect x="548" y="488" width="184" height="38" rx="5"/><text x="557" y="503"><tspan class=nn>8400</tspan><tspan class=nk dx="6">subroutine</tspan></text><text x="557" y="518">Een vakje (DX,DY) opnie&#8230;</text></g></a>
+<a href="#R8600"><g class="n k-sub" data-id="11"><title>8600 Patroonbyte van rij DY (linker of rechter helft) bijwerken voor alle lagen (subroutine, 5 lines)
+PT$(m) = 32 bytes: 1-16 linkerkolom, 17-32 rechterkolom (MSX-volgorde)</title><rect x="812" y="254" width="184" height="38" rx="5"/><text x="821" y="269"><tspan class=nn>8600</tspan><tspan class=nk dx="6">subroutine</tspan></text><text x="821" y="284">Patroonbyte van rij DY&#8230;</text></g></a>
+<a href="#R8700"><g class="n k-sub" data-id="12"><title>8700 Preview tonen (subroutine, 3 lines)</title><rect x="548" y="436" width="184" height="38" rx="5"/><text x="557" y="451"><tspan class=nn>8700</tspan><tspan class=nk dx="6">subroutine</tspan></text><text x="557" y="466">Preview tonen</text></g></a>
+<a href="#R8800"><g class="n k-sub" data-id="13"><title>8800 Alle patronen opnieuw opbouwen (laden, grootte, nieuw) (subroutine, 6 lines)</title><rect x="548" y="332" width="184" height="38" rx="5"/><text x="557" y="347"><tspan class=nn>8800</tspan><tspan class=nk dx="6">subroutine</tspan></text><text x="557" y="362">Alle patronen opnieuw o&#8230;</text></g></a>
+<a href="#R8900"><g class="n k-sub" data-id="14"><title>8900 Kleurslots tekenen, actief slot wit omrand (subroutine, 5 lines)</title><rect x="548" y="384" width="184" height="38" rx="5"/><text x="557" y="399"><tspan class=nn>8900</tspan><tspan class=nk dx="6">subroutine</tspan></text><text x="557" y="414">Kleurslots tekenen, act&#8230;</text></g></a>
+<a href="#R14000"><g class="n k-sub" data-id="15"><title>14000 Kleuren in de sprite zoeken en in slot 1-3 zetten (subroutine, 14 lines)</title><rect x="548" y="124" width="184" height="38" rx="5"/><text x="557" y="139"><tspan class=nn>14000</tspan><tspan class=nk dx="6">subroutine</tspan></text><text x="557" y="154">Kleuren in de sprite zo&#8230;</text></g></a>
+<a href="#R15000"><g class="n k-sub" data-id="16"><title>15000 Bestandsnaam invoeren (A-Z, 0-9, - en _) (subroutine, 15 lines)</title><rect x="548" y="176" width="184" height="38" rx="5"/><text x="557" y="191"><tspan class=nn>15000</tspan><tspan class=nk dx="6">subroutine</tspan></text><text x="557" y="206">Bestandsnaam invoeren (&#8230;</text></g></a>
+<a href="#R16000"><g class="n k-sub" data-id="17"><title>16000 Openen dialoog (subroutine, 29 lines)</title><rect x="548" y="280" width="184" height="38" rx="5"/><text x="557" y="295"><tspan class=nn>16000</tspan><tspan class=nk dx="6">subroutine</tspan></text><text x="557" y="310">Openen dialoog</text></g></a>
+<a href="#R17900"><g class="n k-sub" data-id="18"><title>17900 Machinecode: BDOS zoek eerste (USR) / volgende (USR1) boven HIMEM (subroutine, 11 lines)
+Indeling: code BA!+0, FCB BA!+32, DTA BA!+80 (128 bytes)</title><rect x="284" y="280" width="184" height="38" rx="5"/><text x="293" y="295"><tspan class=nn>17900</tspan><tspan class=nk dx="6">subroutine</tspan></text><text x="293" y="310">Machinecode: BDOS zoek&#8230;</text></g></a>
+<a href="#R17930"><g class="n k-sub" data-id="19"><title>17930 FCB voor ????????.SPD opnieuw klaarzetten (subroutine, 4 lines)</title><rect x="812" y="358" width="184" height="38" rx="5"/><text x="821" y="373"><tspan class=nn>17930</tspan><tspan class=nk dx="6">subroutine</tspan></text><text x="821" y="388">FCB voor ????????.SPD o&#8230;</text></g></a>
+<a href="#R18000"><g class="n k-sub" data-id="20"><title>18000 Opslaan check (CN=1 als de gebruiker annuleert) (subroutine, 9 lines)</title><rect x="812" y="306" width="184" height="38" rx="5"/><text x="821" y="321"><tspan class=nn>18000</tspan><tspan class=nk dx="6">subroutine</tspan></text><text x="821" y="336">Opslaan check (CN=1 als&#8230;</text></g></a>
+<a href="#R19000"><g class="n k-sub" data-id="21"><title>19000 Toetsenbordbuffer leegmaken (subroutine, 2 lines)</title><rect x="1076" y="280" width="184" height="38" rx="5"/><text x="1085" y="295"><tspan class=nn>19000</tspan><tspan class=nk dx="6">subroutine</tspan></text><text x="1085" y="310">Toetsenbordbuffer leegm&#8230;</text></g></a>
+<a href="#R19100"><g class="n k-sub" data-id="22"><title>19100 Melding M1$/M2$ tonen en op een toets wachten (subroutine, 6 lines)</title><rect x="548" y="228" width="184" height="38" rx="5"/><text x="557" y="243"><tspan class=nn>19100</tspan><tspan class=nk dx="6">subroutine</tspan></text><text x="557" y="258">Melding M1$/M2$ tonen e&#8230;</text></g></a>
+<a href="#R30000"><g class="n k-error" data-id="23"><title>30000 Foutafhandeling: schijffouten netjes melden, programmeerfouten tonen (ON ERROR, 8 lines)</title><rect x="284" y="332" width="184" height="38" rx="5"/><text x="293" y="347"><tspan class=nn>30000</tspan><tspan class=nk dx="6">ON ERROR</tspan></text><text x="293" y="362">Foutafhandeling: schijf&#8230;</text></g></a>
+</g></svg></div>
+<details><summary class="loc">As a tree</summary>
+<ul class="tree">
+<li><a href="#R10"><code>10</code> Main program</a><ul>
+<li><a href="#R850"><code>850</code> Zandloper uit</a><ul>
+<li><a href="#R990"><code>990</code> Cursor tekenen (eigen kleuren, GC blijft ongemoeid)</a></li>
+</ul>
+</li>
+<li><a href="#R990"><code>990</code> Cursor tekenen (eigen kleuren, GC blijft ongemoeid)</a></li>
+<li><a href="#R1000"><code>1000</code> Titel</a></li>
+<li><a href="#R1500"><code>1500</code> Potlood</a></li>
+<li><a href="#R3000"><code>3000</code> Raster tekenen: rasterlijnen in een keer, daarna alleen gevulde vakjes</a></li>
+<li><a href="#R5000"><code>5000</code> Programma stoppen (QT=1 als het echt mag)</a><ul>
+<li><a href="#R3000"><code>3000</code> Raster tekenen: rasterlijnen in een keer, daarna alleen gevulde vakjes</a></li>
+<li><a href="#R18000"><code>18000</code> Opslaan check (CN=1 als de gebruiker annuleert)</a><ul>
+<li><a href="#R19000"><code>19000</code> Toetsenbordbuffer leegmaken</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#R6000"><code>6000</code> Klik afhandelen: kleurslots, palet en knoppen</a><ul>
+<li><a href="#R800"><code>800</code> Zandloper aan (dubbel aanroepen is veilig)</a><ul>
+<li><a href="#R990"><code>990</code> Cursor tekenen (eigen kleuren, GC blijft ongemoeid)</a></li>
+</ul>
+</li>
+<li><a href="#R850"><code>850</code> Zandloper uit</a> <span class=loc>(see above)</span></li>
+<li><a href="#R990"><code>990</code> Cursor tekenen (eigen kleuren, GC blijft ongemoeid)</a></li>
+<li><a href="#R1000"><code>1000</code> Titel</a></li>
+<li><a href="#R3000"><code>3000</code> Raster tekenen: rasterlijnen in een keer, daarna alleen gevulde vakjes</a></li>
+<li><a href="#R8600"><code>8600</code> Patroonbyte van rij DY (linker of rechter helft) bijwerken voor alle lagen</a></li>
+<li><a href="#R8700"><code>8700</code> Preview tonen</a></li>
+<li><a href="#R8800"><code>8800</code> Alle patronen opnieuw opbouwen (laden, grootte, nieuw)</a><ul>
+<li><a href="#R8600"><code>8600</code> Patroonbyte van rij DY (linker of rechter helft) bijwerken voor alle lagen</a></li>
+</ul>
+</li>
+<li><a href="#R8900"><code>8900</code> Kleurslots tekenen, actief slot wit omrand</a></li>
+<li><a href="#R14000"><code>14000</code> Kleuren in de sprite zoeken en in slot 1-3 zetten</a><ul>
+<li><a href="#R19000"><code>19000</code> Toetsenbordbuffer leegmaken</a></li>
+</ul>
+</li>
+<li><a href="#R15000"><code>15000</code> Bestandsnaam invoeren (A-Z, 0-9, - en _)</a><ul>
+<li><a href="#R19000"><code>19000</code> Toetsenbordbuffer leegmaken</a></li>
+</ul>
+</li>
+<li><a href="#R16000"><code>16000</code> Openen dialoog</a><ul>
+<li><a href="#R800"><code>800</code> Zandloper aan (dubbel aanroepen is veilig)</a> <span class=loc>(see above)</span></li>
+<li><a href="#R850"><code>850</code> Zandloper uit</a> <span class=loc>(see above)</span></li>
+<li><a href="#R17930"><code>17930</code> FCB voor ????????.SPD opnieuw klaarzetten</a></li>
+<li><a href="#R18000"><code>18000</code> Opslaan check (CN=1 als de gebruiker annuleert)</a> <span class=loc>(see above)</span></li>
+<li><a href="#R19000"><code>19000</code> Toetsenbordbuffer leegmaken</a></li>
+</ul>
+</li>
+<li><a href="#R18000"><code>18000</code> Opslaan check (CN=1 als de gebruiker annuleert)</a> <span class=loc>(see above)</span></li>
+<li><a href="#R19000"><code>19000</code> Toetsenbordbuffer leegmaken</a></li>
+<li><a href="#R19100"><code>19100</code> Melding M1$/M2$ tonen en op een toets wachten</a><ul>
+<li><a href="#R19000"><code>19000</code> Toetsenbordbuffer leegmaken</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#R6200"><code>6200</code> Vakje in het raster tekenen of gummen</a><ul>
+<li><a href="#R8400"><code>8400</code> Een vakje (DX,DY) opnieuw tekenen</a></li>
+<li><a href="#R8600"><code>8600</code> Patroonbyte van rij DY (linker of rechter helft) bijwerken voor alle lagen</a></li>
+</ul>
+</li>
+<li><a href="#R8800"><code>8800</code> Alle patronen opnieuw opbouwen (laden, grootte, nieuw)</a> <span class=loc>(see above)</span></li>
+<li><a href="#R8900"><code>8900</code> Kleurslots tekenen, actief slot wit omrand</a></li>
+<li><a href="#R17900"><code>17900</code> Machinecode: BDOS zoek eerste (USR) / volgende (USR1) boven HIMEM</a></li>
+<li><a href="#R19100"><code>19100</code> Melding M1$/M2$ tonen en op een toets wachten</a> <span class=loc>(see above)</span></li>
+<li><span class=tag>registers</span> <a href="#R30000"><code>30000</code> Foutafhandeling: schijffouten netjes melden, programmeerfouten tonen</a></li>
+</ul>
+</li>
+</ul></details>
+<h2 id="dead" style="margin-top:26px">Possibly unused code</h2>
+<div class="legend">In MSX-BASIC jump targets are always fixed line numbers, so the analysis within the program is complete.
+<br>Not seen: entry via <code>RUN line</code> or <code>GOTO</code> in direct mode, from another program (<code>RUN "X",R</code>, <code>MERGE</code>) or from machine code. Check that before you throw anything away.</div>
+<h3>Unreachable lines</h3>
+<p>No unreachable code found.</p>
+<h2 id="warn" style="margin-top:26px">Warnings</h2>
+<ul class="warn">
+<li>Line 30100: the main program can reach a RETURN here without a GOSUB (falling through into a subroutine?) <a href="#L30100">&rarr;</a></li>
+<li>Lines 850-860 belong to several routines: 850, 6000 <a href="#L850">&rarr;</a></li>
+<li>Lines 990-996 belong to several routines: 990, 6000 <a href="#L990">&rarr;</a></li>
+<li>Lines 3000-3070 belong to several routines: 3000, 6000 <a href="#L3000">&rarr;</a></li>
+<li>Lines 5000-5005 belong to several routines: 5000, 6000 <a href="#L5000">&rarr;</a></li>
+<li>Lines 8700-8720 belong to several routines: 6000, 6200, 8700, 8800 <a href="#L8700">&rarr;</a></li>
+<li>Lines 8800-8820 belong to several routines: 6000, 8800 <a href="#L8800">&rarr;</a></li>
+<li>Lines 8900-8960 belong to several routines: 6000, 8900 <a href="#L8900">&rarr;</a></li>
+<li>Lines 17930-17960 belong to several routines: 17900, 17930 <a href="#L17930">&rarr;</a></li>
+<li>Lines 19100-19150 belong to several routines: 14000, 16000, 19100 <a href="#L19100">&rarr;</a></li>
+</ul>
+<section class="part" id="overview">
+<h2>Program Sprite Designer 0.4</h2>
+<div class="loc">sprtxt.bas</div>
+<div class="brief">(c)2023-2026 Marcel &quot;SmartDuck&quot; Beekman</div>
+<div class="detail">3-clause BSD license</div>
+</section>
+<section class="part" id="R10">
+<h2>10 &middot; Main program<span class="tag">main program</span></h2>
+<div class="loc">sprtxt.bas:10 &middot; 31 lines: <a href="#L10">10</a>&ndash;<a href="#L190">190</a>, <a href="#L5010">5010</a>, <a href="#L30100">30100</a></div>
+<div class="brief">Start of the program and everything that follows from it without a GOSUB.</div>
+<div><b>Calls</b> <a href="#R850"><code>850</code> Zandloper uit</a>, <a href="#R990"><code>990</code> Cursor tekenen (eigen kleuren, GC blijft ongemoeid)</a>, <a href="#R1000"><code>1000</code> Titel</a>, <a href="#R1500"><code>1500</code> Potlood</a>, <a href="#R3000"><code>3000</code> Raster tekenen: rasterlijnen in een keer, daarna alleen gevulde vakjes</a>, <a href="#R5000"><code>5000</code> Programma stoppen (QT=1 als het echt mag)</a>, <a href="#R6000"><code>6000</code> Klik afhandelen: kleurslots, palet en knoppen</a>, <a href="#R6200"><code>6200</code> Vakje in het raster tekenen of gummen</a>, <a href="#R8800"><code>8800</code> Alle patronen opnieuw opbouwen (laden, grootte, nieuw)</a>, <a href="#R8900"><code>8900</code> Kleurslots tekenen, actief slot wit omrand</a>, <a href="#R17900"><code>17900</code> Machinecode: BDOS zoek eerste (USR) / volgende (USR1) boven HIMEM</a>, <a href="#R19100"><code>19100</code> Melding M1$/M2$ tonen en op een toets wachten</a></div>
+<div><b>Registers</b> <a href="#R30000"><code>30000</code> Foutafhandeling: schijffouten netjes melden, programmeerfouten tonen</a> <span class="tag">ON ERROR</span></div>
+<div><b>Ends via</b> <code>END/STOP</code> <a href="#L5010">5010</a>, <code>RETURN</code> <a href="#L30100">30100</a></div>
+<table><tr><th>Variable</th><th>Type</th><th>Usage</th></tr>
+<tr><td><a href="#V0"><code>HM!</code></a></td><td><code>single</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V1"><code>SP()</code></a></td><td><code>integer array</code></td><td>DIM</td></tr>
+<tr><td><a href="#V2"><code>N()</code></a></td><td><code>integer array</code></td><td>DIM, writes</td></tr>
+<tr><td><a href="#V3"><code>PT$()</code></a></td><td><code>string array</code></td><td>DIM</td></tr>
+<tr><td><a href="#V4"><code>FA$()</code></a></td><td><code>string array</code></td><td>DIM</td></tr>
+<tr><td><a href="#V5"><code>MX()</code></a></td><td><code>integer array</code></td><td>DIM, writes, reads</td></tr>
+<tr><td><a href="#V6"><code>MY()</code></a></td><td><code>integer array</code></td><td>DIM, writes, reads</td></tr>
+<tr><td><a href="#V7"><code>LI()</code></a></td><td><code>integer array</code></td><td>DIM</td></tr>
+<tr><td><a href="#V8"><code>SZ</code></a></td><td><code>integer</code></td><td>writes</td></tr>
+<tr><td><a href="#V9"><code>VK</code></a></td><td><code>integer</code></td><td>writes</td></tr>
+<tr><td><a href="#V10"><code>GC</code></a></td><td><code>integer</code></td><td>writes</td></tr>
+<tr><td><a href="#V11"><code>SV</code></a></td><td><code>integer</code></td><td>writes</td></tr>
+<tr><td><a href="#V12"><code>X</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V13"><code>Y</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V14"><code>SS</code></a></td><td><code>integer</code></td><td>writes</td></tr>
+<tr><td><a href="#V15"><code>PS</code></a></td><td><code>integer</code></td><td>writes</td></tr>
+<tr><td><a href="#V16"><code>MV</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V17"><code>TP</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V18"><code>QT</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V19"><code>I</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V20"><code>AS</code></a></td><td><code>integer</code></td><td>writes</td></tr>
+<tr><td><a href="#V21"><code>K$</code></a></td><td><code>string</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V22"><code>S</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+</table>
+</section>
+<section class="part" id="R800">
+<h2>800 &middot; Zandloper aan (dubbel aanroepen is veilig)<span class="tag">subroutine</span></h2>
+<div class="loc">sprtxt.bas:800 &middot; 2 lines: <a href="#L800">800</a>&ndash;<a href="#L810">810</a></div>
+<div><b>Calls</b> <a href="#R990"><code>990</code> Cursor tekenen (eigen kleuren, GC blijft ongemoeid)</a></div>
+<div><b>Called by</b> line <a href="#L9010">9010</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>), <a href="#L10010">10010</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>), <a href="#L11100">11100</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>), <a href="#L14840">14840</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>), <a href="#L16010">16010</a> (<a href="#R16000">Openen dialoog</a>)</div>
+<div><b>Ends via</b> <code>RETURN</code> <a href="#L810">810</a></div>
+<table><tr><th>Variable</th><th>Type</th><th>Usage</th></tr>
+<tr><td><a href="#V14"><code>SS</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V15"><code>PS</code></a></td><td><code>integer</code></td><td>writes</td></tr>
+</table>
+</section>
+<section class="part" id="R850">
+<h2>850 &middot; Zandloper uit<span class="tag">subroutine</span></h2>
+<div class="loc">sprtxt.bas:850 &middot; 2 lines: <a href="#L850">850</a>&ndash;<a href="#L860">860</a></div>
+<div><b>Calls</b> <a href="#R990"><code>990</code> Cursor tekenen (eigen kleuren, GC blijft ongemoeid)</a></div>
+<div><b>Called by</b> line <a href="#L9040">9040</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>), <a href="#L14980">14980</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>), <a href="#L16060">16060</a> (<a href="#R16000">Openen dialoog</a>), <a href="#L30100">30100</a> (<a href="#R10">Main program</a>)</div>
+<div><b>Ends via</b> <code>RETURN</code> <a href="#L860">860</a></div>
+<table><tr><th>Variable</th><th>Type</th><th>Usage</th></tr>
+<tr><td><a href="#V14"><code>SS</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V15"><code>PS</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+</table>
+</section>
+<section class="part" id="R990">
+<h2>990 &middot; Cursor tekenen (eigen kleuren, GC blijft ongemoeid)<span class="tag">subroutine</span></h2>
+<div class="loc">sprtxt.bas:990 &middot; 4 lines: <a href="#L990">990</a>&ndash;<a href="#L996">996</a></div>
+<div><b>Called by</b> line <a href="#L100">100</a> (<a href="#R10">Main program</a>), <a href="#L155">155</a> (<a href="#R10">Main program</a>), <a href="#L800">800</a> (<a href="#R800">Zandloper aan (dubbel aanroepen is veilig)</a>), <a href="#L850">850</a> (<a href="#R850">Zandloper uit</a>, <a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>)</div>
+<div><b>Ends via</b> <code>RETURN</code> <a href="#L996">996</a></div>
+<table><tr><th>Variable</th><th>Type</th><th>Usage</th></tr>
+<tr><td><a href="#V10"><code>GC</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V12"><code>X</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V13"><code>Y</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V14"><code>SS</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V23"><code>CA</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V24"><code>CB</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+</table>
+</section>
+<section class="part" id="R1000">
+<h2>1000 &middot; Titel<span class="tag">subroutine</span></h2>
+<div class="loc">sprtxt.bas:1000 &middot; 3 lines: <a href="#L1000">1000</a>&ndash;<a href="#L1020">1020</a></div>
+<div><b>Called by</b> line <a href="#L100">100</a> (<a href="#R10">Main program</a>), <a href="#L20070">20070</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>)</div>
+<div><b>Ends via</b> <code>RETURN</code> <a href="#L1020">1020</a></div>
+<table><tr><th>Variable</th><th>Type</th><th>Usage</th></tr>
+<tr><td><a href="#V22"><code>S</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V25"><code>BF</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+</table>
+</section>
+<section class="part" id="R1500">
+<h2>1500 &middot; Potlood<span class="tag">subroutine</span></h2>
+<div class="loc">sprtxt.bas:1500 &middot; 10 lines: <a href="#L1500">1500</a>&ndash;<a href="#L1600">1600</a></div>
+<div><b>Called by</b> line <a href="#L100">100</a> (<a href="#R10">Main program</a>)</div>
+<div><b>Ends via</b> <code>RETURN</code> <a href="#L1600">1600</a></div>
+</section>
+<section class="part" id="R3000">
+<h2>3000 &middot; Raster tekenen: rasterlijnen in een keer, daarna alleen gevulde vakjes<span class="tag">subroutine</span></h2>
+<div class="loc">sprtxt.bas:3000 &middot; 8 lines: <a href="#L3000">3000</a>&ndash;<a href="#L3070">3070</a></div>
+<div><b>Called by</b> line <a href="#L100">100</a> (<a href="#R10">Main program</a>), <a href="#L5000">5000</a> (<a href="#R5000">Programma stoppen (QT=1 als het echt mag)</a>, <a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>), <a href="#L7000">7000</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>), <a href="#L7020">7020</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>), <a href="#L8070">8070</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>), <a href="#L9000">9000</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>), <a href="#L10000">10000</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>), <a href="#L10090">10090</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>), <a href="#L11100">11100</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>), <a href="#L14800">14800</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>), <a href="#L20070">20070</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>), <a href="#L30100">30100</a> (<a href="#R10">Main program</a>)</div>
+<div><b>Ends via</b> <code>RETURN</code> <a href="#L3070">3070</a></div>
+<table><tr><th>Variable</th><th>Type</th><th>Usage</th></tr>
+<tr><td><a href="#V1"><code>SP()</code></a></td><td><code>integer array</code></td><td>reads</td></tr>
+<tr><td><a href="#V8"><code>SZ</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V19"><code>I</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V25"><code>BF</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V26"><code>E</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V27"><code>W</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V28"><code>L</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V29"><code>J</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V30"><code>C</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+</table>
+</section>
+<section class="part" id="R5000">
+<h2>5000 &middot; Programma stoppen (QT=1 als het echt mag)<span class="tag">subroutine</span></h2>
+<div class="loc">sprtxt.bas:5000 &middot; 2 lines: <a href="#L5000">5000</a>&ndash;<a href="#L5005">5005</a></div>
+<div><b>Calls</b> <a href="#R3000"><code>3000</code> Raster tekenen: rasterlijnen in een keer, daarna alleen gevulde vakjes</a>, <a href="#R18000"><code>18000</code> Opslaan check (CN=1 als de gebruiker annuleert)</a></div>
+<div><b>Called by</b> line <a href="#L120">120</a> (<a href="#R10">Main program</a>)</div>
+<div><b>Ends via</b> <code>RETURN</code> <a href="#L5000">5000</a>, <code>RETURN</code> <a href="#L5005">5005</a></div>
+<table><tr><th>Variable</th><th>Type</th><th>Usage</th></tr>
+<tr><td><a href="#V18"><code>QT</code></a></td><td><code>integer</code></td><td>writes</td></tr>
+<tr><td><a href="#V31"><code>CN</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+</table>
+</section>
+<section class="part" id="R6000">
+<h2>6000 &middot; Klik afhandelen: kleurslots, palet en knoppen<span class="tag">subroutine</span></h2>
+<div class="loc">sprtxt.bas:6000 &middot; 101 lines: <a href="#L850">850</a>&ndash;<a href="#L860">860</a>, <a href="#L990">990</a>&ndash;<a href="#L996">996</a>, <a href="#L3000">3000</a>&ndash;<a href="#L3070">3070</a>, <a href="#L5000">5000</a>&ndash;<a href="#L5005">5005</a>, <a href="#L6000">6000</a>&ndash;<a href="#L6050">6050</a>, <a href="#L6100">6100</a>&ndash;<a href="#L6140">6140</a>, <a href="#L7000">7000</a>&ndash;<a href="#L7020">7020</a>, <a href="#L8000">8000</a>&ndash;<a href="#L8085">8085</a>, <a href="#L8100">8100</a>&ndash;<a href="#L8110">8110</a>, <a href="#L8700">8700</a>&ndash;<a href="#L8720">8720</a>, <a href="#L8800">8800</a>&ndash;<a href="#L8820">8820</a>, <a href="#L8900">8900</a>&ndash;<a href="#L8960">8960</a>, <a href="#L9000">9000</a>&ndash;<a href="#L9050">9050</a>, <a href="#L10000">10000</a>&ndash;<a href="#L10090">10090</a>, <a href="#L11000">11000</a>&ndash;<a href="#L11100">11100</a>, <a href="#L12000">12000</a>&ndash;<a href="#L12010">12010</a>, <a href="#L14800">14800</a>&ndash;<a href="#L14990">14990</a>, <a href="#L20000">20000</a>&ndash;<a href="#L20070">20070</a></div>
+<div><b>Calls</b> <a href="#R800"><code>800</code> Zandloper aan (dubbel aanroepen is veilig)</a>, <a href="#R850"><code>850</code> Zandloper uit</a>, <a href="#R990"><code>990</code> Cursor tekenen (eigen kleuren, GC blijft ongemoeid)</a>, <a href="#R1000"><code>1000</code> Titel</a>, <a href="#R3000"><code>3000</code> Raster tekenen: rasterlijnen in een keer, daarna alleen gevulde vakjes</a>, <a href="#R8600"><code>8600</code> Patroonbyte van rij DY (linker of rechter helft) bijwerken voor alle lagen</a>, <a href="#R8700"><code>8700</code> Preview tonen</a>, <a href="#R8800"><code>8800</code> Alle patronen opnieuw opbouwen (laden, grootte, nieuw)</a>, <a href="#R8900"><code>8900</code> Kleurslots tekenen, actief slot wit omrand</a>, <a href="#R14000"><code>14000</code> Kleuren in de sprite zoeken en in slot 1-3 zetten</a>, <a href="#R15000"><code>15000</code> Bestandsnaam invoeren (A-Z, 0-9, - en _)</a>, <a href="#R16000"><code>16000</code> Openen dialoog</a>, <a href="#R18000"><code>18000</code> Opslaan check (CN=1 als de gebruiker annuleert)</a>, <a href="#R19000"><code>19000</code> Toetsenbordbuffer leegmaken</a>, <a href="#R19100"><code>19100</code> Melding M1$/M2$ tonen en op een toets wachten</a></div>
+<div><b>Called by</b> line <a href="#L180">180</a> (<a href="#R10">Main program</a>)</div>
+<div><b>Ends via</b> <code>RETURN</code> <a href="#L860">860</a>, <code>RETURN</code> <a href="#L996">996</a>, <code>RETURN</code> <a href="#L3070">3070</a>, <code>RETURN</code> <a href="#L5000">5000</a>, <code>RETURN</code> <a href="#L5005">5005</a>, <code>RETURN</code> <a href="#L6000">6000</a>, <code>RETURN</code> <a href="#L6020">6020</a>, <code>RETURN</code> <a href="#L6050">6050</a>, <code>RETURN</code> <a href="#L6100">6100</a>, <code>RETURN</code> <a href="#L6120">6120</a>, <code>RETURN</code> <a href="#L7000">7000</a>, <code>RETURN</code> <a href="#L8010">8010</a>, <code>RETURN</code> <a href="#L8030">8030</a>, <code>RETURN</code> <a href="#L8720">8720</a>, <code>RETURN</code> <a href="#L8960">8960</a>, <code>RETURN</code> <a href="#L9000">9000</a>, <code>RETURN</code> <a href="#L10000">10000</a>, <code>RETURN</code> <a href="#L11000">11000</a>, <code>RETURN</code> <a href="#L12000">12000</a>, <code>RETURN</code> <a href="#L14800">14800</a></div>
+<table><tr><th>Variable</th><th>Type</th><th>Usage</th></tr>
+<tr><td><a href="#V1"><code>SP()</code></a></td><td><code>integer array</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V2"><code>N()</code></a></td><td><code>integer array</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V3"><code>PT$()</code></a></td><td><code>string array</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V7"><code>LI()</code></a></td><td><code>integer array</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V8"><code>SZ</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V9"><code>VK</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V10"><code>GC</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V11"><code>SV</code></a></td><td><code>integer</code></td><td>writes</td></tr>
+<tr><td><a href="#V12"><code>X</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V13"><code>Y</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V14"><code>SS</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V15"><code>PS</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V18"><code>QT</code></a></td><td><code>integer</code></td><td>writes</td></tr>
+<tr><td><a href="#V19"><code>I</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V20"><code>AS</code></a></td><td><code>integer</code></td><td>writes</td></tr>
+<tr><td><a href="#V22"><code>S</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V23"><code>CA</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V24"><code>CB</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V25"><code>BF</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V26"><code>E</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V27"><code>W</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V28"><code>L</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V29"><code>J</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V30"><code>C</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V31"><code>CN</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V32"><code>DX</code></a></td><td><code>integer</code></td><td>writes</td></tr>
+<tr><td><a href="#V33"><code>DY</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V34"><code>F</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V35"><code>M</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V36"><code>O</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V37"><code>RC</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V41"><code>B</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V42"><code>F$</code></a></td><td><code>string</code></td><td>reads</td></tr>
+<tr><td><a href="#V43"><code>S$</code></a></td><td><code>string</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V44"><code>M1$</code></a></td><td><code>string</code></td><td>writes</td></tr>
+<tr><td><a href="#V45"><code>M2$</code></a></td><td><code>string</code></td><td>writes</td></tr>
+<tr><td><a href="#V46"><code>A$</code></a></td><td><code>string</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V47"><code>K</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V49"><code>NL</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V50"><code>Q$</code></a></td><td><code>string</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V51"><code>NB</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V52"><code>R</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V53"><code>H$</code></a></td><td><code>string</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V63"><code>H</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V64"><code>HX</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V65"><code>HY</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+</table>
+</section>
+<section class="part" id="R6200">
+<h2>6200 &middot; Vakje in het raster tekenen of gummen<span class="tag">subroutine</span></h2>
+<div class="loc">sprtxt.bas:6200 &middot; 9 lines: <a href="#L6200">6200</a>&ndash;<a href="#L6250">6250</a>, <a href="#L8700">8700</a>&ndash;<a href="#L8720">8720</a></div>
+<div><b>Calls</b> <a href="#R8400"><code>8400</code> Een vakje (DX,DY) opnieuw tekenen</a>, <a href="#R8600"><code>8600</code> Patroonbyte van rij DY (linker of rechter helft) bijwerken voor alle lagen</a></div>
+<div><b>Called by</b> line <a href="#L170">170</a> (<a href="#R10">Main program</a>)</div>
+<div><b>Ends via</b> <code>RETURN</code> <a href="#L6210">6210</a>, <code>RETURN</code> <a href="#L6230">6230</a>, <code>RETURN</code> <a href="#L8720">8720</a></div>
+<table><tr><th>Variable</th><th>Type</th><th>Usage</th></tr>
+<tr><td><a href="#V1"><code>SP()</code></a></td><td><code>integer array</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V2"><code>N()</code></a></td><td><code>integer array</code></td><td>reads</td></tr>
+<tr><td><a href="#V3"><code>PT$()</code></a></td><td><code>string array</code></td><td>reads</td></tr>
+<tr><td><a href="#V8"><code>SZ</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V10"><code>GC</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V11"><code>SV</code></a></td><td><code>integer</code></td><td>writes</td></tr>
+<tr><td><a href="#V12"><code>X</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V13"><code>Y</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V14"><code>SS</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V30"><code>C</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V32"><code>DX</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V33"><code>DY</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V35"><code>M</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+</table>
+</section>
+<section class="part" id="R8400">
+<h2>8400 &middot; Een vakje (DX,DY) opnieuw tekenen<span class="tag">subroutine</span></h2>
+<div class="loc">sprtxt.bas:8400 &middot; 3 lines: <a href="#L8400">8400</a>&ndash;<a href="#L8420">8420</a></div>
+<div><b>Called by</b> line <a href="#L6250">6250</a> (<a href="#R6200">Vakje in het raster tekenen of gummen</a>)</div>
+<div><b>Ends via</b> <code>RETURN</code> <a href="#L8410">8410</a>, <code>RETURN</code> <a href="#L8420">8420</a></div>
+<table><tr><th>Variable</th><th>Type</th><th>Usage</th></tr>
+<tr><td><a href="#V1"><code>SP()</code></a></td><td><code>integer array</code></td><td>reads</td></tr>
+<tr><td><a href="#V25"><code>BF</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V27"><code>W</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V28"><code>L</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V30"><code>C</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V32"><code>DX</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V33"><code>DY</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+</table>
+</section>
+<section class="part" id="R8600">
+<h2>8600 &middot; Patroonbyte van rij DY (linker of rechter helft) bijwerken voor alle lagen<span class="tag">subroutine</span></h2>
+<div class="loc">sprtxt.bas:8600 &middot; 5 lines: <a href="#L8600">8600</a>&ndash;<a href="#L8640">8640</a></div>
+<div class="brief">PT$(m) = 32 bytes: 1-16 linkerkolom, 17-32 rechterkolom (MSX-volgorde)</div>
+<div><b>Called by</b> line <a href="#L6250">6250</a> (<a href="#R6200">Vakje in het raster tekenen of gummen</a>), <a href="#L8810">8810</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>, <a href="#R8800">Alle patronen opnieuw opbouwen (laden, grootte, nieuw)</a>)</div>
+<div><b>Ends via</b> <code>RETURN</code> <a href="#L8640">8640</a></div>
+<table><tr><th>Variable</th><th>Type</th><th>Usage</th></tr>
+<tr><td><a href="#V1"><code>SP()</code></a></td><td><code>integer array</code></td><td>reads</td></tr>
+<tr><td><a href="#V2"><code>N()</code></a></td><td><code>integer array</code></td><td>reads</td></tr>
+<tr><td><a href="#V3"><code>PT$()</code></a></td><td><code>string array</code></td><td>reads</td></tr>
+<tr><td><a href="#V29"><code>J</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V30"><code>C</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V32"><code>DX</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V33"><code>DY</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V35"><code>M</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V38"><code>J0</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V39"><code>PX</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V40"><code>V</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+</table>
+</section>
+<section class="part" id="R8700">
+<h2>8700 &middot; Preview tonen<span class="tag">subroutine</span></h2>
+<div class="loc">sprtxt.bas:8700 &middot; 3 lines: <a href="#L8700">8700</a>&ndash;<a href="#L8720">8720</a></div>
+<div><b>Called by</b> line <a href="#L8080">8080</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>), <a href="#L20070">20070</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>)</div>
+<div><b>Ends via</b> <code>RETURN</code> <a href="#L8720">8720</a></div>
+<table><tr><th>Variable</th><th>Type</th><th>Usage</th></tr>
+<tr><td><a href="#V2"><code>N()</code></a></td><td><code>integer array</code></td><td>reads</td></tr>
+<tr><td><a href="#V3"><code>PT$()</code></a></td><td><code>string array</code></td><td>reads</td></tr>
+<tr><td><a href="#V35"><code>M</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+</table>
+</section>
+<section class="part" id="R8800">
+<h2>8800 &middot; Alle patronen opnieuw opbouwen (laden, grootte, nieuw)<span class="tag">subroutine</span></h2>
+<div class="loc">sprtxt.bas:8800 &middot; 6 lines: <a href="#L8700">8700</a>&ndash;<a href="#L8720">8720</a>, <a href="#L8800">8800</a>&ndash;<a href="#L8820">8820</a></div>
+<div><b>Calls</b> <a href="#R8600"><code>8600</code> Patroonbyte van rij DY (linker of rechter helft) bijwerken voor alle lagen</a></div>
+<div><b>Called by</b> line <a href="#L100">100</a> (<a href="#R10">Main program</a>), <a href="#L8080">8080</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>), <a href="#L10090">10090</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>), <a href="#L11100">11100</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>)</div>
+<div><b>Ends via</b> <code>RETURN</code> <a href="#L8720">8720</a></div>
+<table><tr><th>Variable</th><th>Type</th><th>Usage</th></tr>
+<tr><td><a href="#V2"><code>N()</code></a></td><td><code>integer array</code></td><td>reads</td></tr>
+<tr><td><a href="#V3"><code>PT$()</code></a></td><td><code>string array</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V8"><code>SZ</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V32"><code>DX</code></a></td><td><code>integer</code></td><td>writes</td></tr>
+<tr><td><a href="#V33"><code>DY</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V35"><code>M</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+</table>
+</section>
+<section class="part" id="R8900">
+<h2>8900 &middot; Kleurslots tekenen, actief slot wit omrand<span class="tag">subroutine</span></h2>
+<div class="loc">sprtxt.bas:8900 &middot; 5 lines: <a href="#L8900">8900</a>&ndash;<a href="#L8960">8960</a></div>
+<div><b>Called by</b> line <a href="#L100">100</a> (<a href="#R10">Main program</a>), <a href="#L8080">8080</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>), <a href="#L8110">8110</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>), <a href="#L10090">10090</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>), <a href="#L20070">20070</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>)</div>
+<div><b>Ends via</b> <code>RETURN</code> <a href="#L8960">8960</a></div>
+<table><tr><th>Variable</th><th>Type</th><th>Usage</th></tr>
+<tr><td><a href="#V2"><code>N()</code></a></td><td><code>integer array</code></td><td>reads</td></tr>
+<tr><td><a href="#V9"><code>VK</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V25"><code>BF</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V28"><code>L</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V35"><code>M</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V41"><code>B</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+</table>
+</section>
+<section class="part" id="R14000">
+<h2>14000 &middot; Kleuren in de sprite zoeken en in slot 1-3 zetten<span class="tag">subroutine</span></h2>
+<div class="loc">sprtxt.bas:14000 &middot; 14 lines: <a href="#L14000">14000</a>&ndash;<a href="#L14070">14070</a>, <a href="#L19100">19100</a>&ndash;<a href="#L19150">19150</a></div>
+<div><b>Calls</b> <a href="#R19000"><code>19000</code> Toetsenbordbuffer leegmaken</a></div>
+<div><b>Called by</b> line <a href="#L10080">10080</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>)</div>
+<div><b>Ends via</b> <code>RETURN</code> <a href="#L14060">14060</a>, <code>RETURN</code> <a href="#L19150">19150</a></div>
+<table><tr><th>Variable</th><th>Type</th><th>Usage</th></tr>
+<tr><td><a href="#V1"><code>SP()</code></a></td><td><code>integer array</code></td><td>reads</td></tr>
+<tr><td><a href="#V2"><code>N()</code></a></td><td><code>integer array</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V9"><code>VK</code></a></td><td><code>integer</code></td><td>writes</td></tr>
+<tr><td><a href="#V10"><code>GC</code></a></td><td><code>integer</code></td><td>writes</td></tr>
+<tr><td><a href="#V19"><code>I</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V25"><code>BF</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V29"><code>J</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V30"><code>C</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V41"><code>B</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V44"><code>M1$</code></a></td><td><code>string</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V45"><code>M2$</code></a></td><td><code>string</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V47"><code>K</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V48"><code>XC</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+</table>
+</section>
+<section class="part" id="R15000">
+<h2>15000 &middot; Bestandsnaam invoeren (A-Z, 0-9, - en _)<span class="tag">subroutine</span></h2>
+<div class="loc">sprtxt.bas:15000 &middot; 15 lines: <a href="#L15000">15000</a>&ndash;<a href="#L15130">15130</a></div>
+<div><b>Calls</b> <a href="#R19000"><code>19000</code> Toetsenbordbuffer leegmaken</a></div>
+<div><b>Called by</b> line <a href="#L9000">9000</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>), <a href="#L14800">14800</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>)</div>
+<div><b>Ends via</b> <code>RETURN</code> <a href="#L15080">15080</a>, <code>RETURN</code> <a href="#L15090">15090</a></div>
+<table><tr><th>Variable</th><th>Type</th><th>Usage</th></tr>
+<tr><td><a href="#V21"><code>K$</code></a></td><td><code>string</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V25"><code>BF</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V41"><code>B</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V42"><code>F$</code></a></td><td><code>string</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V54"><code>A</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+</table>
+</section>
+<section class="part" id="R16000">
+<h2>16000 &middot; Openen dialoog<span class="tag">subroutine</span></h2>
+<div class="loc">sprtxt.bas:16000 &middot; 29 lines: <a href="#L16000">16000</a>&ndash;<a href="#L16250">16250</a>, <a href="#L19100">19100</a>&ndash;<a href="#L19150">19150</a></div>
+<div><b>Calls</b> <a href="#R800"><code>800</code> Zandloper aan (dubbel aanroepen is veilig)</a>, <a href="#R850"><code>850</code> Zandloper uit</a>, <a href="#R17930"><code>17930</code> FCB voor ????????.SPD opnieuw klaarzetten</a>, <a href="#R18000"><code>18000</code> Opslaan check (CN=1 als de gebruiker annuleert)</a>, <a href="#R19000"><code>19000</code> Toetsenbordbuffer leegmaken</a></div>
+<div><b>Called by</b> line <a href="#L10000">10000</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>)</div>
+<div><b>Ends via</b> <code>RETURN</code> <a href="#L16000">16000</a>, <code>RETURN</code> <a href="#L16210">16210</a>, <code>RETURN</code> <a href="#L16220">16220</a>, <code>RETURN</code> <a href="#L19150">19150</a></div>
+<table><tr><th>Variable</th><th>Type</th><th>Usage</th></tr>
+<tr><td><a href="#V4"><code>FA$()</code></a></td><td><code>string array</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V19"><code>I</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V21"><code>K$</code></a></td><td><code>string</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V25"><code>BF</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V30"><code>C</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V31"><code>CN</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V41"><code>B</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V42"><code>F$</code></a></td><td><code>string</code></td><td>writes</td></tr>
+<tr><td><a href="#V44"><code>M1$</code></a></td><td><code>string</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V45"><code>M2$</code></a></td><td><code>string</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V46"><code>A$</code></a></td><td><code>string</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V55"><code>FC</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V56"><code>DT!</code></a></td><td><code>single</code></td><td>reads</td></tr>
+<tr><td><a href="#V57"><code>P</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V58"><code>U</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+</table>
+</section>
+<section class="part" id="R17900">
+<h2>17900 &middot; Machinecode: BDOS zoek eerste (USR) / volgende (USR1) boven HIMEM<span class="tag">subroutine</span></h2>
+<div class="loc">sprtxt.bas:17900 &middot; 11 lines: <a href="#L17900">17900</a>&ndash;<a href="#L17960">17960</a></div>
+<div class="brief">Indeling: code BA!+0, FCB BA!+32, DTA BA!+80 (128 bytes)</div>
+<div><b>Called by</b> line <a href="#L80">80</a> (<a href="#R10">Main program</a>)</div>
+<div><b>Ends via</b> <code>RETURN</code> <a href="#L17960">17960</a></div>
+<table><tr><th>Variable</th><th>Type</th><th>Usage</th></tr>
+<tr><td><a href="#V19"><code>I</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V56"><code>DT!</code></a></td><td><code>single</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V59"><code>BA!</code></a></td><td><code>single</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V60"><code>FB!</code></a></td><td><code>single</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V61"><code>DA$</code></a></td><td><code>string</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V62"><code>FM$</code></a></td><td><code>string</code></td><td>writes, reads</td></tr>
+</table>
+</section>
+<section class="part" id="R17930">
+<h2>17930 &middot; FCB voor ????????.SPD opnieuw klaarzetten<span class="tag">subroutine</span></h2>
+<div class="loc">sprtxt.bas:17930 &middot; 4 lines: <a href="#L17930">17930</a>&ndash;<a href="#L17960">17960</a></div>
+<div><b>Called by</b> line <a href="#L16010">16010</a> (<a href="#R16000">Openen dialoog</a>)</div>
+<div><b>Ends via</b> <code>RETURN</code> <a href="#L17960">17960</a></div>
+<table><tr><th>Variable</th><th>Type</th><th>Usage</th></tr>
+<tr><td><a href="#V19"><code>I</code></a></td><td><code>integer</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V60"><code>FB!</code></a></td><td><code>single</code></td><td>reads</td></tr>
+<tr><td><a href="#V62"><code>FM$</code></a></td><td><code>string</code></td><td>writes, reads</td></tr>
+</table>
+</section>
+<section class="part" id="R18000">
+<h2>18000 &middot; Opslaan check (CN=1 als de gebruiker annuleert)<span class="tag">subroutine</span></h2>
+<div class="loc">sprtxt.bas:18000 &middot; 9 lines: <a href="#L18000">18000</a>&ndash;<a href="#L18080">18080</a></div>
+<div><b>Calls</b> <a href="#R19000"><code>19000</code> Toetsenbordbuffer leegmaken</a></div>
+<div><b>Called by</b> line <a href="#L5000">5000</a> (<a href="#R5000">Programma stoppen (QT=1 als het echt mag)</a>, <a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>), <a href="#L7000">7000</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>), <a href="#L16000">16000</a> (<a href="#R16000">Openen dialoog</a>)</div>
+<div><b>Ends via</b> <code>RETURN</code> <a href="#L18000">18000</a>, <code>RETURN</code> <a href="#L18060">18060</a>, <code>RETURN</code> <a href="#L18070">18070</a></div>
+<table><tr><th>Variable</th><th>Type</th><th>Usage</th></tr>
+<tr><td><a href="#V11"><code>SV</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V21"><code>K$</code></a></td><td><code>string</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V25"><code>BF</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V31"><code>CN</code></a></td><td><code>integer</code></td><td>writes</td></tr>
+<tr><td><a href="#V41"><code>B</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+</table>
+</section>
+<section class="part" id="R19000">
+<h2>19000 &middot; Toetsenbordbuffer leegmaken<span class="tag">subroutine</span></h2>
+<div class="loc">sprtxt.bas:19000 &middot; 2 lines: <a href="#L19000">19000</a>&ndash;<a href="#L19010">19010</a></div>
+<div><b>Called by</b> line <a href="#L15000">15000</a> (<a href="#R15000">Bestandsnaam invoeren (A-Z, 0-9, - en _)</a>), <a href="#L16130">16130</a> (<a href="#R16000">Openen dialoog</a>), <a href="#L18050">18050</a> (<a href="#R18000">Opslaan check (CN=1 als de gebruiker annuleert)</a>), <a href="#L19130">19130</a> (<a href="#R14000">Kleuren in de sprite zoeken en in slot 1-3 zetten</a>, <a href="#R16000">Openen dialoog</a>, <a href="#R19100">Melding M1$/M2$ tonen en op een toets wachten</a>), <a href="#L20050">20050</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>)</div>
+<div><b>Ends via</b> <code>RETURN</code> <a href="#L19010">19010</a></div>
+</section>
+<section class="part" id="R19100">
+<h2>19100 &middot; Melding M1$/M2$ tonen en op een toets wachten<span class="tag">subroutine</span></h2>
+<div class="loc">sprtxt.bas:19100 &middot; 6 lines: <a href="#L19100">19100</a>&ndash;<a href="#L19150">19150</a></div>
+<div><b>Calls</b> <a href="#R19000"><code>19000</code> Toetsenbordbuffer leegmaken</a></div>
+<div><b>Called by</b> line <a href="#L9050">9050</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>), <a href="#L14830">14830</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>), <a href="#L14990">14990</a> (<a href="#R6000">Klik afhandelen: kleurslots, palet en knoppen</a>), <a href="#L30100">30100</a> (<a href="#R10">Main program</a>)</div>
+<div><b>Ends via</b> <code>RETURN</code> <a href="#L19150">19150</a></div>
+<table><tr><th>Variable</th><th>Type</th><th>Usage</th></tr>
+<tr><td><a href="#V25"><code>BF</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V41"><code>B</code></a></td><td><code>integer</code></td><td>reads</td></tr>
+<tr><td><a href="#V44"><code>M1$</code></a></td><td><code>string</code></td><td>reads</td></tr>
+<tr><td><a href="#V45"><code>M2$</code></a></td><td><code>string</code></td><td>reads</td></tr>
+</table>
+</section>
+<section class="part" id="R30000">
+<h2>30000 &middot; Foutafhandeling: schijffouten netjes melden, programmeerfouten tonen<span class="tag">ON ERROR</span></h2>
+<div class="loc">sprtxt.bas:30000 &middot; 8 lines: <a href="#L30000">30000</a>&ndash;<a href="#L30070">30070</a></div>
+<div><b>Registered in</b> line <a href="#L63">63</a> (<a href="#R10">Main program</a>)</div>
+<div><b>Ends via</b> <code>RESUME 30100</code> <a href="#L30070">30070</a></div>
+<table><tr><th>Variable</th><th>Type</th><th>Usage</th></tr>
+<tr><td><a href="#V44"><code>M1$</code></a></td><td><code>string</code></td><td>writes, reads</td></tr>
+<tr><td><a href="#V45"><code>M2$</code></a></td><td><code>string</code></td><td>writes</td></tr>
+</table>
+</section>
+<section class="part" id="vars">
+<h2>Variables</h2>
+<div class="legend">MSX-BASIC tells variables apart only by the first two characters and the type. Without a suffix or DEFxxx the type is double.</div>
+<table><tr><th>Name</th><th>Type</th><th>Written / DIM</th><th>Read</th></tr>
+<tr id="V46"><td><code>A$</code></td><td><code>string</code></td><td><a href="#L10020">10020</a>, <a href="#L10030">10030</a>, <a href="#L10060">10060</a>, <a href="#L14850">14850</a>, <a href="#L16030">16030</a></td><td><a href="#L10020">10020</a>, <a href="#L10030">10030</a>, <a href="#L10060">10060</a>, <a href="#L14880">14880</a>, <a href="#L16030">16030</a>, <a href="#L16040">16040</a></td></tr>
+<tr id="V54"><td><code>A</code></td><td><code>integer</code></td><td><a href="#L15070">15070</a>, <a href="#L15110">15110</a></td><td><a href="#L15080">15080</a>, <a href="#L15090">15090</a>, <a href="#L15100">15100</a>, <a href="#L15110">15110</a>, <a href="#L15120">15120</a></td></tr>
+<tr id="V20"><td><code>AS</code></td><td><code>integer</code></td><td><a href="#L90">90</a>, <a href="#L9010">9010</a>, <a href="#L10010">10010</a>, <a href="#L14860">14860</a></td><td><span class="tag">never</span></td></tr>
+<tr id="V41"><td><code>B</code></td><td><code>integer</code></td><td><span class="tag dep">never</span></td><td><a href="#L8900">8900</a>, <a href="#L8910">8910</a>, <a href="#L15005">15005</a>, <a href="#L16100">16100</a>, <a href="#L18010">18010</a>, <a href="#L19100">19100</a></td></tr>
+<tr id="V59"><td><code>BA!</code></td><td><code>single</code></td><td><a href="#L17900">17900</a></td><td><a href="#L17900">17900</a>, <a href="#L17910">17910</a>, <a href="#L17915">17915</a>, <a href="#L17918">17918</a>, <a href="#L17920">17920</a></td></tr>
+<tr id="V25"><td><code>BF</code></td><td><code>integer</code></td><td><span class="tag dep">never</span></td><td><a href="#L1010">1010</a>, <a href="#L3000">3000</a>, <a href="#L3050">3050</a>, <a href="#L8410">8410</a>, <a href="#L8420">8420</a>, <a href="#L8900">8900</a>, <a href="#L8950">8950</a>, <a href="#L15005">15005</a>, <a href="#L15050">15050</a>, <a href="#L16100">16100</a>, <a href="#L16140">16140</a>, <a href="#L16190">16190</a>, <a href="#L18010">18010</a>, <a href="#L19100">19100</a></td></tr>
+<tr id="V30"><td><code>C</code></td><td><code>integer</code></td><td><a href="#L3040">3040</a>, <a href="#L6220">6220</a>, <a href="#L8000">8000</a>, <a href="#L8400">8400</a>, <a href="#L8610">8610</a>, <a href="#L14010">14010</a>, <a href="#L16030">16030</a></td><td><a href="#L3050">3050</a>, <a href="#L6230">6230</a>, <a href="#L6240">6240</a>, <a href="#L8000">8000</a>, <a href="#L8010">8010</a>, <a href="#L8020">8020</a>, <a href="#L8040">8040</a>, <a href="#L8060">8060</a>, <a href="#L8410">8410</a>, <a href="#L8620">8620</a>, <a href="#L14010">14010</a>, <a href="#L14020">14020</a>, <a href="#L14030">14030</a>, <a href="#L16030">16030</a></td></tr>
+<tr id="V23"><td><code>CA</code></td><td><code>integer</code></td><td><a href="#L990">990</a>, <a href="#L992">992</a>, <a href="#L994">994</a></td><td><a href="#L996">996</a></td></tr>
+<tr id="V24"><td><code>CB</code></td><td><code>integer</code></td><td><a href="#L990">990</a>, <a href="#L992">992</a>, <a href="#L994">994</a></td><td><a href="#L996">996</a></td></tr>
+<tr id="V31"><td><code>CN</code></td><td><code>integer</code></td><td><a href="#L18000">18000</a>, <a href="#L18070">18070</a></td><td><a href="#L5000">5000</a>, <a href="#L7000">7000</a>, <a href="#L16000">16000</a></td></tr>
+<tr id="V61"><td><code>DA$</code></td><td><code>string</code></td><td><a href="#L17905">17905</a></td><td><a href="#L17910">17910</a></td></tr>
+<tr id="V56"><td><code>DT!</code></td><td><code>single</code></td><td><a href="#L17900">17900</a></td><td><a href="#L16030">16030</a>, <a href="#L17915">17915</a></td></tr>
+<tr id="V32"><td><code>DX</code></td><td><code>integer</code></td><td><a href="#L6200">6200</a>, <a href="#L8810">8810</a></td><td><a href="#L6210">6210</a>, <a href="#L6230">6230</a>, <a href="#L6240">6240</a>, <a href="#L8400">8400</a>, <a href="#L8600">8600</a></td></tr>
+<tr id="V33"><td><code>DY</code></td><td><code>integer</code></td><td><a href="#L6200">6200</a>, <a href="#L8810">8810</a></td><td><a href="#L6210">6210</a>, <a href="#L6230">6230</a>, <a href="#L6240">6240</a>, <a href="#L8400">8400</a>, <a href="#L8600">8600</a>, <a href="#L8620">8620</a>, <a href="#L8820">8820</a></td></tr>
+<tr id="V26"><td><code>E</code></td><td><code>integer</code></td><td><a href="#L3020">3020</a></td><td><a href="#L3030">3030</a></td></tr>
+<tr id="V42"><td><code>F$</code></td><td><code>string</code></td><td><a href="#L15040">15040</a>, <a href="#L15090">15090</a>, <a href="#L15100">15100</a>, <a href="#L15120">15120</a>, <a href="#L16000">16000</a>, <a href="#L16010">16010</a>, <a href="#L16210">16210</a>, <a href="#L16220">16220</a></td><td><a href="#L9000">9000</a>, <a href="#L9010">9010</a>, <a href="#L10000">10000</a>, <a href="#L10010">10010</a>, <a href="#L14800">14800</a>, <a href="#L14860">14860</a>, <a href="#L14870">14870</a>, <a href="#L14990">14990</a>, <a href="#L15050">15050</a>, <a href="#L15080">15080</a>, <a href="#L15100">15100</a>, <a href="#L15120">15120</a></td></tr>
+<tr id="V34"><td><code>F</code></td><td><code>integer</code></td><td><a href="#L8020">8020</a></td><td><a href="#L8030">8030</a></td></tr>
+<tr id="V4"><td><code>FA$()</code></td><td><code>string array</code></td><td><a href="#L70">70</a>, <a href="#L16040">16040</a></td><td><a href="#L16150">16150</a>, <a href="#L16220">16220</a></td></tr>
+<tr id="V60"><td><code>FB!</code></td><td><code>single</code></td><td><a href="#L17900">17900</a></td><td><a href="#L17918">17918</a>, <a href="#L17930">17930</a>, <a href="#L17940">17940</a>, <a href="#L17950">17950</a></td></tr>
+<tr id="V55"><td><code>FC</code></td><td><code>integer</code></td><td><a href="#L16010">16010</a>, <a href="#L16040">16040</a></td><td><a href="#L16040">16040</a>, <a href="#L16050">16050</a>, <a href="#L16060">16060</a>, <a href="#L16150">16150</a>, <a href="#L16180">16180</a>, <a href="#L16240">16240</a></td></tr>
+<tr id="V62"><td><code>FM$</code></td><td><code>string</code></td><td><a href="#L17930">17930</a></td><td><a href="#L17940">17940</a></td></tr>
+<tr id="V10"><td><code>GC</code></td><td><code>integer</code></td><td><a href="#L72">72</a>, <a href="#L8040">8040</a>, <a href="#L8100">8100</a>, <a href="#L14060">14060</a></td><td><a href="#L990">990</a>, <a href="#L6220">6220</a></td></tr>
+<tr id="V53"><td><code>H$</code></td><td><code>string</code></td><td><a href="#L14950">14950</a>, <a href="#L14960">14960</a>, <a href="#L20020">20020</a></td><td><a href="#L14960">14960</a>, <a href="#L14970">14970</a>, <a href="#L20030">20030</a></td></tr>
+<tr id="V63"><td><code>H</code></td><td><code>integer</code></td><td><a href="#L20020">20020</a></td><td><a href="#L20040">20040</a></td></tr>
+<tr id="V0"><td><code>HM!</code></td><td><code>single</code></td><td><a href="#L60">60</a></td><td><a href="#L60">60</a></td></tr>
+<tr id="V64"><td><code>HX</code></td><td><code>integer</code></td><td><a href="#L20020">20020</a></td><td><a href="#L20030">20030</a></td></tr>
+<tr id="V65"><td><code>HY</code></td><td><code>integer</code></td><td><a href="#L20020">20020</a></td><td><a href="#L20030">20030</a></td></tr>
+<tr id="V19"><td><code>I</code></td><td><code>integer</code></td><td><a href="#L74">74</a>, <a href="#L3030">3030</a>, <a href="#L3040">3040</a>, <a href="#L7010">7010</a>, <a href="#L8060">8060</a>, <a href="#L9030">9030</a>, <a href="#L10030">10030</a>, <a href="#L10060">10060</a>, <a href="#L14010">14010</a>, <a href="#L14960">14960</a>, <a href="#L16030">16030</a>, <a href="#L16150">16150</a>, <a href="#L17910">17910</a>, <a href="#L17940">17940</a>, <a href="#L17950">17950</a>, <a href="#L20030">20030</a></td><td><a href="#L74">74</a>, <a href="#L3030">3030</a>, <a href="#L3040">3040</a>, <a href="#L3050">3050</a>, <a href="#L3060">3060</a>, <a href="#L7010">7010</a>, <a href="#L8060">8060</a>, <a href="#L8070">8070</a>, <a href="#L9030">9030</a>, <a href="#L10030">10030</a>, <a href="#L10060">10060</a>, <a href="#L14010">14010</a>, <a href="#L14040">14040</a>, <a href="#L14960">14960</a>, <a href="#L16030">16030</a>, <a href="#L16040">16040</a>, <a href="#L16150">16150</a>, <a href="#L16160">16160</a>, <a href="#L17910">17910</a>, <a href="#L17940">17940</a>, <a href="#L17950">17950</a>, <a href="#L20030">20030</a></td></tr>
+<tr id="V29"><td><code>J</code></td><td><code>integer</code></td><td><a href="#L3040">3040</a>, <a href="#L7010">7010</a>, <a href="#L8060">8060</a>, <a href="#L8620">8620</a>, <a href="#L9030">9030</a>, <a href="#L10030">10030</a>, <a href="#L10060">10060</a>, <a href="#L14010">14010</a></td><td><a href="#L3040">3040</a>, <a href="#L3050">3050</a>, <a href="#L3060">3060</a>, <a href="#L7010">7010</a>, <a href="#L8060">8060</a>, <a href="#L8070">8070</a>, <a href="#L8620">8620</a>, <a href="#L9030">9030</a>, <a href="#L10030">10030</a>, <a href="#L10060">10060</a>, <a href="#L14010">14010</a>, <a href="#L14040">14040</a></td></tr>
+<tr id="V38"><td><code>J0</code></td><td><code>integer</code></td><td><a href="#L8600">8600</a></td><td><a href="#L8620">8620</a></td></tr>
+<tr id="V21"><td><code>K$</code></td><td><code>string</code></td><td><a href="#L120">120</a>, <a href="#L15060">15060</a>, <a href="#L15110">15110</a>, <a href="#L16200">16200</a>, <a href="#L18060">18060</a></td><td><a href="#L120">120</a>, <a href="#L15060">15060</a>, <a href="#L15070">15070</a>, <a href="#L15120">15120</a>, <a href="#L16200">16200</a>, <a href="#L16210">16210</a>, <a href="#L16220">16220</a>, <a href="#L16230">16230</a>, <a href="#L16240">16240</a>, <a href="#L18060">18060</a>, <a href="#L18070">18070</a></td></tr>
+<tr id="V47"><td><code>K</code></td><td><code>integer</code></td><td><a href="#L14000">14000</a>, <a href="#L14030">14030</a>, <a href="#L14950">14950</a></td><td><a href="#L14030">14030</a>, <a href="#L14050">14050</a>, <a href="#L14950">14950</a>, <a href="#L14970">14970</a></td></tr>
+<tr id="V28"><td><code>L</code></td><td><code>integer</code></td><td><a href="#L3030">3030</a>, <a href="#L8400">8400</a>, <a href="#L8900">8900</a>, <a href="#L8910">8910</a></td><td><a href="#L3030">3030</a>, <a href="#L8410">8410</a>, <a href="#L8420">8420</a>, <a href="#L8900">8900</a>, <a href="#L8910">8910</a></td></tr>
+<tr id="V7"><td><code>LI()</code></td><td><code>integer array</code></td><td><a href="#L70">70</a>, <a href="#L14810">14810</a></td><td><a href="#L14950">14950</a></td></tr>
+<tr id="V35"><td><code>M</code></td><td><code>integer</code></td><td><a href="#L8020">8020</a>, <a href="#L8610">8610</a>, <a href="#L8700">8700</a>, <a href="#L8800">8800</a>, <a href="#L8900">8900</a>, <a href="#L14810">14810</a>, <a href="#L14950">14950</a>, <a href="#L20000">20000</a></td><td><a href="#L8020">8020</a>, <a href="#L8030">8030</a>, <a href="#L8610">8610</a>, <a href="#L8630">8630</a>, <a href="#L8710">8710</a>, <a href="#L8720">8720</a>, <a href="#L8800">8800</a>, <a href="#L8900">8900</a>, <a href="#L14810">14810</a>, <a href="#L14820">14820</a>, <a href="#L14960">14960</a>, <a href="#L14970">14970</a>, <a href="#L20000">20000</a></td></tr>
+<tr id="V44"><td><code>M1$</code></td><td><code>string</code></td><td><a href="#L9050">9050</a>, <a href="#L14070">14070</a>, <a href="#L14830">14830</a>, <a href="#L14990">14990</a>, <a href="#L16060">16060</a>, <a href="#L30000">30000</a>, <a href="#L30010">30010</a>, <a href="#L30020">30020</a>, <a href="#L30030">30030</a>, <a href="#L30040">30040</a>, <a href="#L30050">30050</a></td><td><a href="#L19110">19110</a>, <a href="#L30060">30060</a></td></tr>
+<tr id="V45"><td><code>M2$</code></td><td><code>string</code></td><td><a href="#L9050">9050</a>, <a href="#L14070">14070</a>, <a href="#L14830">14830</a>, <a href="#L14990">14990</a>, <a href="#L16060">16060</a>, <a href="#L30000">30000</a></td><td><a href="#L19110">19110</a></td></tr>
+<tr id="V16"><td><code>MV</code></td><td><code>integer</code></td><td><a href="#L72">72</a></td><td><a href="#L140">140</a></td></tr>
+<tr id="V5"><td><code>MX()</code></td><td><code>integer array</code></td><td><a href="#L70">70</a>, <a href="#L74">74</a></td><td><a href="#L140">140</a></td></tr>
+<tr id="V6"><td><code>MY()</code></td><td><code>integer array</code></td><td><a href="#L70">70</a>, <a href="#L74">74</a></td><td><a href="#L140">140</a></td></tr>
+<tr id="V2"><td><code>N()</code></td><td><code>integer array</code></td><td><a href="#L70">70</a>, <a href="#L72">72</a>, <a href="#L8000">8000</a>, <a href="#L8040">8040</a>, <a href="#L14000">14000</a>, <a href="#L14030">14030</a>, <a href="#L14050">14050</a></td><td><a href="#L8010">8010</a>, <a href="#L8020">8020</a>, <a href="#L8040">8040</a>, <a href="#L8100">8100</a>, <a href="#L8610">8610</a>, <a href="#L8710">8710</a>, <a href="#L8900">8900</a>, <a href="#L8950">8950</a>, <a href="#L14020">14020</a>, <a href="#L14060">14060</a>, <a href="#L14810">14810</a>, <a href="#L14970">14970</a></td></tr>
+<tr id="V51"><td><code>NB</code></td><td><code>integer</code></td><td><a href="#L14850">14850</a></td><td><a href="#L14960">14960</a></td></tr>
+<tr id="V49"><td><code>NL</code></td><td><code>integer</code></td><td><a href="#L14810">14810</a></td><td><a href="#L14810">14810</a>, <a href="#L14830">14830</a>, <a href="#L14870">14870</a>, <a href="#L14940">14940</a>, <a href="#L14950">14950</a></td></tr>
+<tr id="V36"><td><code>O</code></td><td><code>integer</code></td><td><a href="#L8040">8040</a></td><td><a href="#L8050">8050</a>, <a href="#L8060">8060</a>, <a href="#L8080">8080</a></td></tr>
+<tr id="V57"><td><code>P</code></td><td><code>integer</code></td><td><a href="#L16130">16130</a>, <a href="#L16230">16230</a>, <a href="#L16240">16240</a></td><td><a href="#L16150">16150</a>, <a href="#L16170">16170</a>, <a href="#L16180">16180</a>, <a href="#L16220">16220</a>, <a href="#L16230">16230</a>, <a href="#L16240">16240</a></td></tr>
+<tr id="V15"><td><code>PS</code></td><td><code>integer</code></td><td><a href="#L72">72</a>, <a href="#L800">800</a></td><td><a href="#L850">850</a></td></tr>
+<tr id="V3"><td><code>PT$()</code></td><td><code>string array</code></td><td><a href="#L70">70</a>, <a href="#L8800">8800</a></td><td><a href="#L8630">8630</a>, <a href="#L8710">8710</a>, <a href="#L14810">14810</a>, <a href="#L14960">14960</a></td></tr>
+<tr id="V39"><td><code>PX</code></td><td><code>integer</code></td><td><a href="#L8600">8600</a></td><td><a href="#L8630">8630</a></td></tr>
+<tr id="V50"><td><code>Q$</code></td><td><code>string</code></td><td><a href="#L14840">14840</a></td><td><a href="#L14910">14910</a>, <a href="#L14920">14920</a></td></tr>
+<tr id="V18"><td><code>QT</code></td><td><code>integer</code></td><td><a href="#L72">72</a>, <a href="#L5005">5005</a></td><td><a href="#L120">120</a>, <a href="#L180">180</a></td></tr>
+<tr id="V52"><td><code>R</code></td><td><code>integer</code></td><td><a href="#L14950">14950</a>, <a href="#L14970">14970</a></td><td><a href="#L14970">14970</a></td></tr>
+<tr id="V37"><td><code>RC</code></td><td><code>integer</code></td><td><a href="#L8040">8040</a>, <a href="#L8060">8060</a></td><td><a href="#L8070">8070</a></td></tr>
+<tr id="V43"><td><code>S$</code></td><td><code>string</code></td><td><a href="#L9030">9030</a>, <a href="#L14840">14840</a></td><td><a href="#L9030">9030</a>, <a href="#L14870">14870</a></td></tr>
+<tr id="V22"><td><code>S</code></td><td><code>integer</code></td><td><a href="#L130">130</a></td><td><a href="#L130">130</a>, <a href="#L135">135</a>, <a href="#L140">140</a>, <a href="#L1000">1000</a>, <a href="#L20010">20010</a></td></tr>
+<tr id="V1"><td><code>SP()</code></td><td><code>integer array</code></td><td><a href="#L70">70</a>, <a href="#L6240">6240</a>, <a href="#L7010">7010</a>, <a href="#L8060">8060</a>, <a href="#L10030">10030</a>, <a href="#L10060">10060</a></td><td><a href="#L3040">3040</a>, <a href="#L6230">6230</a>, <a href="#L8060">8060</a>, <a href="#L8400">8400</a>, <a href="#L8620">8620</a>, <a href="#L9030">9030</a>, <a href="#L14010">14010</a></td></tr>
+<tr id="V14"><td><code>SS</code></td><td><code>integer</code></td><td><a href="#L72">72</a>, <a href="#L800">800</a>, <a href="#L850">850</a>, <a href="#L6130">6130</a>, <a href="#L6140">6140</a></td><td><a href="#L800">800</a>, <a href="#L850">850</a>, <a href="#L990">990</a>, <a href="#L992">992</a>, <a href="#L994">994</a>, <a href="#L996">996</a>, <a href="#L6220">6220</a></td></tr>
+<tr id="V11"><td><code>SV</code></td><td><code>integer</code></td><td><a href="#L72">72</a>, <a href="#L6240">6240</a>, <a href="#L7020">7020</a>, <a href="#L8070">8070</a>, <a href="#L9040">9040</a>, <a href="#L10080">10080</a></td><td><a href="#L18000">18000</a></td></tr>
+<tr id="V8"><td><code>SZ</code></td><td><code>integer</code></td><td><a href="#L72">72</a>, <a href="#L10030">10030</a>, <a href="#L10060">10060</a>, <a href="#L11010">11010</a>, <a href="#L12010">12010</a></td><td><a href="#L3010">3010</a>, <a href="#L3020">3020</a>, <a href="#L3030">3030</a>, <a href="#L3040">3040</a>, <a href="#L6210">6210</a>, <a href="#L8810">8810</a>, <a href="#L9020">9020</a>, <a href="#L11000">11000</a>, <a href="#L12000">12000</a>, <a href="#L14840">14840</a>, <a href="#L14850">14850</a></td></tr>
+<tr id="V17"><td><code>TP</code></td><td><code>integer</code></td><td><a href="#L72">72</a>, <a href="#L160">160</a>, <a href="#L180">180</a></td><td><a href="#L180">180</a></td></tr>
+<tr id="V58"><td><code>U</code></td><td><code>integer</code></td><td><a href="#L16130">16130</a>, <a href="#L16230">16230</a>, <a href="#L16240">16240</a></td><td><a href="#L16190">16190</a>, <a href="#L16220">16220</a>, <a href="#L16230">16230</a>, <a href="#L16240">16240</a></td></tr>
+<tr id="V40"><td><code>V</code></td><td><code>integer</code></td><td><a href="#L8610">8610</a>, <a href="#L8620">8620</a></td><td><a href="#L8620">8620</a>, <a href="#L8630">8630</a></td></tr>
+<tr id="V9"><td><code>VK</code></td><td><code>integer</code></td><td><a href="#L72">72</a>, <a href="#L8100">8100</a>, <a href="#L14060">14060</a></td><td><a href="#L8000">8000</a>, <a href="#L8010">8010</a>, <a href="#L8040">8040</a>, <a href="#L8100">8100</a>, <a href="#L8910">8910</a></td></tr>
+<tr id="V27"><td><code>W</code></td><td><code>integer</code></td><td><a href="#L3020">3020</a>, <a href="#L8400">8400</a></td><td><a href="#L3030">3030</a>, <a href="#L8410">8410</a>, <a href="#L8420">8420</a></td></tr>
+<tr id="V12"><td><code>X</code></td><td><code>integer</code></td><td><a href="#L72">72</a>, <a href="#L140">140</a>, <a href="#L145">145</a></td><td><a href="#L140">140</a>, <a href="#L145">145</a>, <a href="#L996">996</a>, <a href="#L6000">6000</a>, <a href="#L6020">6020</a>, <a href="#L6040">6040</a>, <a href="#L6100">6100</a>, <a href="#L6110">6110</a>, <a href="#L6200">6200</a>, <a href="#L8000">8000</a>, <a href="#L8100">8100</a></td></tr>
+<tr id="V48"><td><code>XC</code></td><td><code>integer</code></td><td><a href="#L14000">14000</a>, <a href="#L14030">14030</a></td><td><a href="#L14060">14060</a></td></tr>
+<tr id="V13"><td><code>Y</code></td><td><code>integer</code></td><td><a href="#L72">72</a>, <a href="#L140">140</a>, <a href="#L150">150</a></td><td><a href="#L140">140</a>, <a href="#L150">150</a>, <a href="#L996">996</a>, <a href="#L6010">6010</a>, <a href="#L6030">6030</a>, <a href="#L6040">6040</a>, <a href="#L6100">6100</a>, <a href="#L6110">6110</a>, <a href="#L6200">6200</a>, <a href="#L8000">8000</a></td></tr>
+</table></section>
+<section class="part" id="misc">
+<h2>Functions, DATA and external references</h2>
+<h3>DEF FN</h3>
+<p class="loc">None.</p>
+<h3>DATA</h3>
+<div><b>DATA lines</b> <a href="#L76">76</a>, <a href="#L20100">20100</a>&ndash;<a href="#L20230">20230</a></div>
+<div><b>RESTORE</b> <a href="#L20010">20010</a> &rarr; <a href="#L20100">20100</a></div>
+<h3>External references</h3>
+<table><tr><th>Kind</th><th>Name</th><th>Lines</th></tr>
+<tr><td>BLOAD</td><td><code>&quot;SPRDESSC.SC2&quot;</code></td><td><a href="#L1000">1000</a></td></tr>
+<tr><td>DEF USR</td><td><code>USR= BA!</code></td><td><a href="#L17920">17920</a></td></tr>
+<tr><td>DEF USR</td><td><code>USR 1= BA!+ 3</code></td><td><a href="#L17920">17920</a></td></tr>
+<tr><td>BLOAD</td><td><code>&quot;sprdshlp.sc2&quot;</code></td><td><a href="#L20010">20010</a></td></tr>
+</table>
+</section>
+<section class="part" id="src">
+<h2>Source code</h2>
+<div class="legend"><span class="bg" style="background:var(--deadbg)">unreachable</span><span class="bg" style="background:var(--sharedbg)">shared by several routines</span>Left column: routines the line belongs to (M = main program). Jump targets are clickable.</div>
+<table class="src">
+<tr id="L10" class="entry"><td class=own><a href="#R10">M</a></td><td class=ln>10</td><td class="code mono"><span class=rem>' ========================================</span></td></tr>
+<tr id="L20" class=""><td class=own><a href="#R10">M</a></td><td class=ln>20</td><td class="code mono"><span class=rem>'            Sprite Designer 0.4</span></td></tr>
+<tr id="L30" class=""><td class=own><a href="#R10">M</a></td><td class=ln>30</td><td class="code mono"><span class=rem>' (c)2023-2026 Marcel &quot;SmartDuck&quot; Beekman</span></td></tr>
+<tr id="L35" class=""><td class=own><a href="#R10">M</a></td><td class=ln>35</td><td class="code mono"><span class=rem>'         3-clause BSD license</span></td></tr>
+<tr id="L40" class=""><td class=own><a href="#R10">M</a></td><td class=ln>40</td><td class="code mono"><span class=rem>' ========================================</span></td></tr>
+<tr id="L50" class=""><td class=own><a href="#R10">M</a></td><td class=ln>50</td><td class="code mono"><span class=kw>COLOR</span> 15,1,1</td></tr>
+<tr id="L58" class=""><td class=own><a href="#R10">M</a></td><td class=ln>58</td><td class="code mono"><span class=rem>' Bovenste 128 bytes onder HIMEM reserveren voor de machinecode</span></td></tr>
+<tr id="L60" class=""><td class=own><a href="#R10">M</a></td><td class=ln>60</td><td class="code mono"><span class=kw>SCREEN</span> 2,2:HM!=<span class=kw>PEEK</span>(&amp;HFC4A)+256*<span class=kw>PEEK</span>(&amp;HFC4B):<span class=kw>CLEAR</span> 1500,HM!-128</td></tr>
+<tr id="L63" class=""><td class=own><a href="#R10">M</a></td><td class=ln>63</td><td class="code mono"><span class=kw>MAX</span><span class=kw>FILES</span>=2:<span class=kw>ON</span> <span class=kw>ERROR</span> <span class=kw>GOTO</span> <a href="#L30000">30000</a></td></tr>
+<tr id="L66" class=""><td class=own><a href="#R10">M</a></td><td class=ln>66</td><td class="code mono"><span class=kw>DEFINT</span> A-Z</td></tr>
+<tr id="L70" class=""><td class=own><a href="#R10">M</a></td><td class=ln>70</td><td class="code mono"><span class=kw>DIM</span> SP(16,16),N(4),PT$(3),FA$(63),MX(8),MY(8),LI(3)</td></tr>
+<tr id="L72" class=""><td class=own><a href="#R10">M</a></td><td class=ln>72</td><td class="code mono">SZ=8:VK=1:N(1)=15:GC=15:SV=1:X=128:Y=96:SS=1:PS=1:MV=3:TP=0:QT=0</td></tr>
+<tr id="L74" class=""><td class=own><a href="#R10">M</a></td><td class=ln>74</td><td class="code mono"><span class=kw>FOR</span> I=1 <span class=kw>TO</span> 8:<span class=kw>READ</span> MX(I),MY(I):<span class=kw>NEXT</span> I</td></tr>
+<tr id="L76" class=""><td class=own><a href="#R10">M</a></td><td class=ln>76</td><td class="code mono"><span class=kw>DATA</span><span class=dat> 0,-1,1,-1,1,0,1,1,0,1,-1,1,-1,0,-1,-1</span></td></tr>
+<tr id="L80" class=""><td class=own><a href="#R10">M</a></td><td class=ln>80</td><td class="code mono"><span class=kw>GOSUB</span> <a href="#L17900">17900</a>:<span class=rem>' machinecode voor directory inladen</span></td></tr>
+<tr id="L90" class=""><td class=own><a href="#R10">M</a></td><td class=ln>90</td><td class="code mono"><span class=kw>OPEN</span> <span class=str>&quot;grp:&quot;</span> <span class=kw>FOR</span> <span class=kw>OUT</span><span class=kw>PUT</span> AS #1</td></tr>
+<tr id="L100" class=""><td class=own><a href="#R10">M</a></td><td class=ln>100</td><td class="code mono"><span class=kw>GOSUB</span> <a href="#L1000">1000</a>:<span class=kw>GOSUB</span> <a href="#L1500">1500</a>:<span class=kw>GOSUB</span> <a href="#L3000">3000</a>:<span class=kw>GOSUB</span> <a href="#L8900">8900</a>:<span class=kw>GOSUB</span> <a href="#L8800">8800</a>:<span class=kw>GOSUB</span> <a href="#L990">990</a></td></tr>
+<tr id="L110" class=""><td class=own><a href="#R10">M</a></td><td class=ln>110</td><td class="code mono"><span class=rem>' Hoofdlus: cursor via STICK, spatie via STRIG (ook joystick)</span></td></tr>
+<tr id="L120" class=""><td class=own><a href="#R10">M</a></td><td class=ln>120</td><td class="code mono">K$=<span class=kw>INKEY$</span>:<span class=kw>IF</span> K$=<span class=kw>CHR$</span>(27) <span class=kw>THEN</span> <span class=kw>GOSUB</span> <a href="#L5000">5000</a>:<span class=kw>IF</span> QT <span class=kw>THEN</span> <a href="#L5010">5010</a></td></tr>
+<tr id="L130" class=""><td class=own><a href="#R10">M</a></td><td class=ln>130</td><td class="code mono">S=<span class=kw>STICK</span>(0):<span class=kw>IF</span> S=0 <span class=kw>THEN</span> S=<span class=kw>STICK</span>(1)</td></tr>
+<tr id="L135" class=""><td class=own><a href="#R10">M</a></td><td class=ln>135</td><td class="code mono"><span class=kw>IF</span> S=0 <span class=kw>THEN</span> <a href="#L160">160</a></td></tr>
+<tr id="L140" class=""><td class=own><a href="#R10">M</a></td><td class=ln>140</td><td class="code mono">X=X+MX(S)*MV:Y=Y+MY(S)*MV</td></tr>
+<tr id="L145" class=""><td class=own><a href="#R10">M</a></td><td class=ln>145</td><td class="code mono"><span class=kw>IF</span> X&lt;0 <span class=kw>THEN</span> X=0 <span class=kw>ELSE</span> <span class=kw>IF</span> X&gt;250 <span class=kw>THEN</span> X=250</td></tr>
+<tr id="L150" class=""><td class=own><a href="#R10">M</a></td><td class=ln>150</td><td class="code mono"><span class=kw>IF</span> Y&lt;0 <span class=kw>THEN</span> Y=0 <span class=kw>ELSE</span> <span class=kw>IF</span> Y&gt;186 <span class=kw>THEN</span> Y=186</td></tr>
+<tr id="L155" class=""><td class=own><a href="#R10">M</a></td><td class=ln>155</td><td class="code mono"><span class=kw>GOSUB</span> <a href="#L990">990</a></td></tr>
+<tr id="L160" class=""><td class=own><a href="#R10">M</a></td><td class=ln>160</td><td class="code mono"><span class=kw>IF</span> <span class=kw>STRIG</span>(0)=0 <span class=kw>AND</span> <span class=kw>STRIG</span>(1)=0 <span class=kw>THEN</span> TP=0:<span class=kw>GOTO</span> <a href="#L120">120</a></td></tr>
+<tr id="L170" class=""><td class=own><a href="#R10">M</a></td><td class=ln>170</td><td class="code mono"><span class=kw>GOSUB</span> <a href="#L6200">6200</a>:<span class=rem>' tekenen/gummen, ook met ingedrukte spatie slepen</span></td></tr>
+<tr id="L180" class=""><td class=own><a href="#R10">M</a></td><td class=ln>180</td><td class="code mono"><span class=kw>IF</span> TP=0 <span class=kw>THEN</span> TP=1:<span class=kw>GOSUB</span> <a href="#L6000">6000</a>:<span class=kw>IF</span> QT <span class=kw>THEN</span> <a href="#L5010">5010</a></td></tr>
+<tr id="L190" class=""><td class=own><a href="#R10">M</a></td><td class=ln>190</td><td class="code mono"><span class=kw>GOTO</span> <a href="#L120">120</a></td></tr>
+<tr id="L780" class=""><td class=own></td><td class=ln>780</td><td class="code mono"><span class=rem>' Zandloper aan (dubbel aanroepen is veilig)</span></td></tr>
+<tr id="L800" class="entry"><td class=own><a href="#R800">800</a></td><td class=ln>800</td><td class="code mono"><span class=kw>IF</span> SS&lt;&gt;5 <span class=kw>THEN</span> PS=SS:SS=5:<span class=kw>GOSUB</span> <a href="#L990">990</a></td></tr>
+<tr id="L810" class=""><td class=own><a href="#R800">800</a></td><td class=ln>810</td><td class="code mono"><span class=kw>RETURN</span></td></tr>
+<tr id="L840" class=""><td class=own></td><td class=ln>840</td><td class="code mono"><span class=rem>' Zandloper uit</span></td></tr>
+<tr id="L850" class="shared entry"><td class=own><a href="#R850">850</a> <a href="#R6000">6000</a></td><td class=ln>850</td><td class="code mono"><span class=kw>IF</span> SS=5 <span class=kw>THEN</span> SS=PS:<span class=kw>GOSUB</span> <a href="#L990">990</a></td></tr>
+<tr id="L860" class="shared"><td class=own><a href="#R850">850</a> <a href="#R6000">6000</a></td><td class=ln>860</td><td class="code mono"><span class=kw>RETURN</span></td></tr>
+<tr id="L980" class=""><td class=own></td><td class=ln>980</td><td class="code mono"><span class=rem>' Cursor tekenen (eigen kleuren, GC blijft ongemoeid)</span></td></tr>
+<tr id="L990" class="shared entry"><td class=own><a href="#R990">990</a> <a href="#R6000">6000</a></td><td class=ln>990</td><td class="code mono"><span class=kw>IF</span> SS=1 <span class=kw>THEN</span> CA=GC:CB=14:<span class=kw>IF</span> GC=14 <span class=kw>THEN</span> CB=3</td></tr>
+<tr id="L992" class="shared"><td class=own><a href="#R990">990</a> <a href="#R6000">6000</a></td><td class=ln>992</td><td class="code mono"><span class=kw>IF</span> SS=3 <span class=kw>THEN</span> CA=15:CB=12</td></tr>
+<tr id="L994" class="shared"><td class=own><a href="#R990">990</a> <a href="#R6000">6000</a></td><td class=ln>994</td><td class="code mono"><span class=kw>IF</span> SS=5 <span class=kw>THEN</span> CA=6:CB=14</td></tr>
+<tr id="L996" class="shared"><td class=own><a href="#R990">990</a> <a href="#R6000">6000</a></td><td class=ln>996</td><td class="code mono"><span class=kw>PUT</span> <span class=kw>SPRITE</span> 0,(X,Y),CA,SS:<span class=kw>PUT</span> <span class=kw>SPRITE</span> 1,(X,Y),CB,SS+1:<span class=kw>RETURN</span></td></tr>
+<tr id="L998" class=""><td class=own></td><td class=ln>998</td><td class="code mono"><span class=rem>' Titel</span></td></tr>
+<tr id="L1000" class="entry"><td class=own><a href="#R1000">1000</a></td><td class=ln>1000</td><td class="code mono"><span class=kw>BLOAD</span><span class=str>&quot;SPRDESSC.SC2&quot;</span>,S</td></tr>
+<tr id="L1010" class=""><td class=own><a href="#R1000">1000</a></td><td class=ln>1010</td><td class="code mono"><span class=kw>LINE</span>(9,40)-(21,40),1,BF</td></tr>
+<tr id="L1020" class=""><td class=own><a href="#R1000">1000</a></td><td class=ln>1020</td><td class="code mono"><span class=kw>RETURN</span></td></tr>
+<tr id="L1500" class="entry"><td class=own><a href="#R1500">1500</a></td><td class=ln>1500</td><td class="code mono"><span class=rem>' Potlood</span></td></tr>
+<tr id="L1510" class=""><td class=own><a href="#R1500">1500</a></td><td class=ln>1510</td><td class="code mono"><span class=kw>SPRITE</span>$(1) = <span class=kw>CHR$</span>(&amp;HE0) + <span class=kw>CHR$</span>(&amp;HD0) + <span class=kw>CHR$</span>(&amp;H88) + <span class=kw>CHR$</span>(&amp;H44) + <span class=kw>CHR$</span>(&amp;H22) + <span class=kw>CHR$</span>(&amp;H17) + <span class=kw>CHR$</span>(&amp;HF) + <span class=kw>CHR$</span>(&amp;H6)</td></tr>
+<tr id="L1520" class=""><td class=own><a href="#R1500">1500</a></td><td class=ln>1520</td><td class="code mono"><span class=kw>SPRITE</span>$(2) = <span class=kw>CHR$</span>(&amp;HE0) + <span class=kw>CHR$</span>(&amp;HF0) + <span class=kw>CHR$</span>(&amp;HF8) + <span class=kw>CHR$</span>(&amp;H7C) + <span class=kw>CHR$</span>(&amp;H3E) + <span class=kw>CHR$</span>(&amp;H1F) + <span class=kw>CHR$</span>(&amp;HF) + <span class=kw>CHR$</span>(&amp;H6)</td></tr>
+<tr id="L1530" class=""><td class=own><a href="#R1500">1500</a></td><td class=ln>1530</td><td class="code mono"><span class=rem>' Gum</span></td></tr>
+<tr id="L1540" class=""><td class=own><a href="#R1500">1500</a></td><td class=ln>1540</td><td class="code mono"><span class=kw>SPRITE</span>$(3) = <span class=kw>CHR$</span>(&amp;H10) + <span class=kw>CHR$</span>(&amp;H38) + <span class=kw>CHR$</span>(&amp;H74) + <span class=kw>CHR$</span>(&amp;HE2) + <span class=kw>CHR$</span>(&amp;H41) + <span class=kw>CHR$</span>(&amp;H22) + <span class=kw>CHR$</span>(&amp;H14) + <span class=kw>CHR$</span>(&amp;H8)</td></tr>
+<tr id="L1550" class=""><td class=own><a href="#R1500">1500</a></td><td class=ln>1550</td><td class="code mono"><span class=kw>SPRITE</span>$(4) = <span class=kw>CHR$</span>(&amp;H10) + <span class=kw>CHR$</span>(&amp;H38) + <span class=kw>CHR$</span>(&amp;H74) + <span class=kw>CHR$</span>(&amp;HE2) + <span class=kw>CHR$</span>(&amp;H41) + <span class=kw>CHR$</span>(&amp;H22) + <span class=kw>CHR$</span>(&amp;H14) + <span class=kw>CHR$</span>(&amp;H8)</td></tr>
+<tr id="L1560" class=""><td class=own><a href="#R1500">1500</a></td><td class=ln>1560</td><td class="code mono"><span class=rem>' Zandloper</span></td></tr>
+<tr id="L1570" class=""><td class=own><a href="#R1500">1500</a></td><td class=ln>1570</td><td class="code mono"><span class=kw>SPRITE</span>$(5) = <span class=kw>CHR$</span>(&amp;HFE) + <span class=kw>CHR$</span>(&amp;H44) + <span class=kw>CHR$</span>(&amp;H28) + <span class=kw>CHR$</span>(&amp;H10) + <span class=kw>CHR$</span>(&amp;H28) + <span class=kw>CHR$</span>(&amp;H44) + <span class=kw>CHR$</span>(&amp;HFE) + <span class=kw>CHR$</span>(&amp;H0)</td></tr>
+<tr id="L1580" class=""><td class=own><a href="#R1500">1500</a></td><td class=ln>1580</td><td class="code mono"><span class=kw>SPRITE</span>$(6) = <span class=kw>CHR$</span>(&amp;H0) + <span class=kw>CHR$</span>(&amp;H0) + <span class=kw>CHR$</span>(&amp;H10) + <span class=kw>CHR$</span>(&amp;H0) + <span class=kw>CHR$</span>(&amp;H0) + <span class=kw>CHR$</span>(&amp;H38) + <span class=kw>CHR$</span>(&amp;H0) + <span class=kw>CHR$</span>(&amp;H0)</td></tr>
+<tr id="L1600" class=""><td class=own><a href="#R1500">1500</a></td><td class=ln>1600</td><td class="code mono"><span class=kw>RETURN</span></td></tr>
+<tr id="L2980" class=""><td class=own></td><td class=ln>2980</td><td class="code mono"><span class=rem>' Raster tekenen: rasterlijnen in een keer, daarna alleen gevulde vakjes</span></td></tr>
+<tr id="L3000" class="shared entry"><td class=own><a href="#R3000">3000</a> <a href="#R6000">6000</a></td><td class=ln>3000</td><td class="code mono"><span class=kw>LINE</span>(64,24)-(191,153),1,BF</td></tr>
+<tr id="L3010" class="shared"><td class=own><a href="#R3000">3000</a> <a href="#R6000">6000</a></td><td class=ln>3010</td><td class="code mono"><span class=kw>IF</span> SZ=8 <span class=kw>THEN</span> <span class=kw>LINE</span>(63,89)-(128,89),14:<span class=kw>LINE</span>(128,24)-(128,89),14</td></tr>
+<tr id="L3020" class="shared"><td class=own><a href="#R3000">3000</a> <a href="#R6000">6000</a></td><td class=ln>3020</td><td class="code mono">E=SZ*8+62:W=SZ*8+23</td></tr>
+<tr id="L3030" class="shared"><td class=own><a href="#R3000">3000</a> <a href="#R6000">6000</a></td><td class=ln>3030</td><td class="code mono"><span class=kw>FOR</span> I=1 <span class=kw>TO</span> SZ:L=I*8+56:<span class=kw>LINE</span>(L,25)-(L,W),14:L=I*8+17:<span class=kw>LINE</span>(64,L)-(E,L),14:<span class=kw>NEXT</span> I</td></tr>
+<tr id="L3040" class="shared"><td class=own><a href="#R3000">3000</a> <a href="#R6000">6000</a></td><td class=ln>3040</td><td class="code mono"><span class=kw>FOR</span> I=1 <span class=kw>TO</span> SZ:<span class=kw>FOR</span> J=1 <span class=kw>TO</span> SZ:C=SP(J,I)</td></tr>
+<tr id="L3050" class="shared"><td class=own><a href="#R3000">3000</a> <a href="#R6000">6000</a></td><td class=ln>3050</td><td class="code mono"><span class=kw>IF</span> C <span class=kw>THEN</span> <span class=kw>LINE</span>(J*8+56,I*8+17)-(J*8+62,I*8+23),C,BF</td></tr>
+<tr id="L3060" class="shared"><td class=own><a href="#R3000">3000</a> <a href="#R6000">6000</a></td><td class=ln>3060</td><td class="code mono"><span class=kw>NEXT</span> J,I</td></tr>
+<tr id="L3070" class="shared"><td class=own><a href="#R3000">3000</a> <a href="#R6000">6000</a></td><td class=ln>3070</td><td class="code mono"><span class=kw>RETURN</span></td></tr>
+<tr id="L4980" class=""><td class=own></td><td class=ln>4980</td><td class="code mono"><span class=rem>' Programma stoppen (QT=1 als het echt mag)</span></td></tr>
+<tr id="L5000" class="shared entry"><td class=own><a href="#R5000">5000</a> <a href="#R6000">6000</a></td><td class=ln>5000</td><td class="code mono"><span class=kw>GOSUB</span> <a href="#L18000">18000</a>:<span class=kw>IF</span> CN <span class=kw>THEN</span> <span class=kw>GOSUB</span> <a href="#L3000">3000</a>:<span class=kw>RETURN</span></td></tr>
+<tr id="L5005" class="shared"><td class=own><a href="#R5000">5000</a> <a href="#R6000">6000</a></td><td class=ln>5005</td><td class="code mono">QT=1:<span class=kw>RETURN</span></td></tr>
+<tr id="L5010" class=""><td class=own><a href="#R10">M</a></td><td class=ln>5010</td><td class="code mono"><span class=kw>CLOSE</span>:<span class=kw>COLOR</span> 15,4,4:<span class=kw>SCREEN</span> 0:<span class=kw>END</span></td></tr>
+<tr id="L5980" class=""><td class=own></td><td class=ln>5980</td><td class="code mono"><span class=rem>' Klik afhandelen: kleurslots, palet en knoppen</span></td></tr>
+<tr id="L6000" class="entry"><td class=own><a href="#R6000">6000</a></td><td class=ln>6000</td><td class="code mono"><span class=kw>IF</span> X&lt;17 <span class=kw>OR</span> X&gt;45 <span class=kw>THEN</span> <span class=kw>RETURN</span></td></tr>
+<tr id="L6010" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>6010</td><td class="code mono"><span class=kw>IF</span> Y&gt;88 <span class=kw>AND</span> Y&lt;167 <span class=kw>THEN</span> <a href="#L6100">6100</a></td></tr>
+<tr id="L6020" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>6020</td><td class="code mono"><span class=kw>IF</span> (X-16) <span class=kw>MOD</span> 8=0 <span class=kw>OR</span> (X-16) <span class=kw>MOD</span> 8&gt;5 <span class=kw>THEN</span> <span class=kw>RETURN</span></td></tr>
+<tr id="L6030" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>6030</td><td class="code mono"><span class=kw>IF</span> Y&gt;23 <span class=kw>AND</span> Y&lt;29 <span class=kw>THEN</span> <a href="#L8100">8100</a></td></tr>
+<tr id="L6040" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>6040</td><td class="code mono"><span class=kw>IF</span> Y&gt;48 <span class=kw>AND</span> Y&lt;78 <span class=kw>THEN</span> <span class=kw>IF</span> (Y-48) <span class=kw>MOD</span> 8&gt;0 <span class=kw>AND</span> (Y-48) <span class=kw>MOD</span> 8&lt;6 <span class=kw>THEN</span> <span class=kw>IF</span> Y&gt;56 <span class=kw>OR</span> X&lt;40 <span class=kw>THEN</span> <a href="#L8000">8000</a></td></tr>
+<tr id="L6050" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>6050</td><td class="code mono"><span class=kw>RETURN</span></td></tr>
+<tr id="L6090" class=""><td class=own></td><td class=ln>6090</td><td class="code mono"><span class=rem>' Knoppen: 2 kolommen x 5 rijen van 16 pixels</span></td></tr>
+<tr id="L6100" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>6100</td><td class="code mono"><span class=kw>IF</span> (X-16) <span class=kw>MOD</span> 16=0 <span class=kw>OR</span> (X-16) <span class=kw>MOD</span> 16&gt;13 <span class=kw>OR</span> (Y-88) <span class=kw>MOD</span> 16=0 <span class=kw>OR</span> (Y-88) <span class=kw>MOD</span> 16&gt;14 <span class=kw>THEN</span> <span class=kw>RETURN</span></td></tr>
+<tr id="L6110" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>6110</td><td class="code mono"><span class=kw>ON</span> ((Y-88)\16)*2+(X-16)\16+1 <span class=kw>GOTO</span> <a href="#L6130">6130</a>,<a href="#L6140">6140</a>,<a href="#L11000">11000</a>,<a href="#L12000">12000</a>,<a href="#L10000">10000</a>,<a href="#L7000">7000</a>,<a href="#L9000">9000</a>,<a href="#L14800">14800</a>,<a href="#L20000">20000</a>,<a href="#L5000">5000</a></td></tr>
+<tr id="L6120" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>6120</td><td class="code mono"><span class=kw>RETURN</span></td></tr>
+<tr id="L6130" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>6130</td><td class="code mono">SS=1:<span class=kw>GOTO</span> <a href="#L990">990</a>:<span class=rem>' potlood</span></td></tr>
+<tr id="L6140" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>6140</td><td class="code mono">SS=3:<span class=kw>GOTO</span> <a href="#L990">990</a>:<span class=rem>' gum</span></td></tr>
+<tr id="L6190" class=""><td class=own></td><td class=ln>6190</td><td class="code mono"><span class=rem>' Vakje in het raster tekenen of gummen</span></td></tr>
+<tr id="L6200" class="entry"><td class=own><a href="#R6200">6200</a></td><td class=ln>6200</td><td class="code mono">DX=(X-56)\8:DY=(Y-17)\8</td></tr>
+<tr id="L6210" class=""><td class=own><a href="#R6200">6200</a></td><td class=ln>6210</td><td class="code mono"><span class=kw>IF</span> DX&lt;1 <span class=kw>OR</span> DX&gt;SZ <span class=kw>OR</span> DY&lt;1 <span class=kw>OR</span> DY&gt;SZ <span class=kw>THEN</span> <span class=kw>RETURN</span></td></tr>
+<tr id="L6220" class=""><td class=own><a href="#R6200">6200</a></td><td class=ln>6220</td><td class="code mono"><span class=kw>IF</span> SS=3 <span class=kw>THEN</span> C=0 <span class=kw>ELSE</span> C=GC</td></tr>
+<tr id="L6230" class=""><td class=own><a href="#R6200">6200</a></td><td class=ln>6230</td><td class="code mono"><span class=kw>IF</span> SP(DX,DY)=C <span class=kw>THEN</span> <span class=kw>RETURN</span></td></tr>
+<tr id="L6240" class=""><td class=own><a href="#R6200">6200</a></td><td class=ln>6240</td><td class="code mono">SP(DX,DY)=C:SV=0</td></tr>
+<tr id="L6250" class=""><td class=own><a href="#R6200">6200</a></td><td class=ln>6250</td><td class="code mono"><span class=kw>GOSUB</span> <a href="#L8400">8400</a>:<span class=kw>GOSUB</span> <a href="#L8600">8600</a>:<span class=kw>GOTO</span> <a href="#L8700">8700</a></td></tr>
+<tr id="L6980" class=""><td class=own></td><td class=ln>6980</td><td class="code mono"><span class=rem>' Nieuwe sprite</span></td></tr>
+<tr id="L7000" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>7000</td><td class="code mono"><span class=kw>GOSUB</span> <a href="#L18000">18000</a>:<span class=kw>IF</span> CN <span class=kw>THEN</span> <span class=kw>GOSUB</span> <a href="#L3000">3000</a>:<span class=kw>RETURN</span></td></tr>
+<tr id="L7010" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>7010</td><td class="code mono"><span class=kw>FOR</span> I=1 <span class=kw>TO</span> 16:<span class=kw>FOR</span> J=1 <span class=kw>TO</span> 16:SP(J,I)=0:<span class=kw>NEXT</span> J,I</td></tr>
+<tr id="L7020" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>7020</td><td class="code mono">SV=1:<span class=kw>GOSUB</span> <a href="#L3000">3000</a>:<span class=kw>GOTO</span> <a href="#L8800">8800</a></td></tr>
+<tr id="L7980" class=""><td class=own></td><td class=ln>7980</td><td class="code mono"><span class=rem>' Kleur uit het palet kiezen voor het actieve slot</span></td></tr>
+<tr id="L8000" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>8000</td><td class="code mono">C=<span class=kw>POINT</span>(X,Y):<span class=kw>IF</span> VK=4 <span class=kw>THEN</span> N(4)=C:<span class=kw>GOTO</span> <a href="#L8900">8900</a></td></tr>
+<tr id="L8010" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>8010</td><td class="code mono"><span class=kw>IF</span> C=0 <span class=kw>OR</span> C=N(VK) <span class=kw>THEN</span> <span class=kw>RETURN</span></td></tr>
+<tr id="L8020" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>8020</td><td class="code mono">F=0:<span class=kw>FOR</span> M=1 <span class=kw>TO</span> 3:<span class=kw>IF</span> N(M)=C <span class=kw>THEN</span> F=1</td></tr>
+<tr id="L8030" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>8030</td><td class="code mono"><span class=kw>NEXT</span> M:<span class=kw>IF</span> F <span class=kw>THEN</span> <span class=kw>BEEP</span>:<span class=kw>RETURN</span></td></tr>
+<tr id="L8040" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>8040</td><td class="code mono">O=N(VK):N(VK)=C:GC=C:RC=0</td></tr>
+<tr id="L8050" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>8050</td><td class="code mono"><span class=kw>IF</span> O=0 <span class=kw>THEN</span> <a href="#L8080">8080</a></td></tr>
+<tr id="L8055" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>8055</td><td class="code mono"><span class=rem>' laag krijgt een nieuwe kleur: pixels van die laag meekleuren (zoals op MSX1)</span></td></tr>
+<tr id="L8060" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>8060</td><td class="code mono"><span class=kw>FOR</span> I=1 <span class=kw>TO</span> 16:<span class=kw>FOR</span> J=1 <span class=kw>TO</span> 16:<span class=kw>IF</span> SP(J,I)=O <span class=kw>THEN</span> SP(J,I)=C:RC=1</td></tr>
+<tr id="L8070" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>8070</td><td class="code mono"><span class=kw>NEXT</span> J,I:<span class=kw>IF</span> RC <span class=kw>THEN</span> SV=0:<span class=kw>GOSUB</span> <a href="#L3000">3000</a></td></tr>
+<tr id="L8080" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>8080</td><td class="code mono"><span class=kw>GOSUB</span> <a href="#L8900">8900</a>:<span class=kw>IF</span> O <span class=kw>THEN</span> <span class=kw>GOSUB</span> <a href="#L8700">8700</a> <span class=kw>ELSE</span> <span class=kw>GOSUB</span> <a href="#L8800">8800</a></td></tr>
+<tr id="L8085" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>8085</td><td class="code mono"><span class=kw>GOTO</span> <a href="#L990">990</a></td></tr>
+<tr id="L8090" class=""><td class=own></td><td class=ln>8090</td><td class="code mono"><span class=rem>' Kleurslot kiezen (1-3 = lagen, 4 = achtergrond preview)</span></td></tr>
+<tr id="L8100" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>8100</td><td class="code mono">VK=(X-16)\8+1:<span class=kw>IF</span> VK&lt;4 <span class=kw>THEN</span> GC=N(VK)</td></tr>
+<tr id="L8110" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>8110</td><td class="code mono"><span class=kw>GOSUB</span> <a href="#L8900">8900</a>:<span class=kw>GOTO</span> <a href="#L990">990</a></td></tr>
+<tr id="L8390" class=""><td class=own></td><td class=ln>8390</td><td class="code mono"><span class=rem>' Een vakje (DX,DY) opnieuw tekenen</span></td></tr>
+<tr id="L8400" class="entry"><td class=own><a href="#R8400">8400</a></td><td class=ln>8400</td><td class="code mono">C=SP(DX,DY):L=DX*8+56:W=DY*8+17</td></tr>
+<tr id="L8410" class=""><td class=own><a href="#R8400">8400</a></td><td class=ln>8410</td><td class="code mono"><span class=kw>IF</span> C <span class=kw>THEN</span> <span class=kw>LINE</span>(L,W)-(L+6,W+6),C,BF:<span class=kw>RETURN</span></td></tr>
+<tr id="L8420" class=""><td class=own><a href="#R8400">8400</a></td><td class=ln>8420</td><td class="code mono"><span class=kw>LINE</span>(L,W)-(L+6,W+6),1,BF:<span class=kw>LINE</span>(L,W)-(L+6,W),14:<span class=kw>LINE</span>(L,W)-(L,W+6),14:<span class=kw>RETURN</span></td></tr>
+<tr id="L8580" class=""><td class=own></td><td class=ln>8580</td><td class="code mono"><span class=rem>' Patroonbyte van rij DY (linker of rechter helft) bijwerken voor alle lagen</span></td></tr>
+<tr id="L8590" class=""><td class=own></td><td class=ln>8590</td><td class="code mono"><span class=rem>' PT$(m) = 32 bytes: 1-16 linkerkolom, 17-32 rechterkolom (MSX-volgorde)</span></td></tr>
+<tr id="L8600" class="entry"><td class=own><a href="#R8600">8600</a></td><td class=ln>8600</td><td class="code mono"><span class=kw>IF</span> DX&gt;8 <span class=kw>THEN</span> J0=9:PX=DY+16 <span class=kw>ELSE</span> J0=1:PX=DY</td></tr>
+<tr id="L8610" class=""><td class=own><a href="#R8600">8600</a></td><td class=ln>8610</td><td class="code mono"><span class=kw>FOR</span> M=1 <span class=kw>TO</span> 3:V=0:C=N(M)</td></tr>
+<tr id="L8620" class=""><td class=own><a href="#R8600">8600</a></td><td class=ln>8620</td><td class="code mono"><span class=kw>IF</span> C <span class=kw>THEN</span> <span class=kw>FOR</span> J=J0 <span class=kw>TO</span> J0+7:V=V+V-(SP(J,DY)=C):<span class=kw>NEXT</span> J</td></tr>
+<tr id="L8630" class=""><td class=own><a href="#R8600">8600</a></td><td class=ln>8630</td><td class="code mono"><span class=kw>MID$</span>(PT$(M),PX,1)=<span class=kw>CHR$</span>(V):<span class=kw>NEXT</span> M</td></tr>
+<tr id="L8640" class=""><td class=own><a href="#R8600">8600</a></td><td class=ln>8640</td><td class="code mono"><span class=kw>RETURN</span></td></tr>
+<tr id="L8690" class=""><td class=own></td><td class=ln>8690</td><td class="code mono"><span class=rem>' Preview tonen</span></td></tr>
+<tr id="L8700" class="shared entry"><td class=own><a href="#R6000">6000</a> <a href="#R6200">6200</a> <a href="#R8700">8700</a> <a href="#R8800">8800</a></td><td class=ln>8700</td><td class="code mono"><span class=kw>FOR</span> M=1 <span class=kw>TO</span> 3</td></tr>
+<tr id="L8710" class="shared"><td class=own><a href="#R6000">6000</a> <a href="#R6200">6200</a> <a href="#R8700">8700</a> <a href="#R8800">8800</a></td><td class=ln>8710</td><td class="code mono"><span class=kw>IF</span> N(M) <span class=kw>THEN</span> <span class=kw>SPRITE</span>$(M+10)=PT$(M):<span class=kw>PUT</span> <span class=kw>SPRITE</span> M+10,(225,33),N(M),M+10 <span class=kw>ELSE</span> <span class=kw>PUT</span> <span class=kw>SPRITE</span> M+10,(0,209),0,M+10</td></tr>
+<tr id="L8720" class="shared"><td class=own><a href="#R6000">6000</a> <a href="#R6200">6200</a> <a href="#R8700">8700</a> <a href="#R8800">8800</a></td><td class=ln>8720</td><td class="code mono"><span class=kw>NEXT</span> M:<span class=kw>RETURN</span></td></tr>
+<tr id="L8790" class=""><td class=own></td><td class=ln>8790</td><td class="code mono"><span class=rem>' Alle patronen opnieuw opbouwen (laden, grootte, nieuw)</span></td></tr>
+<tr id="L8800" class="shared entry"><td class=own><a href="#R6000">6000</a> <a href="#R8800">8800</a></td><td class=ln>8800</td><td class="code mono"><span class=kw>FOR</span> M=1 <span class=kw>TO</span> 3:PT$(M)=<span class=kw>STRING$</span>(32,0):<span class=kw>NEXT</span> M</td></tr>
+<tr id="L8810" class="shared"><td class=own><a href="#R6000">6000</a> <a href="#R8800">8800</a></td><td class=ln>8810</td><td class="code mono"><span class=kw>FOR</span> DY=1 <span class=kw>TO</span> SZ:DX=1:<span class=kw>GOSUB</span> <a href="#L8600">8600</a>:<span class=kw>IF</span> SZ=16 <span class=kw>THEN</span> DX=9:<span class=kw>GOSUB</span> <a href="#L8600">8600</a></td></tr>
+<tr id="L8820" class="shared"><td class=own><a href="#R6000">6000</a> <a href="#R8800">8800</a></td><td class=ln>8820</td><td class="code mono"><span class=kw>NEXT</span> DY:<span class=kw>GOTO</span> <a href="#L8700">8700</a></td></tr>
+<tr id="L8890" class=""><td class=own></td><td class=ln>8890</td><td class="code mono"><span class=rem>' Kleurslots tekenen, actief slot wit omrand</span></td></tr>
+<tr id="L8900" class="shared entry"><td class=own><a href="#R6000">6000</a> <a href="#R8900">8900</a></td><td class=ln>8900</td><td class="code mono"><span class=kw>FOR</span> M=1 <span class=kw>TO</span> 4:L=M*8+8:<span class=kw>LINE</span>(L,22)-(L+8,30),N(M),BF:<span class=kw>LINE</span>(L,22)-(L+8,30),14,B:<span class=kw>NEXT</span> M</td></tr>
+<tr id="L8910" class="shared"><td class=own><a href="#R6000">6000</a> <a href="#R8900">8900</a></td><td class=ln>8910</td><td class="code mono">L=VK*8+8:<span class=kw>LINE</span>(L,22)-(L+8,30),15,B</td></tr>
+<tr id="L8940" class="shared"><td class=own><a href="#R6000">6000</a> <a href="#R8900">8900</a></td><td class=ln>8940</td><td class="code mono"><span class=rem>' Achtergrond preview (coordinaten aanpassen aan je titelscherm)</span></td></tr>
+<tr id="L8950" class="shared"><td class=own><a href="#R6000">6000</a> <a href="#R8900">8900</a></td><td class=ln>8950</td><td class="code mono"><span class=kw>IF</span> N(4) <span class=kw>THEN</span> <span class=kw>LINE</span>(224,33)-(241,50),N(4),BF</td></tr>
+<tr id="L8960" class="shared"><td class=own><a href="#R6000">6000</a> <a href="#R8900">8900</a></td><td class=ln>8960</td><td class="code mono"><span class=kw>RETURN</span></td></tr>
+<tr id="L8980" class=""><td class=own></td><td class=ln>8980</td><td class="code mono"><span class=rem>' Opslaan (formaat SPD2: 16 regels van 16 hex-tekens)</span></td></tr>
+<tr id="L9000" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>9000</td><td class="code mono"><span class=kw>GOSUB</span> <a href="#L15000">15000</a>:<span class=kw>IF</span> F$=<span class=str>&quot;&quot;</span> <span class=kw>THEN</span> <span class=kw>GOSUB</span> <a href="#L3000">3000</a>:<span class=kw>RETURN</span></td></tr>
+<tr id="L9010" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>9010</td><td class="code mono"><span class=kw>GOSUB</span> <a href="#L800">800</a>:<span class=kw>OPEN</span> F$+<span class=str>&quot;.SPD&quot;</span> <span class=kw>FOR</span> <span class=kw>OUT</span><span class=kw>PUT</span> AS #2</td></tr>
+<tr id="L9020" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>9020</td><td class="code mono"><span class=kw>PRINT</span> #2,<span class=str>&quot;SPD2&quot;</span>:<span class=kw>PRINT</span> #2,SZ</td></tr>
+<tr id="L9030" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>9030</td><td class="code mono"><span class=kw>FOR</span> I=1 <span class=kw>TO</span> 16:S$=<span class=str>&quot;&quot;</span>:<span class=kw>FOR</span> J=1 <span class=kw>TO</span> 16:S$=S$+<span class=kw>HEX$</span>(SP(J,I)):<span class=kw>NEXT</span> J:<span class=kw>PRINT</span> #2,S$:<span class=kw>NEXT</span> I</td></tr>
+<tr id="L9040" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>9040</td><td class="code mono"><span class=kw>CLOSE</span> #2:SV=1:<span class=kw>GOSUB</span> <a href="#L850">850</a></td></tr>
+<tr id="L9050" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>9050</td><td class="code mono">M1$=<span class=str>&quot;File saved!&quot;</span>:M2$=<span class=str>&quot;&quot;</span>:<span class=kw>GOSUB</span> <a href="#L19100">19100</a>:<span class=kw>GOTO</span> <a href="#L3000">3000</a></td></tr>
+<tr id="L9980" class=""><td class=own></td><td class=ln>9980</td><td class="code mono"><span class=rem>' Openen (leest ook het oude formaat van 0.3)</span></td></tr>
+<tr id="L10000" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>10000</td><td class="code mono"><span class=kw>GOSUB</span> <a href="#L16000">16000</a>:<span class=kw>IF</span> F$=<span class=str>&quot;&quot;</span> <span class=kw>THEN</span> <span class=kw>GOSUB</span> <a href="#L3000">3000</a>:<span class=kw>RETURN</span></td></tr>
+<tr id="L10010" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>10010</td><td class="code mono"><span class=kw>GOSUB</span> <a href="#L800">800</a>:<span class=kw>OPEN</span> F$ <span class=kw>FOR</span> <span class=kw>INPUT</span> AS #2</td></tr>
+<tr id="L10020" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>10020</td><td class="code mono"><span class=kw>INPUT</span> #2,A$:<span class=kw>IF</span> A$=<span class=str>&quot;SPD2&quot;</span> <span class=kw>THEN</span> <a href="#L10060">10060</a></td></tr>
+<tr id="L10030" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>10030</td><td class="code mono">SZ=<span class=kw>VAL</span>(A$):<span class=kw>FOR</span> I=1 <span class=kw>TO</span> 16:<span class=kw>FOR</span> J=1 <span class=kw>TO</span> 16:<span class=kw>INPUT</span> #2,A$:SP(I,J)=<span class=kw>VAL</span>(A$):<span class=kw>NEXT</span> J,I</td></tr>
+<tr id="L10040" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>10040</td><td class="code mono"><span class=kw>GOTO</span> <a href="#L10080">10080</a></td></tr>
+<tr id="L10060" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>10060</td><td class="code mono"><span class=kw>INPUT</span> #2,SZ:<span class=kw>FOR</span> I=1 <span class=kw>TO</span> 16:<span class=kw>INPUT</span> #2,A$:<span class=kw>FOR</span> J=1 <span class=kw>TO</span> 16:SP(J,I)=<span class=kw>VAL</span>(<span class=str>&quot;&amp;H&quot;</span>+<span class=kw>MID$</span>(A$,J,1)):<span class=kw>NEXT</span> J,I</td></tr>
+<tr id="L10080" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>10080</td><td class="code mono"><span class=kw>CLOSE</span> #2:SV=1:<span class=kw>GOSUB</span> <a href="#L14000">14000</a></td></tr>
+<tr id="L10090" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>10090</td><td class="code mono"><span class=kw>GOSUB</span> <a href="#L3000">3000</a>:<span class=kw>GOSUB</span> <a href="#L8900">8900</a>:<span class=kw>GOSUB</span> <a href="#L8800">8800</a>:<span class=kw>GOTO</span> <a href="#L850">850</a></td></tr>
+<tr id="L10980" class=""><td class=own></td><td class=ln>10980</td><td class="code mono"><span class=rem>' 8x8 sprite</span></td></tr>
+<tr id="L11000" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>11000</td><td class="code mono"><span class=kw>IF</span> SZ=8 <span class=kw>THEN</span> <span class=kw>RETURN</span></td></tr>
+<tr id="L11010" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>11010</td><td class="code mono">SZ=8</td></tr>
+<tr id="L11100" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>11100</td><td class="code mono"><span class=kw>GOSUB</span> <a href="#L800">800</a>:<span class=kw>GOSUB</span> <a href="#L3000">3000</a>:<span class=kw>GOSUB</span> <a href="#L8800">8800</a>:<span class=kw>GOTO</span> <a href="#L850">850</a></td></tr>
+<tr id="L11980" class=""><td class=own></td><td class=ln>11980</td><td class="code mono"><span class=rem>' 16x16 sprite</span></td></tr>
+<tr id="L12000" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>12000</td><td class="code mono"><span class=kw>IF</span> SZ=16 <span class=kw>THEN</span> <span class=kw>RETURN</span></td></tr>
+<tr id="L12010" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>12010</td><td class="code mono">SZ=16:<span class=kw>GOTO</span> <a href="#L11100">11100</a></td></tr>
+<tr id="L13980" class=""><td class=own></td><td class=ln>13980</td><td class="code mono"><span class=rem>' Kleuren in de sprite zoeken en in slot 1-3 zetten</span></td></tr>
+<tr id="L14000" class="entry"><td class=own><a href="#R14000">14000</a></td><td class=ln>14000</td><td class="code mono">N(1)=0:N(2)=0:N(3)=0:K=0:XC=0</td></tr>
+<tr id="L14010" class=""><td class=own><a href="#R14000">14000</a></td><td class=ln>14010</td><td class="code mono"><span class=kw>FOR</span> I=1 <span class=kw>TO</span> 16:<span class=kw>FOR</span> J=1 <span class=kw>TO</span> 16:C=SP(J,I):<span class=kw>IF</span> C=0 <span class=kw>THEN</span> <a href="#L14040">14040</a></td></tr>
+<tr id="L14020" class=""><td class=own><a href="#R14000">14000</a></td><td class=ln>14020</td><td class="code mono"><span class=kw>IF</span> C=N(1) <span class=kw>OR</span> C=N(2) <span class=kw>OR</span> C=N(3) <span class=kw>THEN</span> <a href="#L14040">14040</a></td></tr>
+<tr id="L14030" class=""><td class=own><a href="#R14000">14000</a></td><td class=ln>14030</td><td class="code mono"><span class=kw>IF</span> K&lt;3 <span class=kw>THEN</span> K=K+1:N(K)=C <span class=kw>ELSE</span> XC=1</td></tr>
+<tr id="L14040" class=""><td class=own><a href="#R14000">14000</a></td><td class=ln>14040</td><td class="code mono"><span class=kw>NEXT</span> J,I</td></tr>
+<tr id="L14050" class=""><td class=own><a href="#R14000">14000</a></td><td class=ln>14050</td><td class="code mono"><span class=kw>IF</span> K=0 <span class=kw>THEN</span> N(1)=15</td></tr>
+<tr id="L14060" class=""><td class=own><a href="#R14000">14000</a></td><td class=ln>14060</td><td class="code mono">VK=1:GC=N(1):<span class=kw>IF</span> XC=0 <span class=kw>THEN</span> <span class=kw>RETURN</span></td></tr>
+<tr id="L14070" class=""><td class=own><a href="#R14000">14000</a></td><td class=ln>14070</td><td class="code mono">M1$=<span class=str>&quot;Over 3 colors,&quot;</span>:M2$=<span class=str>&quot;extra ignored.&quot;</span>:<span class=kw>GOTO</span> <a href="#L19100">19100</a></td></tr>
+<tr id="L14780" class=""><td class=own></td><td class=ln>14780</td><td class="code mono"><span class=rem>' Exporteren als BASIC (ASCII, met MERGE in te voegen)</span></td></tr>
+<tr id="L14800" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>14800</td><td class="code mono"><span class=kw>GOSUB</span> <a href="#L15000">15000</a>:<span class=kw>IF</span> F$=<span class=str>&quot;&quot;</span> <span class=kw>THEN</span> <span class=kw>GOSUB</span> <a href="#L3000">3000</a>:<span class=kw>RETURN</span></td></tr>
+<tr id="L14810" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>14810</td><td class="code mono">NL=0:<span class=kw>FOR</span> M=1 <span class=kw>TO</span> 3:<span class=kw>IF</span> N(M) <span class=kw>THEN</span> <span class=kw>IF</span> PT$(M)&lt;&gt;<span class=kw>STRING$</span>(32,0) <span class=kw>THEN</span> NL=NL+1:LI(NL)=M</td></tr>
+<tr id="L14820" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>14820</td><td class="code mono"><span class=kw>NEXT</span> M</td></tr>
+<tr id="L14830" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>14830</td><td class="code mono"><span class=kw>IF</span> NL=0 <span class=kw>THEN</span> M1$=<span class=str>&quot;Sprite is empty&quot;</span>:M2$=<span class=str>&quot;&quot;</span>:<span class=kw>GOSUB</span> <a href="#L19100">19100</a>:<span class=kw>GOTO</span> <a href="#L3000">3000</a></td></tr>
+<tr id="L14840" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>14840</td><td class="code mono"><span class=kw>GOSUB</span> <a href="#L800">800</a>:Q$=<span class=kw>CHR$</span>(34):S$=<span class=kw>MID$</span>(<span class=kw>STR$</span>(SZ),2)</td></tr>
+<tr id="L14850" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>14850</td><td class="code mono"><span class=kw>IF</span> SZ=16 <span class=kw>THEN</span> NB=32:A$=<span class=str>&quot;2,2&quot;</span> <span class=kw>ELSE</span> NB=8:A$=<span class=str>&quot;2,0&quot;</span></td></tr>
+<tr id="L14860" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>14860</td><td class="code mono"><span class=kw>OPEN</span> F$+<span class=str>&quot;.BAS&quot;</span> <span class=kw>FOR</span> <span class=kw>OUT</span><span class=kw>PUT</span> AS #2</td></tr>
+<tr id="L14870" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>14870</td><td class="code mono"><span class=kw>PRINT</span> #2,<span class=str>&quot;10000 ' Sprite &quot;</span>;F$;<span class=str>&quot; - &quot;</span>;S$;<span class=str>&quot;x&quot;</span>;S$;<span class=str>&quot;, &quot;</span>;<span class=kw>MID$</span>(<span class=kw>STR$</span>(NL),2);<span class=str>&quot; layer(s)&quot;</span></td></tr>
+<tr id="L14880" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>14880</td><td class="code mono"><span class=kw>PRINT</span> #2,<span class=str>&quot;10010 ' Setup: SCREEN &quot;</span>;A$;<span class=str>&quot;:QB=0:GOSUB 10040&quot;</span></td></tr>
+<tr id="L14890" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>14890</td><td class="code mono"><span class=kw>PRINT</span> #2,<span class=str>&quot;10020 ' Show : FOR QI=0 TO QL-1:PUT SPRITE QI,(X,Y),QC(QI),QB+QI:NEXT&quot;</span></td></tr>
+<tr id="L14900" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>14900</td><td class="code mono"><span class=kw>PRINT</span> #2,<span class=str>&quot;10030 ' Uses QB,QC(),QH$,QI,QJ,QL,QS$ (QB=first pattern)&quot;</span></td></tr>
+<tr id="L14910" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>14910</td><td class="code mono"><span class=kw>PRINT</span> #2,<span class=str>&quot;10040 RESTORE 10100:READ QL:FOR QI=0 TO QL-1:READ QC(QI),QH$:QS$=&quot;</span>;Q$;Q$</td></tr>
+<tr id="L14920" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>14920</td><td class="code mono"><span class=kw>PRINT</span> #2,<span class=str>&quot;10050 FOR QJ=1 TO LEN(QH$) STEP 2:QS$=QS$+CHR$(VAL(&quot;</span>;Q$;<span class=str>&quot;&amp;H&quot;</span>;Q$;<span class=str>&quot;+MID$(QH$,QJ,2))):NEXT QJ&quot;</span></td></tr>
+<tr id="L14930" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>14930</td><td class="code mono"><span class=kw>PRINT</span> #2,<span class=str>&quot;10060 SPRITE$(QB+QI)=QS$:NEXT QI:RETURN&quot;</span></td></tr>
+<tr id="L14940" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>14940</td><td class="code mono"><span class=kw>PRINT</span> #2,<span class=str>&quot;10100 DATA &quot;</span>;<span class=kw>MID$</span>(<span class=kw>STR$</span>(NL),2)</td></tr>
+<tr id="L14950" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>14950</td><td class="code mono">R=10110:<span class=kw>FOR</span> K=1 <span class=kw>TO</span> NL:M=LI(K):H$=<span class=str>&quot;&quot;</span></td></tr>
+<tr id="L14960" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>14960</td><td class="code mono"><span class=kw>FOR</span> I=1 <span class=kw>TO</span> NB:H$=H$+<span class=kw>RIGHT$</span>(<span class=str>&quot;0&quot;</span>+<span class=kw>HEX$</span>(<span class=kw>ASC</span>(<span class=kw>MID$</span>(PT$(M),I,1))),2):<span class=kw>NEXT</span> I</td></tr>
+<tr id="L14970" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>14970</td><td class="code mono"><span class=kw>PRINT</span> #2,<span class=kw>MID$</span>(<span class=kw>STR$</span>(R),2);<span class=str>&quot; DATA &quot;</span>;<span class=kw>MID$</span>(<span class=kw>STR$</span>(N(M)),2);<span class=str>&quot;,&quot;</span>;H$:R=R+10:<span class=kw>NEXT</span> K</td></tr>
+<tr id="L14980" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>14980</td><td class="code mono"><span class=kw>PRINT</span> #2,<span class=kw>CHR$</span>(26);:<span class=kw>CLOSE</span> #2:<span class=kw>GOSUB</span> <a href="#L850">850</a></td></tr>
+<tr id="L14990" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>14990</td><td class="code mono">M1$=<span class=str>&quot;Exported as&quot;</span>:M2$=F$+<span class=str>&quot;.BAS&quot;</span>:<span class=kw>GOSUB</span> <a href="#L19100">19100</a>:<span class=kw>GOTO</span> <a href="#L3000">3000</a></td></tr>
+<tr id="L14995" class=""><td class=own></td><td class=ln>14995</td><td class="code mono"><span class=rem>' Bestandsnaam invoeren (A-Z, 0-9, - en _)</span></td></tr>
+<tr id="L15000" class="entry"><td class=own><a href="#R15000">15000</a></td><td class=ln>15000</td><td class="code mono"><span class=kw>GOSUB</span> <a href="#L19000">19000</a></td></tr>
+<tr id="L15005" class=""><td class=own><a href="#R15000">15000</a></td><td class=ln>15005</td><td class="code mono"><span class=kw>LINE</span>(64,64)-(190,106),1,BF:<span class=kw>LINE</span>(64,64)-(190,106),14,B</td></tr>
+<tr id="L15010" class=""><td class=own><a href="#R15000">15000</a></td><td class=ln>15010</td><td class="code mono"><span class=kw>PSET</span>(66,66),1:<span class=kw>PRINT</span>#1,<span class=str>&quot;Enter=save&quot;</span></td></tr>
+<tr id="L15020" class=""><td class=own><a href="#R15000">15000</a></td><td class=ln>15020</td><td class="code mono"><span class=kw>PSET</span>(66,76),1:<span class=kw>PRINT</span>#1,<span class=str>&quot;ESC=cancel&quot;</span></td></tr>
+<tr id="L15030" class=""><td class=own><a href="#R15000">15000</a></td><td class=ln>15030</td><td class="code mono"><span class=kw>PSET</span>(66,86),1:<span class=kw>PRINT</span>#1,<span class=str>&quot;Filename:&quot;</span></td></tr>
+<tr id="L15040" class=""><td class=own><a href="#R15000">15000</a></td><td class=ln>15040</td><td class="code mono">F$=<span class=str>&quot;&quot;</span></td></tr>
+<tr id="L15050" class=""><td class=own><a href="#R15000">15000</a></td><td class=ln>15050</td><td class="code mono"><span class=kw>LINE</span>(66,96)-(189,105),1,BF:<span class=kw>PSET</span>(66,96),1:<span class=kw>PRINT</span>#1,F$;<span class=str>&quot;_&quot;</span></td></tr>
+<tr id="L15060" class=""><td class=own><a href="#R15000">15000</a></td><td class=ln>15060</td><td class="code mono">K$=<span class=kw>INKEY$</span>:<span class=kw>IF</span> K$=<span class=str>&quot;&quot;</span> <span class=kw>THEN</span> <a href="#L15060">15060</a></td></tr>
+<tr id="L15070" class=""><td class=own><a href="#R15000">15000</a></td><td class=ln>15070</td><td class="code mono">A=<span class=kw>ASC</span>(K$)</td></tr>
+<tr id="L15080" class=""><td class=own><a href="#R15000">15000</a></td><td class=ln>15080</td><td class="code mono"><span class=kw>IF</span> A=13 <span class=kw>THEN</span> <span class=kw>IF</span> F$&lt;&gt;<span class=str>&quot;&quot;</span> <span class=kw>THEN</span> <span class=kw>RETURN</span></td></tr>
+<tr id="L15090" class=""><td class=own><a href="#R15000">15000</a></td><td class=ln>15090</td><td class="code mono"><span class=kw>IF</span> A=27 <span class=kw>THEN</span> F$=<span class=str>&quot;&quot;</span>:<span class=kw>RETURN</span></td></tr>
+<tr id="L15100" class=""><td class=own><a href="#R15000">15000</a></td><td class=ln>15100</td><td class="code mono"><span class=kw>IF</span> A=8 <span class=kw>THEN</span> <span class=kw>IF</span> F$&lt;&gt;<span class=str>&quot;&quot;</span> <span class=kw>THEN</span> F$=<span class=kw>LEFT$</span>(F$,<span class=kw>LEN</span>(F$)-1):<span class=kw>GOTO</span> <a href="#L15050">15050</a></td></tr>
+<tr id="L15110" class=""><td class=own><a href="#R15000">15000</a></td><td class=ln>15110</td><td class="code mono"><span class=kw>IF</span> A&gt;96 <span class=kw>AND</span> A&lt;123 <span class=kw>THEN</span> A=A-32:K$=<span class=kw>CHR$</span>(A)</td></tr>
+<tr id="L15120" class=""><td class=own><a href="#R15000">15000</a></td><td class=ln>15120</td><td class="code mono"><span class=kw>IF</span> <span class=kw>LEN</span>(F$)&lt;8 <span class=kw>THEN</span> <span class=kw>IF</span> (A&gt;64 <span class=kw>AND</span> A&lt;91) <span class=kw>OR</span> (A&gt;47 <span class=kw>AND</span> A&lt;58) <span class=kw>OR</span> A=45 <span class=kw>OR</span> A=95 <span class=kw>THEN</span> F$=F$+K$:<span class=kw>GOTO</span> <a href="#L15050">15050</a></td></tr>
+<tr id="L15130" class=""><td class=own><a href="#R15000">15000</a></td><td class=ln>15130</td><td class="code mono"><span class=kw>GOTO</span> <a href="#L15060">15060</a></td></tr>
+<tr id="L15980" class=""><td class=own></td><td class=ln>15980</td><td class="code mono"><span class=rem>' Openen dialoog</span></td></tr>
+<tr id="L16000" class="entry"><td class=own><a href="#R16000">16000</a></td><td class=ln>16000</td><td class="code mono"><span class=kw>GOSUB</span> <a href="#L18000">18000</a>:<span class=kw>IF</span> CN <span class=kw>THEN</span> F$=<span class=str>&quot;&quot;</span>:<span class=kw>RETURN</span></td></tr>
+<tr id="L16010" class=""><td class=own><a href="#R16000">16000</a></td><td class=ln>16010</td><td class="code mono"><span class=kw>GOSUB</span> <a href="#L800">800</a>:<span class=kw>GOSUB</span> <a href="#L17930">17930</a>:FC=0:F$=<span class=str>&quot;&quot;</span></td></tr>
+<tr id="L16020" class=""><td class=own><a href="#R16000">16000</a></td><td class=ln>16020</td><td class="code mono"><span class=kw>IF</span> <span class=kw>USR</span>(0) <span class=kw>THEN</span> <a href="#L16060">16060</a></td></tr>
+<tr id="L16030" class=""><td class=own><a href="#R16000">16000</a></td><td class=ln>16030</td><td class="code mono">A$=<span class=str>&quot;&quot;</span>:<span class=kw>FOR</span> I=1 <span class=kw>TO</span> 8:C=<span class=kw>PEEK</span>(DT!+I):<span class=kw>IF</span> C&lt;&gt;32 <span class=kw>THEN</span> A$=A$+<span class=kw>CHR$</span>(C)</td></tr>
+<tr id="L16040" class=""><td class=own><a href="#R16000">16000</a></td><td class=ln>16040</td><td class="code mono"><span class=kw>NEXT</span> I:FA$(FC)=A$:FC=FC+1</td></tr>
+<tr id="L16050" class=""><td class=own><a href="#R16000">16000</a></td><td class=ln>16050</td><td class="code mono"><span class=kw>IF</span> FC&lt;64 <span class=kw>THEN</span> <span class=kw>IF</span> <span class=kw>USR</span>1(0)=0 <span class=kw>THEN</span> <a href="#L16030">16030</a></td></tr>
+<tr id="L16060" class=""><td class=own><a href="#R16000">16000</a></td><td class=ln>16060</td><td class="code mono"><span class=kw>GOSUB</span> <a href="#L850">850</a>:<span class=kw>IF</span> FC=0 <span class=kw>THEN</span> M1$=<span class=str>&quot;No .SPD files&quot;</span>:M2$=<span class=str>&quot;found.&quot;</span>:<span class=kw>GOTO</span> <a href="#L19100">19100</a></td></tr>
+<tr id="L16100" class=""><td class=own><a href="#R16000">16000</a></td><td class=ln>16100</td><td class="code mono"><span class=kw>LINE</span>(64,64)-(190,142),1,BF:<span class=kw>LINE</span>(64,64)-(190,142),14,B</td></tr>
+<tr id="L16110" class=""><td class=own><a href="#R16000">16000</a></td><td class=ln>16110</td><td class="code mono"><span class=kw>PSET</span>(66,66),1:<span class=kw>PRINT</span>#1,<span class=str>&quot;Enter=open&quot;</span></td></tr>
+<tr id="L16120" class=""><td class=own><a href="#R16000">16000</a></td><td class=ln>16120</td><td class="code mono"><span class=kw>PSET</span>(66,76),1:<span class=kw>PRINT</span>#1,<span class=str>&quot;ESC=cancel&quot;</span></td></tr>
+<tr id="L16130" class=""><td class=own><a href="#R16000">16000</a></td><td class=ln>16130</td><td class="code mono">P=0:U=0:<span class=kw>GOSUB</span> <a href="#L19000">19000</a></td></tr>
+<tr id="L16140" class=""><td class=own><a href="#R16000">16000</a></td><td class=ln>16140</td><td class="code mono"><span class=kw>LINE</span>(65,86)-(189,141),1,BF</td></tr>
+<tr id="L16150" class=""><td class=own><a href="#R16000">16000</a></td><td class=ln>16150</td><td class="code mono"><span class=kw>FOR</span> I=0 <span class=kw>TO</span> 5:<span class=kw>IF</span> P+I&lt;FC <span class=kw>THEN</span> <span class=kw>PSET</span>(80,86+I*9),1:<span class=kw>PRINT</span>#1,FA$(P+I)</td></tr>
+<tr id="L16160" class=""><td class=own><a href="#R16000">16000</a></td><td class=ln>16160</td><td class="code mono"><span class=kw>NEXT</span> I</td></tr>
+<tr id="L16170" class=""><td class=own><a href="#R16000">16000</a></td><td class=ln>16170</td><td class="code mono"><span class=kw>IF</span> P&gt;0 <span class=kw>THEN</span> <span class=kw>PSET</span>(178,86),1:<span class=kw>PRINT</span>#1,<span class=kw>CHR$</span>(206)</td></tr>
+<tr id="L16180" class=""><td class=own><a href="#R16000">16000</a></td><td class=ln>16180</td><td class="code mono"><span class=kw>IF</span> P+6&lt;FC <span class=kw>THEN</span> <span class=kw>PSET</span>(178,131),1:<span class=kw>PRINT</span>#1,<span class=kw>CHR$</span>(205)</td></tr>
+<tr id="L16190" class=""><td class=own><a href="#R16000">16000</a></td><td class=ln>16190</td><td class="code mono"><span class=kw>LINE</span>(68,86)-(77,140),1,BF:<span class=kw>PSET</span>(68,86+U*9),1:<span class=kw>PRINT</span>#1,<span class=kw>CHR$</span>(207)</td></tr>
+<tr id="L16200" class=""><td class=own><a href="#R16000">16000</a></td><td class=ln>16200</td><td class="code mono">K$=<span class=kw>INKEY$</span>:<span class=kw>IF</span> K$=<span class=str>&quot;&quot;</span> <span class=kw>THEN</span> <a href="#L16200">16200</a></td></tr>
+<tr id="L16210" class=""><td class=own><a href="#R16000">16000</a></td><td class=ln>16210</td><td class="code mono"><span class=kw>IF</span> K$=<span class=kw>CHR$</span>(27) <span class=kw>THEN</span> F$=<span class=str>&quot;&quot;</span>:<span class=kw>RETURN</span></td></tr>
+<tr id="L16220" class=""><td class=own><a href="#R16000">16000</a></td><td class=ln>16220</td><td class="code mono"><span class=kw>IF</span> K$=<span class=kw>CHR$</span>(13) <span class=kw>THEN</span> F$=FA$(P+U)+<span class=str>&quot;.SPD&quot;</span>:<span class=kw>RETURN</span></td></tr>
+<tr id="L16230" class=""><td class=own><a href="#R16000">16000</a></td><td class=ln>16230</td><td class="code mono"><span class=kw>IF</span> K$=<span class=kw>CHR$</span>(30) <span class=kw>THEN</span> <span class=kw>IF</span> U&gt;0 <span class=kw>THEN</span> U=U-1:<span class=kw>GOTO</span> <a href="#L16190">16190</a> <span class=kw>ELSE</span> <span class=kw>IF</span> P&gt;0 <span class=kw>THEN</span> P=P-1:<span class=kw>GOTO</span> <a href="#L16140">16140</a></td></tr>
+<tr id="L16240" class=""><td class=own><a href="#R16000">16000</a></td><td class=ln>16240</td><td class="code mono"><span class=kw>IF</span> K$=<span class=kw>CHR$</span>(31) <span class=kw>THEN</span> <span class=kw>IF</span> P+U+1&lt;FC <span class=kw>THEN</span> <span class=kw>IF</span> U&lt;5 <span class=kw>THEN</span> U=U+1:<span class=kw>GOTO</span> <a href="#L16190">16190</a> <span class=kw>ELSE</span> P=P+1:<span class=kw>GOTO</span> <a href="#L16140">16140</a></td></tr>
+<tr id="L16250" class=""><td class=own><a href="#R16000">16000</a></td><td class=ln>16250</td><td class="code mono"><span class=kw>GOTO</span> <a href="#L16200">16200</a></td></tr>
+<tr id="L17880" class=""><td class=own></td><td class=ln>17880</td><td class="code mono"><span class=rem>' Machinecode: BDOS zoek eerste (USR) / volgende (USR1) boven HIMEM</span></td></tr>
+<tr id="L17890" class=""><td class=own></td><td class=ln>17890</td><td class="code mono"><span class=rem>' Indeling: code BA!+0, FCB BA!+32, DTA BA!+80 (128 bytes)</span></td></tr>
+<tr id="L17900" class="entry"><td class=own><a href="#R17900">17900</a></td><td class=ln>17900</td><td class="code mono">BA!=<span class=kw>PEEK</span>(&amp;HFC4A)+256*<span class=kw>PEEK</span>(&amp;HFC4B):FB!=BA!+32:DT!=BA!+80</td></tr>
+<tr id="L17905" class=""><td class=own><a href="#R17900">17900</a></td><td class=ln>17905</td><td class="code mono">DA$=<span class=str>&quot;0E11110E12C51100C10E1ACD7DF3C11180C0CD7DF332F8F7C9&quot;</span></td></tr>
+<tr id="L17910" class=""><td class=own><a href="#R17900">17900</a></td><td class=ln>17910</td><td class="code mono"><span class=kw>FOR</span> I=0 <span class=kw>TO</span> 24:<span class=kw>POKE</span> BA!+I,<span class=kw>VAL</span>(<span class=str>&quot;&amp;H&quot;</span>+<span class=kw>MID$</span>(DA$,I*2+1,2)):<span class=kw>NEXT</span> I</td></tr>
+<tr id="L17915" class=""><td class=own><a href="#R17900">17900</a></td><td class=ln>17915</td><td class="code mono"><span class=kw>POKE</span> BA!+7,DT!-<span class=kw>INT</span>(DT!/256)*256:<span class=kw>POKE</span> BA!+8,<span class=kw>INT</span>(DT!/256)</td></tr>
+<tr id="L17918" class=""><td class=own><a href="#R17900">17900</a></td><td class=ln>17918</td><td class="code mono"><span class=kw>POKE</span> BA!+16,FB!-<span class=kw>INT</span>(FB!/256)*256:<span class=kw>POKE</span> BA!+17,<span class=kw>INT</span>(FB!/256)</td></tr>
+<tr id="L17920" class=""><td class=own><a href="#R17900">17900</a></td><td class=ln>17920</td><td class="code mono"><span class=kw>DEF</span><span class=kw>USR</span>=BA!:<span class=kw>DEF</span><span class=kw>USR</span>1=BA!+3</td></tr>
+<tr id="L17925" class=""><td class=own><a href="#R17900">17900</a></td><td class=ln>17925</td><td class="code mono"><span class=rem>' FCB voor ????????.SPD opnieuw klaarzetten</span></td></tr>
+<tr id="L17930" class="shared entry"><td class=own><a href="#R17900">17900</a> <a href="#R17930">17930</a></td><td class=ln>17930</td><td class="code mono">FM$=<span class=str>&quot;????????SPD&quot;</span>:<span class=kw>POKE</span> FB!,0</td></tr>
+<tr id="L17940" class="shared"><td class=own><a href="#R17900">17900</a> <a href="#R17930">17930</a></td><td class=ln>17940</td><td class="code mono"><span class=kw>FOR</span> I=1 <span class=kw>TO</span> 11:<span class=kw>POKE</span> FB!+I,<span class=kw>ASC</span>(<span class=kw>MID$</span>(FM$,I,1)):<span class=kw>NEXT</span> I</td></tr>
+<tr id="L17950" class="shared"><td class=own><a href="#R17900">17900</a> <a href="#R17930">17930</a></td><td class=ln>17950</td><td class="code mono"><span class=kw>FOR</span> I=12 <span class=kw>TO</span> 36:<span class=kw>POKE</span> FB!+I,0:<span class=kw>NEXT</span> I</td></tr>
+<tr id="L17960" class="shared"><td class=own><a href="#R17900">17900</a> <a href="#R17930">17930</a></td><td class=ln>17960</td><td class="code mono"><span class=kw>RETURN</span></td></tr>
+<tr id="L17980" class=""><td class=own></td><td class=ln>17980</td><td class="code mono"><span class=rem>' Opslaan check (CN=1 als de gebruiker annuleert)</span></td></tr>
+<tr id="L18000" class="entry"><td class=own><a href="#R18000">18000</a></td><td class=ln>18000</td><td class="code mono">CN=0:<span class=kw>IF</span> SV <span class=kw>THEN</span> <span class=kw>RETURN</span></td></tr>
+<tr id="L18010" class=""><td class=own><a href="#R18000">18000</a></td><td class=ln>18010</td><td class="code mono"><span class=kw>LINE</span>(64,64)-(190,106),1,BF:<span class=kw>LINE</span>(64,64)-(190,106),14,B</td></tr>
+<tr id="L18020" class=""><td class=own><a href="#R18000">18000</a></td><td class=ln>18020</td><td class="code mono"><span class=kw>PSET</span>(66,66),1:<span class=kw>PRINT</span>#1,<span class=str>&quot;Not saved!&quot;</span></td></tr>
+<tr id="L18030" class=""><td class=own><a href="#R18000">18000</a></td><td class=ln>18030</td><td class="code mono"><span class=kw>PSET</span>(66,76),1:<span class=kw>PRINT</span>#1,<span class=str>&quot;Enter=discard&quot;</span></td></tr>
+<tr id="L18040" class=""><td class=own><a href="#R18000">18000</a></td><td class=ln>18040</td><td class="code mono"><span class=kw>PSET</span>(66,86),1:<span class=kw>PRINT</span>#1,<span class=str>&quot;ESC=cancel&quot;</span></td></tr>
+<tr id="L18050" class=""><td class=own><a href="#R18000">18000</a></td><td class=ln>18050</td><td class="code mono"><span class=kw>GOSUB</span> <a href="#L19000">19000</a></td></tr>
+<tr id="L18060" class=""><td class=own><a href="#R18000">18000</a></td><td class=ln>18060</td><td class="code mono">K$=<span class=kw>INKEY$</span>:<span class=kw>IF</span> K$=<span class=kw>CHR$</span>(13) <span class=kw>THEN</span> <span class=kw>RETURN</span></td></tr>
+<tr id="L18070" class=""><td class=own><a href="#R18000">18000</a></td><td class=ln>18070</td><td class="code mono"><span class=kw>IF</span> K$=<span class=kw>CHR$</span>(27) <span class=kw>THEN</span> CN=1:<span class=kw>RETURN</span></td></tr>
+<tr id="L18080" class=""><td class=own><a href="#R18000">18000</a></td><td class=ln>18080</td><td class="code mono"><span class=kw>GOTO</span> <a href="#L18060">18060</a></td></tr>
+<tr id="L18980" class=""><td class=own></td><td class=ln>18980</td><td class="code mono"><span class=rem>' Toetsenbordbuffer leegmaken</span></td></tr>
+<tr id="L19000" class="entry"><td class=own><a href="#R19000">19000</a></td><td class=ln>19000</td><td class="code mono"><span class=kw>IF</span> <span class=kw>INKEY$</span>&lt;&gt;<span class=str>&quot;&quot;</span> <span class=kw>THEN</span> <a href="#L19000">19000</a></td></tr>
+<tr id="L19010" class=""><td class=own><a href="#R19000">19000</a></td><td class=ln>19010</td><td class="code mono"><span class=kw>RETURN</span></td></tr>
+<tr id="L19090" class=""><td class=own></td><td class=ln>19090</td><td class="code mono"><span class=rem>' Melding M1$/M2$ tonen en op een toets wachten</span></td></tr>
+<tr id="L19100" class="shared entry"><td class=own><a href="#R14000">14000</a> <a href="#R16000">16000</a> <a href="#R19100">19100</a></td><td class=ln>19100</td><td class="code mono"><span class=kw>LINE</span>(64,64)-(190,106),1,BF:<span class=kw>LINE</span>(64,64)-(190,106),14,B</td></tr>
+<tr id="L19110" class="shared"><td class=own><a href="#R14000">14000</a> <a href="#R16000">16000</a> <a href="#R19100">19100</a></td><td class=ln>19110</td><td class="code mono"><span class=kw>PSET</span>(66,66),1:<span class=kw>PRINT</span>#1,M1$:<span class=kw>PSET</span>(66,76),1:<span class=kw>PRINT</span>#1,M2$</td></tr>
+<tr id="L19120" class="shared"><td class=own><a href="#R14000">14000</a> <a href="#R16000">16000</a> <a href="#R19100">19100</a></td><td class=ln>19120</td><td class="code mono"><span class=kw>PSET</span>(66,86),1:<span class=kw>PRINT</span>#1,<span class=str>&quot;press any key..&quot;</span></td></tr>
+<tr id="L19130" class="shared"><td class=own><a href="#R14000">14000</a> <a href="#R16000">16000</a> <a href="#R19100">19100</a></td><td class=ln>19130</td><td class="code mono"><span class=kw>GOSUB</span> <a href="#L19000">19000</a></td></tr>
+<tr id="L19140" class="shared"><td class=own><a href="#R14000">14000</a> <a href="#R16000">16000</a> <a href="#R19100">19100</a></td><td class=ln>19140</td><td class="code mono"><span class=kw>IF</span> <span class=kw>INKEY$</span>=<span class=str>&quot;&quot;</span> <span class=kw>THEN</span> <a href="#L19140">19140</a></td></tr>
+<tr id="L19150" class="shared"><td class=own><a href="#R14000">14000</a> <a href="#R16000">16000</a> <a href="#R19100">19100</a></td><td class=ln>19150</td><td class="code mono"><span class=kw>RETURN</span></td></tr>
+<tr id="L19980" class=""><td class=own></td><td class=ln>19980</td><td class="code mono"><span class=rem>' Helpscherm</span></td></tr>
+<tr id="L20000" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>20000</td><td class="code mono"><span class=kw>PUT</span> <span class=kw>SPRITE</span> 0,(0,209):<span class=kw>PUT</span> <span class=kw>SPRITE</span> 1,(0,209):<span class=kw>FOR</span> M=11 <span class=kw>TO</span> 13:<span class=kw>PUT</span> <span class=kw>SPRITE</span> M,(0,209):<span class=kw>NEXT</span> M</td></tr>
+<tr id="L20010" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>20010</td><td class="code mono"><span class=kw>CLS</span>:<span class=kw>BLOAD</span><span class=str>&quot;sprdshlp.sc2&quot;</span>,S:<span class=kw>RESTORE</span> <a href="#L20100">20100</a></td></tr>
+<tr id="L20020" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>20020</td><td class="code mono"><span class=kw>FOR</span> H=1 <span class=kw>TO</span> 15:<span class=kw>READ</span> HX,HY,H$</td></tr>
+<tr id="L20030" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>20030</td><td class="code mono"><span class=kw>FOR</span> I=1 <span class=kw>TO</span> <span class=kw>LEN</span>(H$):<span class=kw>PSET</span>(HX+I*7-7,HY),0:<span class=kw>PRINT</span>#1,<span class=kw>MID$</span>(H$,I,1):<span class=kw>NEXT</span> I</td></tr>
+<tr id="L20040" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>20040</td><td class="code mono"><span class=kw>NEXT</span> H</td></tr>
+<tr id="L20050" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>20050</td><td class="code mono"><span class=kw>GOSUB</span> <a href="#L19000">19000</a></td></tr>
+<tr id="L20060" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>20060</td><td class="code mono"><span class=kw>IF</span> <span class=kw>INKEY$</span>=<span class=str>&quot;&quot;</span> <span class=kw>THEN</span> <a href="#L20060">20060</a></td></tr>
+<tr id="L20070" class=""><td class=own><a href="#R6000">6000</a></td><td class=ln>20070</td><td class="code mono"><span class=kw>CLS</span>:<span class=kw>GOSUB</span> <a href="#L1000">1000</a>:<span class=kw>GOSUB</span> <a href="#L3000">3000</a>:<span class=kw>GOSUB</span> <a href="#L8900">8900</a>:<span class=kw>GOSUB</span> <a href="#L8700">8700</a>:<span class=kw>GOTO</span> <a href="#L990">990</a></td></tr>
+<tr id="L20100" class=""><td class=own></td><td class=ln>20100</td><td class="code mono"><span class=kw>DATA</span><span class=dat> 55,25,&quot;3 forecolors&quot;,55,33,&quot;preview backcolor&quot;</span></td></tr>
+<tr id="L20110" class=""><td class=own></td><td class=ln>20110</td><td class="code mono"><span class=kw>DATA</span><span class=dat> 55,50,&quot;colors for your sprite&quot;</span></td></tr>
+<tr id="L20120" class=""><td class=own></td><td class=ln>20120</td><td class="code mono"><span class=kw>DATA</span><span class=dat> 37,92,&quot;draw a pixel&quot;</span></td></tr>
+<tr id="L20130" class=""><td class=own></td><td class=ln>20130</td><td class="code mono"><span class=kw>DATA</span><span class=dat> 37,108,&quot;8x8 sprite&quot;</span></td></tr>
+<tr id="L20140" class=""><td class=own></td><td class=ln>20140</td><td class="code mono"><span class=kw>DATA</span><span class=dat> 37,124,&quot;open from disk&quot;</span></td></tr>
+<tr id="L20150" class=""><td class=own></td><td class=ln>20150</td><td class="code mono"><span class=kw>DATA</span><span class=dat> 37,140,&quot;save to disk&quot;</span></td></tr>
+<tr id="L20160" class=""><td class=own></td><td class=ln>20160</td><td class="code mono"><span class=kw>DATA</span><span class=dat> 37,156,&quot;this page&quot;</span></td></tr>
+<tr id="L20170" class=""><td class=own></td><td class=ln>20170</td><td class="code mono"><span class=kw>DATA</span><span class=dat> 149,92,&quot;erase pixel&quot;</span></td></tr>
+<tr id="L20180" class=""><td class=own></td><td class=ln>20180</td><td class="code mono"><span class=kw>DATA</span><span class=dat> 149,108,&quot;16x16 sprite&quot;</span></td></tr>
+<tr id="L20190" class=""><td class=own></td><td class=ln>20190</td><td class="code mono"><span class=kw>DATA</span><span class=dat> 149,124,&quot;clear sprite&quot;</span></td></tr>
+<tr id="L20200" class=""><td class=own></td><td class=ln>20200</td><td class="code mono"><span class=kw>DATA</span><span class=dat> 149,140,&quot;save as basic&quot;</span></td></tr>
+<tr id="L20210" class=""><td class=own></td><td class=ln>20210</td><td class="code mono"><span class=kw>DATA</span><span class=dat> 149,156,&quot;exit program&quot;</span></td></tr>
+<tr id="L20220" class=""><td class=own></td><td class=ln>20220</td><td class="code mono"><span class=kw>DATA</span><span class=dat> 65,170,&quot; press any key for&quot;</span></td></tr>
+<tr id="L20230" class=""><td class=own></td><td class=ln>20230</td><td class="code mono"><span class=kw>DATA</span><span class=dat> 65,178,&quot;the designer screen&quot;</span></td></tr>
+<tr id="L29980" class=""><td class=own></td><td class=ln>29980</td><td class="code mono"><span class=rem>' Foutafhandeling: schijffouten netjes melden, programmeerfouten tonen</span></td></tr>
+<tr id="L30000" class="entry"><td class=own><a href="#R30000">30000</a></td><td class=ln>30000</td><td class="code mono">M1$=<span class=str>&quot;&quot;</span>:M2$=<span class=str>&quot;&quot;</span></td></tr>
+<tr id="L30010" class=""><td class=own><a href="#R30000">30000</a></td><td class=ln>30010</td><td class="code mono"><span class=kw>IF</span> <span class=kw>ERR</span>=66 <span class=kw>THEN</span> M1$=<span class=str>&quot;Disk full!&quot;</span></td></tr>
+<tr id="L30020" class=""><td class=own><a href="#R30000">30000</a></td><td class=ln>30020</td><td class="code mono"><span class=kw>IF</span> <span class=kw>ERR</span>=68 <span class=kw>OR</span> <span class=kw>ERR</span>=72 <span class=kw>THEN</span> M1$=<span class=str>&quot;Disk protected!&quot;</span></td></tr>
+<tr id="L30030" class=""><td class=own><a href="#R30000">30000</a></td><td class=ln>30030</td><td class="code mono"><span class=kw>IF</span> <span class=kw>ERR</span>=69 <span class=kw>THEN</span> M1$=<span class=str>&quot;Disk I/O error!&quot;</span></td></tr>
+<tr id="L30040" class=""><td class=own><a href="#R30000">30000</a></td><td class=ln>30040</td><td class="code mono"><span class=kw>IF</span> <span class=kw>ERR</span>=70 <span class=kw>THEN</span> M1$=<span class=str>&quot;Disk offline!&quot;</span></td></tr>
+<tr id="L30050" class=""><td class=own><a href="#R30000">30000</a></td><td class=ln>30050</td><td class="code mono"><span class=kw>IF</span> <span class=kw>ERR</span>=53 <span class=kw>THEN</span> M1$=<span class=str>&quot;File not found!&quot;</span></td></tr>
+<tr id="L30060" class=""><td class=own><a href="#R30000">30000</a></td><td class=ln>30060</td><td class="code mono"><span class=kw>IF</span> M1$=<span class=str>&quot;&quot;</span> <span class=kw>THEN</span> <span class=kw>ON</span> <span class=kw>ERROR</span> <span class=kw>GOTO</span> 0</td></tr>
+<tr id="L30070" class=""><td class=own><a href="#R30000">30000</a></td><td class=ln>30070</td><td class="code mono"><span class=kw>RESUME</span> <a href="#L30100">30100</a></td></tr>
+<tr id="L30100" class=""><td class=own><a href="#R10">M</a></td><td class=ln>30100</td><td class="code mono"><span class=kw>CLOSE</span> #2:<span class=kw>GOSUB</span> <a href="#L850">850</a>:<span class=kw>GOSUB</span> <a href="#L19100">19100</a>:<span class=kw>GOSUB</span> <a href="#L3000">3000</a>:<span class=kw>RETURN</span></td></tr>
+</table></section>
+</main></div>
+<script>
+(function(){var qi=document.getElementById('q');if(!qi)return;
+qi.addEventListener('input',function(){var v=this.value.toLowerCase();
+var li=document.querySelectorAll('#side li');
+for(var i=0;i<li.length;i++){li[i].style.display=li[i].textContent.toLowerCase().indexOf(v)>-1?'':'none';}});})();
+</script>
+<script>
+(function(){var svg=document.getElementById('cg');if(!svg)return;
+var eds=svg.getElementsByTagName('path'),nds=svg.getElementsByTagName('g');
+function reset(){for(var i=0;i<eds.length;i++){eds[i].style.opacity='';eds[i].style.strokeWidth='';}
+for(var j=0;j<nds.length;j++){nds[j].style.opacity='';}}
+function focusOn(id){for(var i=0;i<eds.length;i++){var p=eds[i];
+var f=p.getAttribute('data-from'),t=p.getAttribute('data-to');
+if(f===null){continue;}
+if(f===id||t===id){p.style.opacity='1';p.style.strokeWidth='2.4';}else{p.style.opacity='0.10';}}
+for(var j=0;j<nds.length;j++){var g=nds[j],gi=g.getAttribute('data-id');if(gi===null)continue;
+var keep=(gi===id);
+if(!keep){for(var k=0;k<eds.length;k++){var f2=eds[k].getAttribute('data-from'),t2=eds[k].getAttribute('data-to');
+if((f2===id&&t2===gi)||(t2===id&&f2===gi)){keep=true;break;}}}
+g.style.opacity=keep?'1':'0.25';}}
+for(var n=0;n<nds.length;n++){(function(g){if(g.getAttribute('data-id')===null)return;
+g.onmouseover=function(){focusOn(g.getAttribute('data-id'));};g.onmouseout=reset;})(nds[n]);}
+})();
+(function(){var svg=document.getElementById('cg');if(!svg)return;
+var vp=document.getElementById('vp');if(!vp)return;
+var k=1,tx=0,ty=0,drag=false,moved=false,px=0,py=0;
+function apply(){vp.setAttribute('transform','translate('+tx+','+ty+') scale('+k+')');}
+function pt(e){var p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;
+var m=svg.getScreenCTM();if(!m)return null;return p.matrixTransform(m.inverse());}
+function zoomAt(x,y,f){var n=k*f;if(n<0.08)n=0.08;if(n>8)n=8;
+tx=x-(x-tx)*(n/k);ty=y-(y-ty)*(n/k);k=n;apply();}
+function center(){var r=svg.getBoundingClientRect();
+return pt({clientX:r.left+r.width/2,clientY:r.top+r.height/2});}
+svg.addEventListener('wheel',function(e){var p=pt(e);if(!p)return;e.preventDefault();
+zoomAt(p.x,p.y,e.deltaY<0?1.15:1/1.15);},false);
+svg.addEventListener('mousedown',function(e){if(e.button!==0)return;
+var p=pt(e);if(!p)return;drag=true;moved=false;px=p.x;py=p.y;
+svg.setAttribute('class','drag');},false);
+window.addEventListener('mousemove',function(e){if(!drag)return;var p=pt(e);if(!p)return;
+var dx=p.x-px,dy=p.y-py;if(Math.abs(dx)+Math.abs(dy)>1)moved=true;
+tx+=dx;ty+=dy;apply();px=p.x;py=p.y;},false);
+window.addEventListener('mouseup',function(){if(!drag)return;drag=false;
+svg.setAttribute('class','');},false);
+svg.addEventListener('dragstart',function(e){e.preventDefault();},false);
+svg.addEventListener('click',function(e){if(moved){e.preventDefault();e.stopPropagation();moved=false;}},true);
+var zi=document.getElementById('zin'),zo=document.getElementById('zout'),zf=document.getElementById('zfit');
+if(zi)zi.onclick=function(){var c=center();if(c)zoomAt(c.x,c.y,1.3);};
+if(zo)zo.onclick=function(){var c=center();if(c)zoomAt(c.x,c.y,1/1.3);};
+if(zf)zf.onclick=function(){k=1;tx=0;ty=0;apply();};
+})();
+</script>
+</body></html>

@@ -1,0 +1,228 @@
+:root{--bg:#ffffff;--fg:#1b1f24;--mut:#5b6570;--line:#dfe3e8;--card:#f6f8fa;--acc:#0b5fa4;--link:#0b5fa4;--auto:#8a5a00;--autobg:#fff4d6;--dep:#a11;}
+@media (prefers-color-scheme:dark){:root{--bg:#12161a;--fg:#e6e9ec;--mut:#9aa4ae;--line:#2a3138;--card:#1a1f25;--acc:#5aa9f0;--link:#cdd6de;--auto:#e0b050;--autobg:#332a10;--dep:#f77;}}
+*{box-sizing:border-box}
+a,a:visited{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+a:focus-visible{outline:2px solid var(--link);outline-offset:2px}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+code,pre,.sig{font-family:Consolas,'DejaVu Sans Mono',monospace}
+header{padding:18px 24px;border-bottom:1px solid var(--line)}
+header h1{margin:0;font-size:19px}
+header .meta{color:var(--mut);font-size:13px;margin-top:4px}
+.wrap{display:flex;align-items:flex-start}
+nav{width:290px;flex:0 0 290px;border-right:1px solid var(--line);padding:14px;position:sticky;top:0;max-height:100vh;overflow:auto}
+nav input{width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:5px;background:var(--bg);color:var(--fg);margin-bottom:10px}
+nav ul{list-style:none;margin:0;padding:0}
+nav li{margin:2px 0;font-size:13px}
+nav li.f{padding-left:14px;color:var(--mut)}
+nav a,nav a:visited{color:var(--link)}
+nav a:hover{text-decoration:underline}
+main{flex:1 1 auto;padding:18px 26px;min-width:0}
+section.part{border-top:1px solid var(--line);padding-top:16px;margin-top:26px}
+h2{font-size:20px;margin:0 0 4px}
+h3{font-size:15px;margin:22px 0 6px}
+.loc{color:var(--mut);font-size:12px}
+.sig{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--acc);border-radius:4px;padding:8px 10px;font-size:13px;overflow-x:auto;white-space:pre-wrap}
+.brief{margin:8px 0}
+.detail{color:var(--fg);white-space:pre-wrap;margin:6px 0}
+table{border-collapse:collapse;margin:8px 0;font-size:13px;width:100%}
+th,td{border:1px solid var(--line);padding:4px 8px;text-align:left;vertical-align:top}
+th{background:var(--card);font-weight:600}
+.tag{display:inline-block;font-size:11px;padding:1px 6px;border-radius:9px;border:1px solid var(--line);color:var(--mut);margin-left:6px}
+.auto{background:var(--autobg);color:var(--auto);border-color:transparent}
+.dep{color:var(--dep);border-color:var(--dep)}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:10px 14px;font-size:13px;display:inline-block}
+.graphwrap{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:6px;background:var(--card);height:78vh;margin:10px 0}
+svg#cg{width:100%;height:100%;display:block;cursor:grab;touch-action:none}
+svg#cg.drag{cursor:grabbing}
+.zoomctl{position:absolute;right:14px;bottom:14px;z-index:5;display:flex;flex-direction:column}
+.zoomctl button{width:34px;height:34px;margin-top:5px;font:16px/1 -apple-system,Segoe UI,Roboto,sans-serif;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:7px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.zoomctl button:hover{background:var(--card)}
+.zoomctl button:active{transform:translateY(1px)}
+svg#cg text{font-family:Consolas,'DejaVu Sans Mono',monospace;font-size:11px;fill:var(--fg);pointer-events:none}
+svg#cg g.n rect{stroke-width:1.2}
+svg#cg g.rt rect{stroke-width:2.6}
+svg#cg g.pv rect{stroke-dasharray:3 2}
+svg#cg g.rf rect{fill:var(--card);stroke:#8a949e;stroke-dasharray:4 3;stroke-width:1}
+svg#cg g.rf text{fill:var(--mut)}
+table.deps code{font-size:12px}
+svg#cg g.n{cursor:pointer}
+svg#cg path.e{fill:none;stroke:#8a949e;stroke-width:1.3;marker-end:url(#ah)}
+svg#cg path.e.b{stroke:#c0673a;stroke-dasharray:5 3;marker-end:url(#ahb)}
+svg#cg path.e.cb{stroke:#3a7bbf;stroke-dasharray:2 3}
+svg#cg .ahf{fill:#8a949e}
+svg#cg .ahbf{fill:#c0673a}
+svg#cg a{text-decoration:none}
+.legend{font-size:12px;color:var(--mut);margin:6px 0 14px}
+.legend span.sw{display:inline-block;width:11px;height:11px;border-radius:3px;border:1px solid var(--line);vertical-align:-1px;margin:0 4px 0 10px}
+svg#cg g.p1 rect{fill:hsl(47,62%,92%);stroke:hsl(47,45%,52%)}
+.sw1{background:hsl(47,62%,92%)}
+svg#cg g.p2 rect{fill:hsl(94,62%,92%);stroke:hsl(94,45%,52%)}
+.sw2{background:hsl(94,62%,92%)}
+svg#cg g.p3 rect{fill:hsl(141,62%,92%);stroke:hsl(141,45%,52%)}
+.sw3{background:hsl(141,62%,92%)}
+svg#cg g.p4 rect{fill:hsl(188,62%,92%);stroke:hsl(188,45%,52%)}
+.sw4{background:hsl(188,62%,92%)}
+svg#cg g.p5 rect{fill:hsl(235,62%,92%);stroke:hsl(235,45%,52%)}
+.sw5{background:hsl(235,62%,92%)}
+svg#cg g.p6 rect{fill:hsl(282,62%,92%);stroke:hsl(282,45%,52%)}
+.sw6{background:hsl(282,62%,92%)}
+svg#cg g.p7 rect{fill:hsl(329,62%,92%);stroke:hsl(329,45%,52%)}
+.sw7{background:hsl(329,62%,92%)}
+svg#cg g.p8 rect{fill:hsl(16,62%,92%);stroke:hsl(16,45%,52%)}
+.sw8{background:hsl(16,62%,92%)}
+svg#cg g.p9 rect{fill:hsl(63,62%,92%);stroke:hsl(63,45%,52%)}
+.sw9{background:hsl(63,62%,92%)}
+svg#cg g.p10 rect{fill:hsl(110,62%,92%);stroke:hsl(110,45%,52%)}
+.sw10{background:hsl(110,62%,92%)}
+svg#cg g.p11 rect{fill:hsl(157,62%,92%);stroke:hsl(157,45%,52%)}
+.sw11{background:hsl(157,62%,92%)}
+svg#cg g.p12 rect{fill:hsl(204,62%,92%);stroke:hsl(204,45%,52%)}
+.sw12{background:hsl(204,62%,92%)}
+svg#cg g.p13 rect{fill:hsl(251,62%,92%);stroke:hsl(251,45%,52%)}
+.sw13{background:hsl(251,62%,92%)}
+svg#cg g.p14 rect{fill:hsl(298,62%,92%);stroke:hsl(298,45%,52%)}
+.sw14{background:hsl(298,62%,92%)}
+svg#cg g.p15 rect{fill:hsl(345,62%,92%);stroke:hsl(345,45%,52%)}
+.sw15{background:hsl(345,62%,92%)}
+svg#cg g.p16 rect{fill:hsl(32,62%,92%);stroke:hsl(32,45%,52%)}
+.sw16{background:hsl(32,62%,92%)}
+svg#cg g.p17 rect{fill:hsl(79,62%,92%);stroke:hsl(79,45%,52%)}
+.sw17{background:hsl(79,62%,92%)}
+svg#cg g.p18 rect{fill:hsl(126,62%,92%);stroke:hsl(126,45%,52%)}
+.sw18{background:hsl(126,62%,92%)}
+svg#cg g.p19 rect{fill:hsl(173,62%,92%);stroke:hsl(173,45%,52%)}
+.sw19{background:hsl(173,62%,92%)}
+svg#cg g.p20 rect{fill:hsl(220,62%,92%);stroke:hsl(220,45%,52%)}
+.sw20{background:hsl(220,62%,92%)}
+svg#cg g.p21 rect{fill:hsl(267,62%,92%);stroke:hsl(267,45%,52%)}
+.sw21{background:hsl(267,62%,92%)}
+svg#cg g.p22 rect{fill:hsl(314,62%,92%);stroke:hsl(314,45%,52%)}
+.sw22{background:hsl(314,62%,92%)}
+svg#cg g.p23 rect{fill:hsl(1,62%,92%);stroke:hsl(1,45%,52%)}
+.sw23{background:hsl(1,62%,92%)}
+svg#cg g.p24 rect{fill:hsl(48,62%,92%);stroke:hsl(48,45%,52%)}
+.sw24{background:hsl(48,62%,92%)}
+svg#cg g.p25 rect{fill:hsl(95,62%,92%);stroke:hsl(95,45%,52%)}
+.sw25{background:hsl(95,62%,92%)}
+svg#cg g.p26 rect{fill:hsl(142,62%,92%);stroke:hsl(142,45%,52%)}
+.sw26{background:hsl(142,62%,92%)}
+svg#cg g.p27 rect{fill:hsl(189,62%,92%);stroke:hsl(189,45%,52%)}
+.sw27{background:hsl(189,62%,92%)}
+svg#cg g.p28 rect{fill:hsl(236,62%,92%);stroke:hsl(236,45%,52%)}
+.sw28{background:hsl(236,62%,92%)}
+svg#cg g.p29 rect{fill:hsl(283,62%,92%);stroke:hsl(283,45%,52%)}
+.sw29{background:hsl(283,62%,92%)}
+svg#cg g.p30 rect{fill:hsl(330,62%,92%);stroke:hsl(330,45%,52%)}
+.sw30{background:hsl(330,62%,92%)}
+svg#cg g.p31 rect{fill:hsl(17,62%,92%);stroke:hsl(17,45%,52%)}
+.sw31{background:hsl(17,62%,92%)}
+svg#cg g.p32 rect{fill:hsl(64,62%,92%);stroke:hsl(64,45%,52%)}
+.sw32{background:hsl(64,62%,92%)}
+svg#cg g.p33 rect{fill:hsl(111,62%,92%);stroke:hsl(111,45%,52%)}
+.sw33{background:hsl(111,62%,92%)}
+svg#cg g.p34 rect{fill:hsl(158,62%,92%);stroke:hsl(158,45%,52%)}
+.sw34{background:hsl(158,62%,92%)}
+svg#cg g.p35 rect{fill:hsl(205,62%,92%);stroke:hsl(205,45%,52%)}
+.sw35{background:hsl(205,62%,92%)}
+svg#cg g.p36 rect{fill:hsl(252,62%,92%);stroke:hsl(252,45%,52%)}
+.sw36{background:hsl(252,62%,92%)}
+svg#cg g.p37 rect{fill:hsl(299,62%,92%);stroke:hsl(299,45%,52%)}
+.sw37{background:hsl(299,62%,92%)}
+svg#cg g.p38 rect{fill:hsl(346,62%,92%);stroke:hsl(346,45%,52%)}
+.sw38{background:hsl(346,62%,92%)}
+svg#cg g.p39 rect{fill:hsl(33,62%,92%);stroke:hsl(33,45%,52%)}
+.sw39{background:hsl(33,62%,92%)}
+svg#cg g.p40 rect{fill:hsl(80,62%,92%);stroke:hsl(80,45%,52%)}
+.sw40{background:hsl(80,62%,92%)}
+svg#cg g.p41 rect{fill:hsl(127,62%,92%);stroke:hsl(127,45%,52%)}
+.sw41{background:hsl(127,62%,92%)}
+@media (prefers-color-scheme:dark){
+svg#cg g.p1 rect{fill:hsl(47,30%,24%);stroke:hsl(47,40%,58%)}
+.sw1{background:hsl(47,30%,24%)}
+svg#cg g.p2 rect{fill:hsl(94,30%,24%);stroke:hsl(94,40%,58%)}
+.sw2{background:hsl(94,30%,24%)}
+svg#cg g.p3 rect{fill:hsl(141,30%,24%);stroke:hsl(141,40%,58%)}
+.sw3{background:hsl(141,30%,24%)}
+svg#cg g.p4 rect{fill:hsl(188,30%,24%);stroke:hsl(188,40%,58%)}
+.sw4{background:hsl(188,30%,24%)}
+svg#cg g.p5 rect{fill:hsl(235,30%,24%);stroke:hsl(235,40%,58%)}
+.sw5{background:hsl(235,30%,24%)}
+svg#cg g.p6 rect{fill:hsl(282,30%,24%);stroke:hsl(282,40%,58%)}
+.sw6{background:hsl(282,30%,24%)}
+svg#cg g.p7 rect{fill:hsl(329,30%,24%);stroke:hsl(329,40%,58%)}
+.sw7{background:hsl(329,30%,24%)}
+svg#cg g.p8 rect{fill:hsl(16,30%,24%);stroke:hsl(16,40%,58%)}
+.sw8{background:hsl(16,30%,24%)}
+svg#cg g.p9 rect{fill:hsl(63,30%,24%);stroke:hsl(63,40%,58%)}
+.sw9{background:hsl(63,30%,24%)}
+svg#cg g.p10 rect{fill:hsl(110,30%,24%);stroke:hsl(110,40%,58%)}
+.sw10{background:hsl(110,30%,24%)}
+svg#cg g.p11 rect{fill:hsl(157,30%,24%);stroke:hsl(157,40%,58%)}
+.sw11{background:hsl(157,30%,24%)}
+svg#cg g.p12 rect{fill:hsl(204,30%,24%);stroke:hsl(204,40%,58%)}
+.sw12{background:hsl(204,30%,24%)}
+svg#cg g.p13 rect{fill:hsl(251,30%,24%);stroke:hsl(251,40%,58%)}
+.sw13{background:hsl(251,30%,24%)}
+svg#cg g.p14 rect{fill:hsl(298,30%,24%);stroke:hsl(298,40%,58%)}
+.sw14{background:hsl(298,30%,24%)}
+svg#cg g.p15 rect{fill:hsl(345,30%,24%);stroke:hsl(345,40%,58%)}
+.sw15{background:hsl(345,30%,24%)}
+svg#cg g.p16 rect{fill:hsl(32,30%,24%);stroke:hsl(32,40%,58%)}
+.sw16{background:hsl(32,30%,24%)}
+svg#cg g.p17 rect{fill:hsl(79,30%,24%);stroke:hsl(79,40%,58%)}
+.sw17{background:hsl(79,30%,24%)}
+svg#cg g.p18 rect{fill:hsl(126,30%,24%);stroke:hsl(126,40%,58%)}
+.sw18{background:hsl(126,30%,24%)}
+svg#cg g.p19 rect{fill:hsl(173,30%,24%);stroke:hsl(173,40%,58%)}
+.sw19{background:hsl(173,30%,24%)}
+svg#cg g.p20 rect{fill:hsl(220,30%,24%);stroke:hsl(220,40%,58%)}
+.sw20{background:hsl(220,30%,24%)}
+svg#cg g.p21 rect{fill:hsl(267,30%,24%);stroke:hsl(267,40%,58%)}
+.sw21{background:hsl(267,30%,24%)}
+svg#cg g.p22 rect{fill:hsl(314,30%,24%);stroke:hsl(314,40%,58%)}
+.sw22{background:hsl(314,30%,24%)}
+svg#cg g.p23 rect{fill:hsl(1,30%,24%);stroke:hsl(1,40%,58%)}
+.sw23{background:hsl(1,30%,24%)}
+svg#cg g.p24 rect{fill:hsl(48,30%,24%);stroke:hsl(48,40%,58%)}
+.sw24{background:hsl(48,30%,24%)}
+svg#cg g.p25 rect{fill:hsl(95,30%,24%);stroke:hsl(95,40%,58%)}
+.sw25{background:hsl(95,30%,24%)}
+svg#cg g.p26 rect{fill:hsl(142,30%,24%);stroke:hsl(142,40%,58%)}
+.sw26{background:hsl(142,30%,24%)}
+svg#cg g.p27 rect{fill:hsl(189,30%,24%);stroke:hsl(189,40%,58%)}
+.sw27{background:hsl(189,30%,24%)}
+svg#cg g.p28 rect{fill:hsl(236,30%,24%);stroke:hsl(236,40%,58%)}
+.sw28{background:hsl(236,30%,24%)}
+svg#cg g.p29 rect{fill:hsl(283,30%,24%);stroke:hsl(283,40%,58%)}
+.sw29{background:hsl(283,30%,24%)}
+svg#cg g.p30 rect{fill:hsl(330,30%,24%);stroke:hsl(330,40%,58%)}
+.sw30{background:hsl(330,30%,24%)}
+svg#cg g.p31 rect{fill:hsl(17,30%,24%);stroke:hsl(17,40%,58%)}
+.sw31{background:hsl(17,30%,24%)}
+svg#cg g.p32 rect{fill:hsl(64,30%,24%);stroke:hsl(64,40%,58%)}
+.sw32{background:hsl(64,30%,24%)}
+svg#cg g.p33 rect{fill:hsl(111,30%,24%);stroke:hsl(111,40%,58%)}
+.sw33{background:hsl(111,30%,24%)}
+svg#cg g.p34 rect{fill:hsl(158,30%,24%);stroke:hsl(158,40%,58%)}
+.sw34{background:hsl(158,30%,24%)}
+svg#cg g.p35 rect{fill:hsl(205,30%,24%);stroke:hsl(205,40%,58%)}
+.sw35{background:hsl(205,30%,24%)}
+svg#cg g.p36 rect{fill:hsl(252,30%,24%);stroke:hsl(252,40%,58%)}
+.sw36{background:hsl(252,30%,24%)}
+svg#cg g.p37 rect{fill:hsl(299,30%,24%);stroke:hsl(299,40%,58%)}
+.sw37{background:hsl(299,30%,24%)}
+svg#cg g.p38 rect{fill:hsl(346,30%,24%);stroke:hsl(346,40%,58%)}
+.sw38{background:hsl(346,30%,24%)}
+svg#cg g.p39 rect{fill:hsl(33,30%,24%);stroke:hsl(33,40%,58%)}
+.sw39{background:hsl(33,30%,24%)}
+svg#cg g.p40 rect{fill:hsl(80,30%,24%);stroke:hsl(80,40%,58%)}
+.sw40{background:hsl(80,30%,24%)}
+svg#cg g.p41 rect{fill:hsl(127,30%,24%);stroke:hsl(127,40%,58%)}
+.sw41{background:hsl(127,30%,24%)}
+}
+html,body{height:auto}
+nav#side{width:auto;flex:none;border:0;position:static;max-height:none;padding:12px}
+main{padding:16px 22px}
+section.part{border-top:0;margin-top:0;padding-top:0}
+.crumb{font-size:12px;color:var(--mut);margin-bottom:10px}

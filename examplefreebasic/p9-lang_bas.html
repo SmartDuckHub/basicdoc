@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Module lang.bas</title>
+<link rel="stylesheet" href="style.css">
+</head><body>
+<main>
+<div class="crumb"><a href="overview.html">Overview</a> &rsaquo; lang.bas</div>
+<section class="part" id="p9">
+<h2>Module lang.bas</h2>
+<div class="loc">fbdoc/inc/lang.bas:1</div>
+<div class="brief">Module lang.bas. Contains 11 function(s).<span class="tag auto">auto</span></div>
+<h3 id="m237">TrHash</h3>
+<div class="sig">function TrHash(ByRef s As String) returns(Long)</div>
+<div class="brief">Eenvoudige hash, zodat bij het opzoeken eerst een getal wordt vergeleken in plaats van een hele string.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>s As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>Long</code> &mdash; value of type Long</div>
+<div><b>Called by</b> <a href="p9-lang_bas.html#m238"><code>lang.bas.TrAdd</code></a>, <a href="p9-lang_bas.html#m239"><code>lang.bas.Tr</code></a></div>
+<div class="loc">lang.bas:21</div>
+<h3 id="m238">TrAdd<span class="tag auto">auto</span></h3>
+<div class="sig">function TrAdd(ByRef k As String, ByRef v As String)</div>
+<div class="brief">Function tr add.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>k As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByRef</code></td><td><code>v As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Calls</b> <a href="p9-lang_bas.html#m237"><code>lang.bas.TrHash</code></a></div>
+<div><b>Called by</b> <a href="p9-lang_bas.html#m245"><code>lang.bas.PoFlush</code></a></div>
+<div class="loc">lang.bas:31</div>
+<h3 id="m239">Tr<span class="tag auto">auto</span></h3>
+<div class="sig">function Tr(ByRef s As String) returns(String)</div>
+<div class="brief">Function tr. Returns String.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>s As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div><b>Calls</b> <a href="p9-lang_bas.html#m237"><code>lang.bas.TrHash</code></a></div>
+<div><b>Called by</b> <a href="p9-lang_bas.html#m241"><code>lang.bas.Tr1</code></a>, <a href="p9-lang_bas.html#m242"><code>lang.bas.Tr2</code></a>, <a href="p9-lang_bas.html#m243"><code>lang.bas.Tr3</code></a></div>
+<div class="loc">lang.bas:56</div>
+<h3 id="m240">TrFill</h3>
+<div class="sig">function TrFill(ByRef t As String, ByRef a As String, ByRef b As String, ByRef c As String) returns(String)</div>
+<div class="brief">Vult %1, %2 en %3 in.</div>
+<div class="detail">Een % zonder cijfer erachter blijft gewoon staan.
+</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>t As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByRef</code></td><td><code>a As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByRef</code></td><td><code>b As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByRef</code></td><td><code>c As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div><b>Called by</b> <a href="p9-lang_bas.html#m241"><code>lang.bas.Tr1</code></a>, <a href="p9-lang_bas.html#m242"><code>lang.bas.Tr2</code></a>, <a href="p9-lang_bas.html#m243"><code>lang.bas.Tr3</code></a></div>
+<div class="loc">lang.bas:70</div>
+<h3 id="m241">Tr1<span class="tag auto">auto</span></h3>
+<div class="sig">function Tr1(ByRef s As String, ByRef a As String) returns(String)</div>
+<div class="brief">Function tr 1. Returns String.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>s As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByRef</code></td><td><code>a As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div><b>Calls</b> <a href="p9-lang_bas.html#m240"><code>lang.bas.TrFill</code></a>, <a href="p9-lang_bas.html#m239"><code>lang.bas.Tr</code></a></div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">lang.bas:100</div>
+<h3 id="m242">Tr2<span class="tag auto">auto</span></h3>
+<div class="sig">function Tr2(ByRef s As String, ByRef a As String, ByRef b As String) returns(String)</div>
+<div class="brief">Function tr 2. Returns String.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>s As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByRef</code></td><td><code>a As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByRef</code></td><td><code>b As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div><b>Calls</b> <a href="p9-lang_bas.html#m240"><code>lang.bas.TrFill</code></a>, <a href="p9-lang_bas.html#m239"><code>lang.bas.Tr</code></a></div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">lang.bas:104</div>
+<h3 id="m243">Tr3<span class="tag auto">auto</span></h3>
+<div class="sig">function Tr3(ByRef s As String, ByRef a As String, ByRef b As String, ByRef c As String) returns(String)</div>
+<div class="brief">Function tr 3. Returns String.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>s As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByRef</code></td><td><code>a As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByRef</code></td><td><code>b As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByRef</code></td><td><code>c As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div><b>Calls</b> <a href="p9-lang_bas.html#m240"><code>lang.bas.TrFill</code></a>, <a href="p9-lang_bas.html#m239"><code>lang.bas.Tr</code></a></div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">lang.bas:108</div>
+<h3 id="m244">PoUnq</h3>
+<div class="sig">function PoUnq(ByRef src As String) returns(String)</div>
+<div class="brief">Haalt de aanhalingstekens weg en verwerkt de escapes van een .po-string.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>src As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div><b>Called by</b> <a href="p9-lang_bas.html#m246"><code>lang.bas.LoadPo</code></a></div>
+<div class="loc">lang.bas:113</div>
+<h3 id="m245">PoFlush</h3>
+<div class="sig">function PoFlush(ByRef msgId As String, ByRef msgStr As String, ByRef fuzzy As Integer) returns(Integer)</div>
+<div class="brief">Slaat een gelezen msgid/msgstr-paar op en maakt de buffers leeg.</div>
+<div class="detail">De lege msgid is de kop van het bestand; daaruit komt alleen de taalcode. Geeft -1 terug als er een vertaling bij is gekomen.
+</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>msgId As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByRef</code></td><td><code>msgStr As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByRef</code></td><td><code>fuzzy As Integer</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>Integer</code> &mdash; value of type Integer</div>
+<div><b>Calls</b> <code>ReplaceAll</code>, <a href="p9-lang_bas.html#m238"><code>lang.bas.TrAdd</code></a></div>
+<div><b>Called by</b> <a href="p9-lang_bas.html#m246"><code>lang.bas.LoadPo</code></a></div>
+<div class="loc">lang.bas:144</div>
+<h3 id="m246">LoadPo</h3>
+<div class="sig">function LoadPo(ByRef poPath As String) returns(Integer)</div>
+<div class="brief">Leest een .po-bestand.</div>
+<div class="detail">Geeft het aantal vertalingen terug, of -1 als het bestand niet te openen is.
+</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>poPath As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>Integer</code> &mdash; value of type Integer</div>
+<div><b>Calls</b> <code>ReplaceAll</code>, <a href="p9-lang_bas.html#m245"><code>lang.bas.PoFlush</code></a> (2x), <a href="p9-lang_bas.html#m244"><code>lang.bas.PoUnq</code></a> (5x)</div>
+<div><b>Called by</b> <a href="p9-lang_bas.html#m247"><code>lang.bas.LangEarly</code></a></div>
+<div class="loc">lang.bas:169</div>
+<h3 id="m247">LangEarly</h3>
+<div class="sig">function LangEarly()</div>
+<div class="brief">Bepaalt de taal voordat de rest van de opties wordt verwerkt, zodat ook foutmeldingen over opties en --help al vertaald zijn.</div>
+<div class="detail">Volgorde: FBDOC_LANG, daarna -l/--lang (de laatste telt). Een code zoals nl laadt lang/nl.po naast de executable, en anders lang/nl.po in de huidige map. Een waarde die op .po eindigt is een pad.
+</div>
+<div><b>Calls</b> <code>PathBase</code>, <a href="p9-lang_bas.html#m246"><code>lang.bas.LoadPo</code></a> (3x), <code>Say</code> (3x)</div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">lang.bas:231</div>
+</section>
+</main></body></html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Module out_graph.bas</title>
+<link rel="stylesheet" href="style.css">
+</head><body>
+<main>
+<div class="crumb"><a href="overview.html">Overview</a> &rsaquo; out_graph.bas</div>
+<section class="part" id="p11">
+<h2>Module out_graph.bas</h2>
+<div class="loc">fbdoc/inc/out_graph.bas:1</div>
+<div class="brief">Module out graph.bas. Contains 3 function(s).<span class="tag auto">auto</span></div>
+<h3 id="m251">DotEsc</h3>
+<div class="sig">function DotEsc(ByRef s As String) returns(String)</div>
+<div class="brief">Backslash en aanhalingsteken in een DOT-label breken de syntax.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>s As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div><b>Calls</b> <code>ReplaceAll</code> (4x)</div>
+<div><b>Called by</b> <a href="p11-out_graph_bas.html#m252"><code>out_graph.bas.OutDot</code></a></div>
+<div class="loc">out_graph.bas:6</div>
+<h3 id="m252">OutDot<span class="tag auto">auto</span></h3>
+<div class="sig">function OutDot()</div>
+<div class="brief">Function out dot.</div>
+<div><b>Calls</b> <code>Emit</code> (26x), <code>Tr3</code>, <code>Tr</code> (4x), <code>GraphVisible</code> (4x), <a href="p11-out_graph_bas.html#m251"><code>out_graph.bas.DotEsc</code></a> (7x), <code>KindLabel</code> (2x), <code>CallerCount</code>, <code>LC</code> (4x), <code>EdgeKindLabel</code>, <code>Tr1</code> (2x), <code>Say</code> (3x)</div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">out_graph.bas:16</div>
+<h3 id="m253">OutMermaid<span class="tag auto">auto</span></h3>
+<div class="sig">function OutMermaid()</div>
+<div class="brief">Function out mermaid.</div>
+<div><b>Calls</b> <code>Emit</code> (7x), <code>Tr3</code>, <code>GraphVisible</code> (4x), <code>KindLabel</code></div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">out_graph.bas:130</div>
+</section>
+</main></body></html>

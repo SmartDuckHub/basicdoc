@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Module parser.bas</title>
+<link rel="stylesheet" href="style.css">
+</head><body>
+<main>
+<div class="crumb"><a href="overview.html">Overview</a> &rsaquo; parser.bas</div>
+<section class="part" id="p14">
+<h2>Module parser.bas</h2>
+<div class="loc">fbdoc/inc/parser.bas:1</div>
+<div class="brief">Module parser.bas. Contains 16 function(s).<span class="tag auto">auto</span></div>
+<h3 id="m284">SkipQual</h3>
+<div class="sig">function SkipQual(ByVal i As Integer) returns(Integer)</div>
+<div class="brief">===================================================================== fbdoc - Parser: declaraties, parameters, signaturen en sleutelwoorden =====================================================================</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByVal</code></td><td><code>i As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>Integer</code> &mdash; value of type Integer</div>
+<div><b>Called by</b> <a href="p14-parser_bas.html#m298"><code>parser.bas.ParseTokens</code></a></div>
+<div class="loc">parser.bas:5</div>
+<h3 id="m285">SkipBraces<span class="tag auto">auto</span></h3>
+<div class="sig">function SkipBraces(ByVal i As Integer) returns(Integer)</div>
+<div class="brief">Function skip braces. Returns Integer.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByVal</code></td><td><code>i As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>Integer</code> &mdash; value of type Integer</div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">parser.bas:20</div>
+<h3 id="m286">SkipToSemi<span class="tag auto">auto</span></h3>
+<div class="sig">function SkipToSemi(ByVal i As Integer) returns(Integer)</div>
+<div class="brief">Function skip to semi. Returns Integer.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByVal</code></td><td><code>i As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>Integer</code> &mdash; value of type Integer</div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">parser.bas:36</div>
+<h3 id="m287">NewPart<span class="tag auto">auto</span></h3>
+<div class="sig">function NewPart(ByRef k As String, ByRef nm As String, ByRef fpath As String, ByVal ln As Integer, ByRef pkg As String) returns(Integer)</div>
+<div class="brief">Creates part. Returns Integer.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>k As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByRef</code></td><td><code>nm As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByRef</code></td><td><code>fpath As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByVal</code></td><td><code>ln As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByRef</code></td><td><code>pkg As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>Integer</code> &mdash; value of type Integer</div>
+<div><b>Called by</b> <a href="p14-parser_bas.html#m298"><code>parser.bas.ParseTokens</code></a></div>
+<div class="loc">parser.bas:50</div>
+<h3 id="m288">NewMember<span class="tag auto">auto</span></h3>
+<div class="sig">function NewMember(ByRef k As String, ByRef nm As String, ByVal owner As Integer, ByVal ln As Integer) returns(Integer)</div>
+<div class="brief">Creates member. Returns Integer.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>k As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByRef</code></td><td><code>nm As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByVal</code></td><td><code>owner As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByVal</code></td><td><code>ln As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>Integer</code> &mdash; value of type Integer</div>
+<div><b>Called by</b> <a href="p14-parser_bas.html#m298"><code>parser.bas.ParseTokens</code></a></div>
+<div class="loc">parser.bas:70</div>
+<h3 id="m289">AddParamTok<span class="tag auto">auto</span></h3>
+<div class="sig">function AddParamTok(ByVal midx As Integer, ByVal a As Integer, ByVal b As Integer)</div>
+<div class="brief">Adds param tok.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByVal</code></td><td><code>midx As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByVal</code></td><td><code>a As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByVal</code></td><td><code>b As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Calls</b> <code>LC</code> (2x), <code>JoinTok</code></div>
+<div><b>Called by</b> <a href="p14-parser_bas.html#m298"><code>parser.bas.ParseTokens</code></a></div>
+<div class="loc">parser.bas:99</div>
+<h3 id="m290">IsPartKw</h3>
+<div class="sig">function IsPartKw(ByRef t As String) returns(Integer)</div>
+<div class="brief">===================================================================== hoofdparser ===================================================================== Containers waar leden in zitten.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>t As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>Integer</code> &mdash; value of type Integer</div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">parser.bas:136</div>
+<h3 id="m291">IsProcKw</h3>
+<div class="sig">function IsProcKw(ByRef t As String) returns(Integer)</div>
+<div class="brief">Procedurevormen.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>t As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>Integer</code> &mdash; value of type Integer</div>
+<div><b>Called by</b> <a href="p14-parser_bas.html#m298"><code>parser.bas.ParseTokens</code></a></div>
+<div class="loc">parser.bas:145</div>
+<h3 id="m292">IsModifierKw</h3>
+<div class="sig">function IsModifierKw(ByRef t As String) returns(Integer)</div>
+<div class="brief">Modifiers die voor een declaratie mogen staan.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>t As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>Integer</code> &mdash; value of type Integer</div>
+<div><b>Called by</b> <a href="p14-parser_bas.html#m298"><code>parser.bas.ParseTokens</code></a></div>
+<div class="loc">parser.bas:154</div>
+<h3 id="m293">IsCallExcluded</h3>
+<div class="sig">function IsCallExcluded(ByRef t As String) returns(Integer)</div>
+<div class="brief">Sleutelwoorden die nooit een aanroep zijn, ook al staan ze voor een haakje.</div>
+<div class="detail">Dit is de FreeBASIC-woordenlijst; zonder deze filter zou elke Print of Mid als functieaanroep in de graaf terechtkomen.
+</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>t As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>Integer</code> &mdash; value of type Integer</div>
+<div><b>Called by</b> <a href="p14-parser_bas.html#m298"><code>parser.bas.ParseTokens</code></a></div>
+<div class="loc">parser.bas:166</div>
+<h3 id="m294">IsSysLibName</h3>
+<div class="sig">function IsSysLibName(ByRef t As String) returns(Integer)</div>
+<div class="brief">In FreeBASIC bestaat het onderscheid systeembibliotheek/eigen code niet zoals in EGL; FreeBASIC-runtimefuncties vallen al onder IsCallExcluded.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>t As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>Integer</code> &mdash; value of type Integer</div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">parser.bas:208</div>
+<h3 id="m295">IsBuiltinMethod<span class="tag auto">auto</span></h3>
+<div class="sig">function IsBuiltinMethod(ByRef t As String) returns(Integer)</div>
+<div class="brief">Determines whether builtin method applies. Returns Integer.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>t As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>Integer</code> &mdash; value of type Integer</div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">parser.bas:212</div>
+<h3 id="m296">IsBlockKw</h3>
+<div class="sig">function IsBlockKw(ByRef t As String) returns(Integer)</div>
+<div class="brief">Blokken die met een eigen End of eindwoord sluiten; alleen nodig om binnen een procedure niet in de war te raken.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>t As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>Integer</code> &mdash; value of type Integer</div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">parser.bas:218</div>
+<h3 id="m297">KindLabel<span class="tag auto">auto</span></h3>
+<div class="sig">function KindLabel(ByRef k As String) returns(String)</div>
+<div class="brief">Function kind label. Returns String.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>k As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div><b>Calls</b> <code>LC</code>, <code>Tr</code> (7x)</div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">parser.bas:222</div>
+<h3 id="m298">ParseTokens<span class="tag auto">auto</span></h3>
+<div class="sig">function ParseTokens(ByRef fpath As String)</div>
+<div class="brief">Converts tokens.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>fpath As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Calls</b> <code>LC</code> (22x), <a href="p14-parser_bas.html#m291"><code>parser.bas.IsProcKw</code></a>, <code>QualNameStr</code> (3x), <code>AddCall</code> (3x), <a href="p14-parser_bas.html#m293"><code>parser.bas.IsCallExcluded</code></a>, <code>CallTargetAt</code>, <a href="p14-parser_bas.html#m292"><code>parser.bas.IsModifierKw</code></a>, <a href="p14-parser_bas.html#m287"><code>parser.bas.NewPart</code></a> (7x), <code>ApplyDoc</code> (9x), <a href="p14-parser_bas.html#m284"><code>parser.bas.SkipQual</code></a> (2x), <a href="p14-parser_bas.html#m288"><code>parser.bas.NewMember</code></a> (7x), <code>PathBase</code> (6x), <code>JoinTok</code> (6x), <code>FindPartByName</code>, <a href="p14-parser_bas.html#m289"><code>parser.bas.AddParamTok</code></a> (2x), <a href="p14-parser_bas.html#m299"><code>parser.bas.MemberSig</code></a>, <code>AddInclude</code></div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">parser.bas:242</div>
+<h3 id="m299">MemberSig<span class="tag auto">auto</span></h3>
+<div class="sig">function MemberSig(ByVal midx As Integer) returns(String)</div>
+<div class="brief">Function member sig. Returns String.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByVal</code></td><td><code>midx As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div><b>Called by</b> <a href="p14-parser_bas.html#m298"><code>parser.bas.ParseTokens</code></a></div>
+<div class="loc">parser.bas:708</div>
+</section>
+</main></body></html>

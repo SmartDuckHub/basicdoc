@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Module out_text.bas</title>
+<link rel="stylesheet" href="style.css">
+</head><body>
+<main>
+<div class="crumb"><a href="overview.html">Overview</a> &rsaquo; out_text.bas</div>
+<section class="part" id="p13">
+<h2>Module out_text.bas</h2>
+<div class="loc">fbdoc/inc/out_text.bas:1</div>
+<div class="brief">Module out text.bas. Contains 10 function(s).<span class="tag auto">auto</span></div>
+<h3 id="m274">Emit</h3>
+<div class="sig">function Emit(ByRef s As String)</div>
+<div class="brief">===================================================================== fbdoc - Uitvoer: text, markdown, json, tree en de uitvoerhelpers =====================================================================</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>s As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Called by</b> <a href="p13-out_text_bas.html#m277"><code>out_text.bas.OutText</code></a>, <a href="p13-out_text_bas.html#m278"><code>out_text.bas.OutMd</code></a>, <a href="p13-out_text_bas.html#m279"><code>out_text.bas.OutJson</code></a>, <a href="p13-out_text_bas.html#m280"><code>out_text.bas.OutUndoc</code></a>, <a href="p13-out_text_bas.html#m281"><code>out_text.bas.OutExternText</code></a>, <a href="p13-out_text_bas.html#m282"><code>out_text.bas.TreeBranch</code></a>, <a href="p13-out_text_bas.html#m283"><code>out_text.bas.OutTree</code></a></div>
+<div class="loc">out_text.bas:5</div>
+<h3 id="m275">OpenOut<span class="tag auto">auto</span></h3>
+<div class="sig">function OpenOut(ByRef p As String)</div>
+<div class="brief">Opens out.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>p As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Calls</b> <code>Say</code>, <code>Tr1</code></div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">out_text.bas:13</div>
+<h3 id="m276">CloseOut<span class="tag auto">auto</span></h3>
+<div class="sig">function CloseOut()</div>
+<div class="brief">Closes out.</div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">out_text.bas:26</div>
+<h3 id="m277">OutText<span class="tag auto">auto</span></h3>
+<div class="sig">function OutText()</div>
+<div class="brief">Function out text.</div>
+<div><b>Calls</b> <a href="p13-out_text_bas.html#m274"><code>out_text.bas.Emit</code></a> (24x), <code>Tr</code>, <code>Tr1</code> (6x), <code>Tr2</code> (3x), <code>KindLabel</code>, <code>NormSep</code>, <code>ReplaceAll</code> (4x), <code>MemberFullName</code> (2x), <code>EdgeKindLabel</code> (2x)</div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">out_text.bas:33</div>
+<h3 id="m278">OutMd<span class="tag auto">auto</span></h3>
+<div class="sig">function OutMd()</div>
+<div class="brief">Function out md.</div>
+<div><b>Calls</b> <a href="p13-out_text_bas.html#m274"><code>out_text.bas.Emit</code></a> (52x), <code>Tr</code> (17x), <code>Tr3</code>, <code>Tr2</code>, <code>KindLabel</code> (2x), <code>NormSep</code> (2x), <code>ReplaceAll</code> (4x)</div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">out_text.bas:127</div>
+<h3 id="m279">OutJson<span class="tag auto">auto</span></h3>
+<div class="sig">function OutJson()</div>
+<div class="brief">Function out json.</div>
+<div><b>Calls</b> <a href="p13-out_text_bas.html#m274"><code>out_text.bas.Emit</code></a> (15x), <code>JsonEsc</code> (21x), <code>NormSep</code>, <code>CallerCount</code>, <code>MemberFullName</code></div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">out_text.bas:243</div>
+<h3 id="m280">OutUndoc<span class="tag auto">auto</span></h3>
+<div class="sig">function OutUndoc()</div>
+<div class="brief">Function out undoc.</div>
+<div><b>Calls</b> <code>Tr</code>, <a href="p13-out_text_bas.html#m274"><code>out_text.bas.Emit</code></a> (6x), <code>NormSep</code> (2x), <code>KindLabel</code>, <code>Tr1</code></div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">out_text.bas:346</div>
+<h3 id="m281">OutExternText<span class="tag auto">auto</span></h3>
+<div class="sig">function OutExternText()</div>
+<div class="brief">Function out extern text.</div>
+<div><b>Calls</b> <code>CollectExterns</code>, <a href="p13-out_text_bas.html#m274"><code>out_text.bas.Emit</code></a> (13x), <code>Tr</code> (6x), <code>CollectAmbig</code></div>
+<div><b>Called by</b> <a href="p13-out_text_bas.html#m283"><code>out_text.bas.OutTree</code></a></div>
+<div class="loc">out_text.bas:372</div>
+<h3 id="m282">TreeBranch<span class="tag auto">auto</span></h3>
+<div class="sig">function TreeBranch(ByVal midx As Integer, ByVal lvl As Integer, ByRef pfx As String)</div>
+<div class="brief">Function tree branch.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByVal</code></td><td><code>midx As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByVal</code></td><td><code>lvl As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByRef</code></td><td><code>pfx As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Calls</b> <a href="p13-out_text_bas.html#m274"><code>out_text.bas.Emit</code></a> (5x), <code>Tr1</code>, <code>MemberFullName</code>, <code>Tr</code> (2x), <code>CalleeCount</code>, <a href="p13-out_text_bas.html#m282"><code>out_text.bas.TreeBranch</code></a> (2x)</div>
+<div><b>Called by</b> <a href="p13-out_text_bas.html#m282"><code>out_text.bas.TreeBranch</code></a>, <a href="p13-out_text_bas.html#m283"><code>out_text.bas.OutTree</code></a></div>
+<div class="loc">out_text.bas:412</div>
+<h3 id="m283">OutTree<span class="tag auto">auto</span></h3>
+<div class="sig">function OutTree()</div>
+<div class="brief">Function out tree.</div>
+<div><b>Calls</b> <a href="p13-out_text_bas.html#m274"><code>out_text.bas.Emit</code></a> (23x), <code>Tr</code> (9x), <code>Tr1</code> (2x), <code>Tr2</code>, <code>CallerCount</code> (2x), <code>CalleeCount</code> (2x), <code>MemberFullName</code> (3x), <a href="p13-out_text_bas.html#m282"><code>out_text.bas.TreeBranch</code></a>, <code>DeadKind</code>, <code>PathBase</code> (2x), <a href="p13-out_text_bas.html#m281"><code>out_text.bas.OutExternText</code></a></div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">out_text.bas:471</div>
+</section>
+</main></body></html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Module files.bas</title>
+<link rel="stylesheet" href="style.css">
+</head><body>
+<main>
+<div class="crumb"><a href="overview.html">Overview</a> &rsaquo; files.bas</div>
+<section class="part" id="p6">
+<h2>Module files.bas</h2>
+<div class="loc">fbdoc/inc/files.bas:1</div>
+<div class="brief">Module files.bas. Contains 9 function(s).<span class="tag auto">auto</span></div>
+<h3 id="m161">PathParent</h3>
+<div class="sig">function PathParent(ByRef s As String) returns(String)</div>
+<div class="brief">===================================================================== fbdoc - Bestanden zoeken en #include verwerken</div>
+<div class="detail">
+Het FreeBASIC-equivalent van projectverwijzingen: elk bestand vertelt zelf welke .bi bestanden het nodig heeft. Met --follow worden die meegelezen als referentie, zodat aanroepen naar die code oplossen. =====================================================================
+</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>s As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div><b>Called by</b> <a href="p6-files_bas.html#m165"><code>files.bas.ResolveInclude</code></a></div>
+<div class="loc">files.bas:9</div>
+<h3 id="m162">FileExists2<span class="tag auto">auto</span></h3>
+<div class="sig">function FileExists2(ByRef p As String) returns(Integer)</div>
+<div class="brief">Function file exists 2. Returns Integer.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>p As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>Integer</code> &mdash; value of type Integer</div>
+<div><b>Called by</b> <a href="p6-files_bas.html#m165"><code>files.bas.ResolveInclude</code></a></div>
+<div class="loc">files.bas:25</div>
+<h3 id="m163">AlreadyVisited<span class="tag auto">auto</span></h3>
+<div class="sig">function AlreadyVisited(ByRef p As String) returns(Integer)</div>
+<div class="brief">Function already visited. Returns Integer.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>p As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>Integer</code> &mdash; value of type Integer</div>
+<div><b>Calls</b> <code>LC</code> (2x), <code>NormSep</code> (2x)</div>
+<div><b>Called by</b> <a href="p6-files_bas.html#m166"><code>files.bas.FollowIncludes</code></a></div>
+<div class="loc">files.bas:33</div>
+<h3 id="m164">AddInclude</h3>
+<div class="sig">function AddInclude(ByRef fromFile As String, ByRef incName As String)</div>
+<div class="brief">Legt vast welk bestand welk bestand insluit; vormt het overzicht van afhankelijkheden tussen bestanden.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>fromFile As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByRef</code></td><td><code>incName As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">files.bas:46</div>
+<h3 id="m165">ResolveInclude</h3>
+<div class="sig">function ResolveInclude(ByRef fromFile As String, ByRef incName As String) returns(String)</div>
+<div class="brief">Zoekt een ingesloten bestand: eerst naast het insluitende bestand, daarna in de mappen die met -I zijn opgegeven.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>fromFile As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByRef</code></td><td><code>incName As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div><b>Calls</b> <code>ReplaceAll</code>, <a href="p6-files_bas.html#m161"><code>files.bas.PathParent</code></a>, <a href="p6-files_bas.html#m162"><code>files.bas.FileExists2</code></a> (3x)</div>
+<div><b>Called by</b> <a href="p6-files_bas.html#m166"><code>files.bas.FollowIncludes</code></a></div>
+<div class="loc">files.bas:56</div>
+<h3 id="m166">FollowIncludes</h3>
+<div class="sig">function FollowIncludes(ByVal depth As Integer)</div>
+<div class="brief">Volgt de includes van de al ingelezen bestanden en voegt ze toe als referentie.</div>
+<div class="detail">Werkt in rondes, zodat ook includes van includes meekomen.
+</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByVal</code></td><td><code>depth As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Calls</b> <a href="p6-files_bas.html#m165"><code>files.bas.ResolveInclude</code></a>, <a href="p6-files_bas.html#m163"><code>files.bas.AlreadyVisited</code></a>, <code>ExtWanted</code>, <code>PathBase</code> (2x), <a href="p6-files_bas.html#m167"><code>files.bas.AddFileToList</code></a>, <code>TokenizeFile</code>, <code>ParseTokens</code></div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">files.bas:84</div>
+<h3 id="m167">AddFileToList<span class="tag auto">auto</span></h3>
+<div class="sig">function AddFileToList(ByRef p As String)</div>
+<div class="brief">Adds file to list.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>p As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Called by</b> <a href="p6-files_bas.html#m166"><code>files.bas.FollowIncludes</code></a>, <a href="p6-files_bas.html#m168"><code>files.bas.ScanDirRec</code></a></div>
+<div class="loc">files.bas:119</div>
+<h3 id="m168">ScanDirRec<span class="tag auto">auto</span></h3>
+<div class="sig">function ScanDirRec(ByRef dirPath As String)</div>
+<div class="brief">Function scan dir rec.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>dirPath As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Calls</b> <code>Say</code>, <code>IsExcluded</code>, <a href="p6-files_bas.html#m168"><code>files.bas.ScanDirRec</code></a>, <code>ExtWanted</code>, <code>PathExtOf</code>, <a href="p6-files_bas.html#m167"><code>files.bas.AddFileToList</code></a></div>
+<div><b>Called by</b> <a href="p6-files_bas.html#m168"><code>files.bas.ScanDirRec</code></a></div>
+<div class="loc">files.bas:137</div>
+<h3 id="m169">SortFileList<span class="tag auto">auto</span></h3>
+<div class="sig">function SortFileList()</div>
+<div class="brief">Sorts file list.</div>
+<div><b>Calls</b> <code>LC</code> (2x)</div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">files.bas:180</div>
+</section>
+</main></body></html>

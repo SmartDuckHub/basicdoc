@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Module tokenizer.bas</title>
+<link rel="stylesheet" href="style.css">
+</head><body>
+<main>
+<div class="crumb"><a href="overview.html">Overview</a> &rsaquo; tokenizer.bas</div>
+<section class="part" id="p15">
+<h2>Module tokenizer.bas</h2>
+<div class="loc">fbdoc/inc/tokenizer.bas:1</div>
+<div class="brief">Module tokenizer.bas. Contains 4 function(s).<span class="tag auto">auto</span></div>
+<h3 id="m300">AddCmt</h3>
+<div class="sig">function AddCmt(ByRef txt As String, ByVal ls As Integer, ByVal le As Integer, ByVal inl As Integer, ByVal isDoc As Integer)</div>
+<div class="brief">===================================================================== fbdoc - Tokenizer: broncode naar tokens en commentaarblokken =====================================================================</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>txt As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByVal</code></td><td><code>ls As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByVal</code></td><td><code>le As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByVal</code></td><td><code>inl As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByVal</code></td><td><code>isDoc As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Called by</b> <a href="p15-tokenizer_bas.html#m303"><code>tokenizer.bas.TokenizeFile</code></a></div>
+<div class="loc">tokenizer.bas:5</div>
+<h3 id="m301">AddTok<span class="tag auto">auto</span></h3>
+<div class="sig">function AddTok(ByRef t As String, ByVal ln As Integer, ByVal k As Integer)</div>
+<div class="brief">Adds tok.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>t As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByVal</code></td><td><code>ln As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByVal</code></td><td><code>k As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Called by</b> <a href="p15-tokenizer_bas.html#m303"><code>tokenizer.bas.TokenizeFile</code></a></div>
+<div class="loc">tokenizer.bas:22</div>
+<h3 id="m302">JoinTok<span class="tag auto">auto</span></h3>
+<div class="sig">function JoinTok(ByVal a As Integer, ByVal b As Integer) returns(String)</div>
+<div class="brief">Function join tok. Returns String.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByVal</code></td><td><code>a As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByVal</code></td><td><code>b As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">tokenizer.bas:38</div>
+<h3 id="m303">TokenizeFile<span class="tag auto">auto</span></h3>
+<div class="sig">function TokenizeFile(ByRef fpath As String)</div>
+<div class="brief">Function tokenize file.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>fpath As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Calls</b> <code>Say</code>, <code>Tr1</code>, <code>ReplaceAll</code>, <a href="p15-tokenizer_bas.html#m300"><code>tokenizer.bas.AddCmt</code></a> (5x), <a href="p15-tokenizer_bas.html#m301"><code>tokenizer.bas.AddTok</code></a> (8x), <code>IsIdentCh</code> (4x), <code>IsDigitCh</code>, <code>LC</code> (4x)</div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">tokenizer.bas:61</div>
+</section>
+</main></body></html>

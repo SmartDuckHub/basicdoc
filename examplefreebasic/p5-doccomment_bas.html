@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Module doccomment.bas</title>
+<link rel="stylesheet" href="style.css">
+</head><body>
+<main>
+<div class="crumb"><a href="overview.html">Overview</a> &rsaquo; doccomment.bas</div>
+<section class="part" id="p5">
+<h2>Module doccomment.bas</h2>
+<div class="loc">fbdoc/inc/doccomment.bas:1</div>
+<div class="brief">Module doccomment.bas. Contains 2 function(s).<span class="tag auto">auto</span></div>
+<h3 id="m159">NextDocLine</h3>
+<div class="sig">function NextDocLine(ByRef src As String, ByRef idx As Integer) returns(String)</div>
+<div class="brief">===================================================================== fbdoc - Doc-commentaar verwerken: tekst en @tags =====================================================================</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>src As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByRef</code></td><td><code>idx As Integer</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div><b>Calls</b> <code>ReplaceAll</code></div>
+<div><b>Called by</b> <a href="p5-doccomment_bas.html#m160"><code>doccomment.bas.ApplyDoc</code></a></div>
+<div class="loc">doccomment.bas:5</div>
+<h3 id="m160">ApplyDoc<span class="tag auto">auto</span></h3>
+<div class="sig">function ApplyDoc(ByVal cidx As Integer, ByVal pidx As Integer, ByVal midx As Integer)</div>
+<div class="brief">Function apply doc.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByVal</code></td><td><code>cidx As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByVal</code></td><td><code>pidx As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByVal</code></td><td><code>midx As Integer</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Calls</b> <a href="p5-doccomment_bas.html#m159"><code>doccomment.bas.NextDocLine</code></a>, <code>LC</code> (4x)</div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">doccomment.bas:25</div>
+</section>
+</main></body></html>

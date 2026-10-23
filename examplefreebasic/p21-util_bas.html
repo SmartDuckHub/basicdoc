@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Module util.bas</title>
+<link rel="stylesheet" href="style.css">
+</head><body>
+<main>
+<div class="crumb"><a href="overview.html">Overview</a> &rsaquo; util.bas</div>
+<section class="part" id="p21">
+<h2>Module util.bas</h2>
+<div class="loc">fbdoc/inc/util.bas:1</div>
+<div class="brief">Module util.bas. Contains 15 function(s).<span class="tag auto">auto</span></div>
+<h3 id="m375">LC</h3>
+<div class="sig">function LC(ByRef s As String) returns(String)</div>
+<div class="brief">===================================================================== fbdoc - Algemene helpers: meldingen, strings, escapes en paden =====================================================================</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>s As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div><b>Calls</b> <a href="p21-util_bas.html#m375"><code>util.bas.LC</code></a></div>
+<div><b>Called by</b> <a href="p21-util_bas.html#m375"><code>util.bas.LC</code></a>, <a href="p21-util_bas.html#m386"><code>util.bas.PathExtOf</code></a>, <a href="p21-util_bas.html#m388"><code>util.bas.IsExcluded</code></a></div>
+<div class="loc">util.bas:5</div>
+<h3 id="m376">Say</h3>
+<div class="sig">function Say(ByRef s As String)</div>
+<div class="brief">Alle meldingen lopen via Say: naar de console en, als er een logbestand is geopend, ook daarheen.</div>
+<div class="detail">Zo blijft diagnose mogelijk wanneer de console onbruikbaar is (bijv. GUI-subsystem of een IDE die uitvoer opslokt).
+</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>s As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Called by</b> <a href="p21-util_bas.html#m389"><code>util.bas.IsDirPath</code></a></div>
+<div class="loc">util.bas:12</div>
+<h3 id="m377">OpenLogEarly</h3>
+<div class="sig">function OpenLogEarly()</div>
+<div class="brief">Zoekt --log/-L in de argumenten voordat de rest wordt verwerkt, zodat ook de eerste meldingen in het logbestand terechtkomen.</div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">util.bas:21</div>
+<h3 id="m378">Fmt1</h3>
+<div class="sig">function Fmt1(ByVal d As Double) returns(String)</div>
+<div class="brief">eenvoudige vervanging voor Format() zodat vbcompat.bi niet nodig is</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByVal</code></td><td><code>d As Double</code></td><td></td><td>by val<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">util.bas:43</div>
+<h3 id="m379">IsIdentCh<span class="tag auto">auto</span></h3>
+<div class="sig">function IsIdentCh(ByRef c As String) returns(Integer)</div>
+<div class="brief">Determines whether ident ch applies. Returns Integer.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>c As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>Integer</code> &mdash; value of type Integer</div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">util.bas:60</div>
+<h3 id="m380">IsDigitCh<span class="tag auto">auto</span></h3>
+<div class="sig">function IsDigitCh(ByRef c As String) returns(Integer)</div>
+<div class="brief">Determines whether digit ch applies. Returns Integer.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>c As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>Integer</code> &mdash; value of type Integer</div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">util.bas:69</div>
+<h3 id="m381">ReplaceAll<span class="tag auto">auto</span></h3>
+<div class="sig">function ReplaceAll(ByRef s As String, ByRef f As String, ByRef r As String) returns(String)</div>
+<div class="brief">Function replace all. Returns String.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>s As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByRef</code></td><td><code>f As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+<tr><td><code>ByRef</code></td><td><code>r As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div><b>Called by</b> <a href="p21-util_bas.html#m382"><code>util.bas.HtmlEsc</code></a>, <a href="p21-util_bas.html#m383"><code>util.bas.JsonEsc</code></a>, <a href="p21-util_bas.html#m384"><code>util.bas.NormSep</code></a></div>
+<div class="loc">util.bas:76</div>
+<h3 id="m382">HtmlEsc<span class="tag auto">auto</span></h3>
+<div class="sig">function HtmlEsc(ByRef s As String) returns(String)</div>
+<div class="brief">Function html esc. Returns String.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>s As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div><b>Calls</b> <a href="p21-util_bas.html#m381"><code>util.bas.ReplaceAll</code></a> (4x)</div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">util.bas:93</div>
+<h3 id="m383">JsonEsc<span class="tag auto">auto</span></h3>
+<div class="sig">function JsonEsc(ByRef s As String) returns(String)</div>
+<div class="brief">Function json esc. Returns String.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>s As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div><b>Calls</b> <a href="p21-util_bas.html#m381"><code>util.bas.ReplaceAll</code></a> (5x)</div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">util.bas:102</div>
+<h3 id="m384">NormSep<span class="tag auto">auto</span></h3>
+<div class="sig">function NormSep(ByRef s As String) returns(String)</div>
+<div class="brief">Function norm sep. Returns String.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>s As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div><b>Calls</b> <a href="p21-util_bas.html#m381"><code>util.bas.ReplaceAll</code></a></div>
+<div><b>Called by</b> <a href="p21-util_bas.html#m385"><code>util.bas.PathBase</code></a>, <a href="p21-util_bas.html#m388"><code>util.bas.IsExcluded</code></a></div>
+<div class="loc">util.bas:112</div>
+<h3 id="m385">PathBase<span class="tag auto">auto</span></h3>
+<div class="sig">function PathBase(ByRef s As String) returns(String)</div>
+<div class="brief">Function path base. Returns String.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>s As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div><b>Calls</b> <a href="p21-util_bas.html#m384"><code>util.bas.NormSep</code></a></div>
+<div><b>Called by</b> <a href="p21-util_bas.html#m386"><code>util.bas.PathExtOf</code></a></div>
+<div class="loc">util.bas:116</div>
+<h3 id="m386">PathExtOf<span class="tag auto">auto</span></h3>
+<div class="sig">function PathExtOf(ByRef s As String) returns(String)</div>
+<div class="brief">Function path ext of. Returns String.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>s As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>String</code> &mdash; value of type String</div>
+<div><b>Calls</b> <a href="p21-util_bas.html#m385"><code>util.bas.PathBase</code></a>, <a href="p21-util_bas.html#m375"><code>util.bas.LC</code></a></div>
+<div><b>Called by</b> <a href="p21-util_bas.html#m387"><code>util.bas.ExtWanted</code></a></div>
+<div class="loc">util.bas:126</div>
+<h3 id="m387">ExtWanted<span class="tag auto">auto</span></h3>
+<div class="sig">function ExtWanted(ByRef fn As String) returns(Integer)</div>
+<div class="brief">Function ext wanted. Returns Integer.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>fn As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>Integer</code> &mdash; value of type Integer</div>
+<div><b>Calls</b> <a href="p21-util_bas.html#m386"><code>util.bas.PathExtOf</code></a></div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">util.bas:136</div>
+<h3 id="m388">IsExcluded<span class="tag auto">auto</span></h3>
+<div class="sig">function IsExcluded(ByRef p As String) returns(Integer)</div>
+<div class="brief">Determines whether excluded applies. Returns Integer.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>p As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>Integer</code> &mdash; value of type Integer</div>
+<div><b>Calls</b> <a href="p21-util_bas.html#m375"><code>util.bas.LC</code></a> (2x), <a href="p21-util_bas.html#m384"><code>util.bas.NormSep</code></a></div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">util.bas:144</div>
+<h3 id="m389">IsDirPath<span class="tag auto">auto</span></h3>
+<div class="sig">function IsDirPath(ByRef p As String) returns(Integer)</div>
+<div class="brief">Determines whether dir path applies. Returns Integer.</div>
+<table><tr><th>Parameter</th><th>Type</th><th>Direction</th><th>Description</th></tr>
+<tr><td><code>ByRef</code></td><td><code>p As String</code></td><td></td><td>by ref<span class="tag auto">auto</span></td></tr>
+</table>
+<div><b>Returns</b> <code>Integer</code> &mdash; value of type Integer</div>
+<div><b>Calls</b> <a href="p21-util_bas.html#m376"><code>util.bas.Say</code></a> (2x)</div>
+<div class="loc">no callers within the scanned code</div>
+<div class="loc">util.bas:161</div>
+</section>
+</main></body></html>
