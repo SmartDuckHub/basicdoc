@@ -83,3 +83,10 @@ Dim Shared extPkg() As String
 Dim Shared extCnt() As Integer
 Dim Shared extFn() As String
 Dim Shared extN As Integer
+
+'' vertalingen (zie inc/lang.bas)
+Dim Shared trKey() As String
+Dim Shared trVal() As String
+Dim Shared trHashV() As Long
+Dim Shared trCount As Integer, trCap As Integer
+Dim Shared langCode As String

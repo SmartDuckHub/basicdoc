@@ -7,13 +7,13 @@ Declare Sub WriteSvgGraph()
 Function KindLabel(ByVal e As Integer) As String
     Select Case gEnKind(e)
     Case EN_MAIN
-        KindLabel = "hoofdprogramma"
+        KindLabel = Tr("main program")
     Case EN_EVENT
-        KindLabel = "event: ON " & gEnInfo(e)
+        KindLabel = Tr1("event: ON %1", gEnInfo(e))
     Case EN_ERROR
         KindLabel = "ON ERROR"
     Case Else
-        KindLabel = "subroutine"
+        KindLabel = Tr("subroutine")
     End Select
 End Function
 
@@ -198,7 +198,7 @@ Sub EmitDocHead(ByRef titleTxt As String)
     Dim q As String
     q = Chr(34)
     Emit "<!DOCTYPE html>"
-    Emit "<html lang=" & q & "nl" & q & ">"
+    Emit "<html lang=" & q & langCode & q & ">"
     Emit "<head>"
     Emit "<meta charset=" & q & "utf-8" & q & ">"
     Emit "<meta name=" & q & "viewport" & q & " content=" & q & "width=device-width,initial-scale=1" & q & ">"
@@ -212,24 +212,24 @@ End Sub
 Sub EmitHeaderBar(ByRef title As String)
     Dim q As String
     q = Chr(34)
-    Emit "<header><h1>MSX-BASIC documentatie &mdash; " & HtmlEsc(title) & "</h1><div class=" & q & "meta" & q & ">msxbasicdoc " & MBD_VERSION & _
-        " &middot; " & TodayNL() & " " & Time & " &middot; " & HtmlEsc(gFile) & " &middot; " & NStr(gNL) & " regels &middot; " & _
-        NStr(IIf(gNEn > 0, gNEn - 1, 0)) & " routines</div></header>"
+    Emit "<header><h1>" & Tr("MSX-BASIC documentation") & " &mdash; " & HtmlEsc(title) & "</h1><div class=" & q & "meta" & q & ">msxbasicdoc " & MBD_VERSION & _
+        " &middot; " & TodayTxt() & " " & Time & " &middot; " & HtmlEsc(gFile) & " &middot; " & Tr1("%1 lines", NStr(gNL)) & " &middot; " & _
+        Tr1("%1 routines", NStr(IIf(gNEn > 0, gNEn - 1, 0))) & "</div></header>"
 End Sub
 
 Sub EmitNavList()
     Dim e As Integer
     Dim q As String
     q = Chr(34)
-    Emit "<input id=" & q & "q" & q & " placeholder=" & q & "Filter op naam of regel..." & q & ">"
+    Emit "<input id=" & q & "q" & q & " placeholder=" & q & Tr("Filter by name or line...") & q & ">"
     Emit "<ul>"
-    Emit "<li><a href=" & q & "#graph" & q & "><b>Aanroepstructuur</b></a></li>"
-    Emit "<li><a href=" & q & "#dead" & q & "><b>Mogelijk ongebruikt</b></a></li>"
-    Emit "<li><a href=" & q & "#warn" & q & "><b>Waarschuwingen</b></a> (" & NStr(gNW) & ")</li>"
-    Emit "<li><a href=" & q & "#vars" & q & "><b>Variabelen</b></a></li>"
-    Emit "<li><a href=" & q & "#misc" & q & "><b>Functies, DATA en extern</b></a></li>"
-    Emit "<li><a href=" & q & "#src" & q & "><b>Broncode</b></a></li>"
-    Emit "<li><a href=" & q & "#overview" & q & ">Programma " & HtmlEsc(gFile) & "</a></li>"
+    Emit "<li><a href=" & q & "#graph" & q & "><b>" & Tr("Call structure") & "</b></a></li>"
+    Emit "<li><a href=" & q & "#dead" & q & "><b>" & Tr("Possibly unused") & "</b></a></li>"
+    Emit "<li><a href=" & q & "#warn" & q & "><b>" & Tr("Warnings") & "</b></a> (" & NStr(gNW) & ")</li>"
+    Emit "<li><a href=" & q & "#vars" & q & "><b>" & Tr("Variables") & "</b></a></li>"
+    Emit "<li><a href=" & q & "#misc" & q & "><b>" & Tr("Functions, DATA and external") & "</b></a></li>"
+    Emit "<li><a href=" & q & "#src" & q & "><b>" & Tr("Source code") & "</b></a></li>"
+    Emit "<li><a href=" & q & "#overview" & q & ">" & Tr1("Program %1", HtmlEsc(gFile)) & "</a></li>"
     For e = 0 To gNEn - 1
         Emit "<li class=" & q & "f" & q & "><a href=" & q & EntryHref(e) & q & "><code>" & NStr(gLnNum(gEnLine(e))) & "</code> " & HtmlEsc(gEnName(e)) & "</a></li>"
     Next
@@ -248,15 +248,15 @@ Sub EmitCoverageBlock()
     For x = 0 To gNL - 1
         If gLnRem(x) Then nRem += 1
     Next
-    Emit "<div class=" & q & "stat" & q & ">Documentatiedekking: <b>" & NStr(docd) & "</b> van <b>" & NStr(gNEn) & _
-        "</b> ingangen heeft echt broncommentaar (" & Pct1(docd, gNEn) & "%)</div>"
-    Emit "<div class=" & q & "stat" & q & ">Commentaarregels: <b>" & NStr(nRem) & "</b> van <b>" & NStr(gNL) & "</b> (" & Pct1(nRem, gNL) & "%)</div>"
+    Emit "<div class=" & q & "stat" & q & ">" & Tr3("Documentation coverage: <b>%1</b> of <b>%2</b> entry points have real source comments (%3%)", _
+        NStr(docd), NStr(gNEn), Pct1(docd, gNEn)) & "</div>"
+    Emit "<div class=" & q & "stat" & q & ">" & Tr3("Comment lines: <b>%1</b> of <b>%2</b> (%3%)", NStr(nRem), NStr(gNL), Pct1(nRem, gNL)) & "</div>"
 End Sub
 
 Sub EmitTagsTable(ByRef tags As String)
     Dim p As Integer, r As Integer, ln As String, t As Integer
     If Len(tags) = 0 Then Exit Sub
-    Emit "<table><tr><th>Tag</th><th>Waarde</th></tr>"
+    Emit "<table><tr><th>" & Tr("Tag") & "</th><th>" & Tr("Value") & "</th></tr>"
     p = 1
     Do While p <= Len(tags)
         r = InStr(p, tags, Chr(10))
@@ -294,7 +294,7 @@ Sub EmitOverview(ByRef title As String)
     Dim q As String
     q = Chr(34)
     Emit "<section class=" & q & "part" & q & " id=" & q & "overview" & q & ">"
-    Emit "<h2>Programma " & HtmlEsc(title) & "</h2>"
+    Emit "<h2>" & Tr1("Program %1", HtmlEsc(title)) & "</h2>"
     Emit "<div class=" & q & "loc" & q & ">" & HtmlEsc(gFile) & "</div>"
     EmitBriefDetail gProgDesc, 0
     EmitTagsTable gProgTags
@@ -315,14 +315,14 @@ End Function
 Sub TreeNode(ByVal e As Integer, ByVal how As Integer)
     Dim f As Integer, open_ As Integer
     Print #gOut, "<li>";
-    If how = 2 Then Print #gOut, "<span class=tag>registreert</span> ";
+    If how = 2 Then Print #gOut, "<span class=tag>" & Tr("registers") & "</span> ";
     Print #gOut, EntryLink(e);
     If gTreeOnPath(e) Then
-        Print #gOut, " <span class=loc>(recursief)</span></li>"
+        Print #gOut, " <span class=loc>(" & Tr("recursive") & ")</span></li>"
         Exit Sub
     End If
     If gTreeShown(e) <> 0 And HasKids(e) <> 0 Then
-        Print #gOut, " <span class=loc>(zie hierboven)</span></li>"
+        Print #gOut, " <span class=loc>(" & Tr("see above") & ")</span></li>"
         Exit Sub
     End If
     gTreeShown(e) = 1 : gTreeOnPath(e) = 1
@@ -347,16 +347,16 @@ Sub EmitGraphSection()
     For i = 0 To CLng(gNEn) * gNEn - 1
         If gCall(i) <> 0 Then nEdges += 1
     Next
-    Emit "<h2 id=" & q & "graph" & q & " style=" & q & "margin-top:26px" & q & ">Aanroepstructuur</h2>"
+    Emit "<h2 id=" & q & "graph" & q & " style=" & q & "margin-top:26px" & q & ">" & Tr("Call structure") & "</h2>"
     Emit "<div class=" & q & "legend" & q & ">"
-    Emit NStr(gNEn) & " ingangen, " & NStr(nEdges) & " relaties. Van links naar rechts: aanroeper voor aangeroepene. Klik een blok om naar de documentatie te springen; beweeg erover om alleen de eigen relaties te zien. Sleep om te verschuiven, scrollwiel of de knoppen rechtsonder om te zoomen."
-    Emit "<br>Dikke rand = geen aanroeper binnen bereikbare code (hoofdprogramma, of alleen aangeroepen vanuit dode code). Gestippelde rand = niet bereikbaar vanuit het hoofdprogramma. Oranje gestippelde pijl = terugkoppeling of recursie. Blauwe fijngestippelde pijl = registreert handler (ON INTERVAL/KEY/SPRITE/STRIG/STOP GOSUB, ON ERROR GOTO)."
-    Emit "<br>Soorten:<span class=" & q & "sw sw-main" & q & "></span>hoofdprogramma<span class=" & q & "sw sw-sub" & q & "></span>subroutine" & _
-        "<span class=" & q & "sw sw-event" & q & "></span>event-handler<span class=" & q & "sw sw-error" & q & "></span>foutafhandeling"
+    Emit Tr2("%1 entry points, %2 relations. From left to right: caller before callee. Click a block to jump to its documentation; hover over it to see only its own relations. Drag to pan, use the scroll wheel or the buttons at the bottom right to zoom.", NStr(gNEn), NStr(nEdges))
+    Emit "<br>" & Tr("Thick border = no caller within reachable code (main program, or only called from dead code). Dashed border = not reachable from the main program. Orange dashed arrow = feedback or recursion. Blue finely dotted arrow = registers a handler (ON INTERVAL/KEY/SPRITE/STRIG/STOP GOSUB, ON ERROR GOTO).")
+    Emit "<br>" & Tr("Kinds:") & "<span class=" & q & "sw sw-main" & q & "></span>" & Tr("main program") & "<span class=" & q & "sw sw-sub" & q & "></span>" & Tr("subroutine") & _
+        "<span class=" & q & "sw sw-event" & q & "></span>" & Tr("event handler") & "<span class=" & q & "sw sw-error" & q & "></span>" & Tr("error handling")
     Emit "</div>"
     WriteSvgGraph
     If gNEn > 0 Then
-        Emit "<details><summary class=" & q & "loc" & q & ">Als boomstructuur</summary>"
+        Emit "<details><summary class=" & q & "loc" & q & ">" & Tr("As a tree") & "</summary>"
         ReDim gTreeShown(0 To gNEn), gTreeOnPath(0 To gNEn)
         Emit "<ul class=" & q & "tree" & q & ">"
         TreeNode 0, 0
@@ -388,7 +388,7 @@ Function EmitDeadRanges() As Integer
             For y = s To x
                 If gLnRem(y) = 0 And gLnData(y) = 0 Then cnt += 1
             Next
-            If n = 0 Then Emit "<table><tr><th>Regels</th><th>Code-regels</th><th>Begint met</th></tr>"
+            If n = 0 Then Emit "<table><tr><th>" & Tr("Lines") & "</th><th>" & Tr("Code lines") & "</th><th>" & Tr("Starts with") & "</th></tr>"
             Emit "<tr><td>" & LineLink(s) & IIf(s <> x, "&ndash;" & LineLink(x), "") & "</td><td>" & NStr(cnt) & "</td><td><code>" & _
                 HtmlEsc(Left(gLnText(s), 60)) & "</code></td></tr>"
             n += 1
@@ -402,19 +402,19 @@ End Function
 Sub EmitDeadSection()
     Dim e As Integer, n As Integer, k As Integer, s As String, q As String
     q = Chr(34)
-    Emit "<h2 id=" & q & "dead" & q & " style=" & q & "margin-top:26px" & q & ">Mogelijk ongebruikte code</h2>"
-    Emit "<div class=" & q & "legend" & q & ">In MSX-BASIC zijn sprongdoelen altijd vaste regelnummers, dus de analyse is binnen het programma volledig."
-    Emit "<br>Niet gezien worden: binnenkomst via <code>RUN regel</code> of <code>GOTO</code> in direct mode, via een ander programma (<code>RUN ""X"",R</code>, <code>MERGE</code>) of via machinetaal. Controleer dat voordat je iets weggooit.</div>"
+    Emit "<h2 id=" & q & "dead" & q & " style=" & q & "margin-top:26px" & q & ">" & Tr("Possibly unused code") & "</h2>"
+    Emit "<div class=" & q & "legend" & q & ">" & Tr("In MSX-BASIC jump targets are always fixed line numbers, so the analysis within the program is complete.")
+    Emit "<br>" & Tr1("Not seen: entry via <code>RUN line</code> or <code>GOTO</code> in direct mode, from another program (%1, <code>MERGE</code>) or from machine code. Check that before you throw anything away.", "<code>RUN " & q & "X" & q & ",R</code>") & "</div>"
 
-    Emit "<h3>Onbereikbare regels</h3>"
-    If EmitDeadRanges() = 0 Then Emit "<p>Geen onbereikbare code gevonden.</p>"
+    Emit "<h3>" & Tr("Unreachable lines") & "</h3>"
+    If EmitDeadRanges() = 0 Then Emit "<p>" & Tr("No unreachable code found.") & "</p>"
 
     n = 0
     For e = 1 To gNEn - 1
         If gEnReach(e) = 0 Then
             If n = 0 Then
-                Emit "<h3>Routines die niet vanuit het hoofdprogramma bereikt worden</h3>"
-                Emit "<table><tr><th>Routine</th><th>Soort</th><th>Aangeroepen vanaf</th></tr>"
+                Emit "<h3>" & Tr("Routines not reached from the main program") & "</h3>"
+                Emit "<table><tr><th>" & Tr("Routine") & "</th><th>" & Tr("Kind") & "</th><th>" & Tr("Called from") & "</th></tr>"
             End If
             s = ""
             For k = 0 To gNE - 1
@@ -423,7 +423,7 @@ Sub EmitDeadSection()
                     Case ED_GOSUB, ED_ONGOSUB, ED_ONEVENT, ED_ONERROR
                         If Len(s) > 0 Then s &= ", "
                         s &= LineLink(gEdFrom(k))
-                        If gLnOwners(gEdFrom(k)) = 0 Then s &= " <span class=" & q & "tag dep" & q & ">dood</span>"
+                        If gLnOwners(gEdFrom(k)) = 0 Then s &= " <span class=" & q & "tag dep" & q & ">" & Tr("dead") & "</span>"
                     End Select
                 End If
             Next
@@ -437,9 +437,9 @@ End Sub
 Sub EmitWarnSection()
     Dim k As Integer, q As String
     q = Chr(34)
-    Emit "<h2 id=" & q & "warn" & q & " style=" & q & "margin-top:26px" & q & ">Waarschuwingen</h2>"
+    Emit "<h2 id=" & q & "warn" & q & " style=" & q & "margin-top:26px" & q & ">" & Tr("Warnings") & "</h2>"
     If gNW = 0 Then
-        Emit "<p>Geen waarschuwingen.</p>"
+        Emit "<p>" & Tr("No warnings.") & "</p>"
         Exit Sub
     End If
     Emit "<ul class=" & q & "warn" & q & ">"
@@ -461,18 +461,18 @@ Sub EmitRoutineSection(ByVal e As Integer)
 
     Emit "<section class=" & q & "part" & q & " id=" & q & "R" & NStr(gLnNum(gEnLine(e))) & q & ">"
     s = "<h2>" & NStr(gLnNum(gEnLine(e))) & " &middot; " & HtmlEsc(gEnName(e)) & "<span class=" & q & "tag" & q & ">" & HtmlEsc(KindLabel(e)) & "</span>"
-    If gEnReach(e) = 0 Then s &= "<span class=" & q & "tag dep" & q & ">onbereikbaar</span>"
+    If gEnReach(e) = 0 Then s &= "<span class=" & q & "tag dep" & q & ">" & Tr("unreachable") & "</span>"
     Emit s & "</h2>"
     n = 0
     For x = 0 To gNL - 1
         If IsMember(e, x) Then n += 1
     Next
-    Emit "<div class=" & q & "loc" & q & ">" & HtmlEsc(gFile) & ":" & NStr(gLnNum(gEnLine(e))) & " &middot; " & NStr(n) & " regels: " & RangesHtml(e) & "</div>"
+    Emit "<div class=" & q & "loc" & q & ">" & HtmlEsc(gFile) & ":" & NStr(gLnNum(gEnLine(e))) & " &middot; " & Tr1("%1 lines", NStr(n)) & ": " & RangesHtml(e) & "</div>"
 
     If gEnKind(e) = EN_MAIN Then
-        EmitBriefDetail "Begin van het programma en alles wat daar zonder GOSUB uit volgt.", 0
+        EmitBriefDetail Tr("Start of the program and everything that follows from it without a GOSUB."), 0
     ElseIf gEnDocd(e) = 0 Then
-        EmitBriefDetail "Geen broncommentaar; naam afgeleid.", 1
+        EmitBriefDetail Tr("No source comments; name derived."), 1
     Else
         EmitBriefDetail gEnDesc(e), 0
     End If
@@ -489,8 +489,8 @@ Sub EmitRoutineSection(ByVal e As Integer)
             s2 &= EntryLink(f) & " <span class=" & q & "tag" & q & ">" & HtmlEsc(KindLabel(f)) & "</span>"
         End If
     Next
-    If s <> "" Then Emit "<div><b>Roept aan</b> " & s & "</div>"
-    If s2 <> "" Then Emit "<div><b>Registreert</b> " & s2 & "</div>"
+    If s <> "" Then Emit "<div><b>" & Tr("Calls") & "</b> " & s & "</div>"
+    If s2 <> "" Then Emit "<div><b>" & Tr("Registers") & "</b> " & s2 & "</div>"
 
     '' aangeroepen door
     If gEnKind(e) <> EN_MAIN Then
@@ -510,18 +510,18 @@ Sub EmitRoutineSection(ByVal e As Integer)
                                 s2 &= "<a href=" & q & EntryHref(f) & q & ">" & HtmlEsc(gEnName(f)) & "</a>"
                             End If
                         Next
-                        If s2 = "" Then s2 = "<span class=" & q & "tag dep" & q & ">dode code</span>"
+                        If s2 = "" Then s2 = "<span class=" & q & "tag dep" & q & ">" & Tr("dead code") & "</span>"
                         s &= " (" & s2 & ")"
                     End If
                 End Select
             End If
         Next
         If s = "" Then
-            Emit "<div class=" & q & "loc" & q & ">geen aanroepers binnen het programma</div>"
+            Emit "<div class=" & q & "loc" & q & ">" & Tr("no callers within the program") & "</div>"
         ElseIf gEnKind(e) = EN_EVENT Or gEnKind(e) = EN_ERROR Then
-            Emit "<div><b>Geregistreerd in</b> regel " & s & "</div>"
+            Emit "<div><b>" & Tr("Registered in") & "</b> " & Tr1("line %1", s) & "</div>"
         Else
-            Emit "<div><b>Aangeroepen door</b> regel " & s & "</div>"
+            Emit "<div><b>" & Tr("Called by") & "</b> " & Tr1("line %1", s) & "</div>"
         End If
     End If
 
@@ -546,7 +546,7 @@ Sub EmitRoutineSection(ByVal e As Integer)
             Next
         End If
     Next
-    If s <> "" Then Emit "<div><b>Eindigt via</b> " & s & "</div>"
+    If s <> "" Then Emit "<div><b>" & Tr("Ends via") & "</b> " & s & "</div>"
 
     '' variabelen
     ReDim rd(0 To gNV + 1), wr(0 To gNV + 1), dm(0 To gNV + 1)
@@ -565,16 +565,16 @@ Sub EmitRoutineSection(ByVal e As Integer)
     n = 0
     For v = 0 To gNV - 1
         If rd(v) Or wr(v) Or dm(v) Then
-            If n = 0 Then Emit "<table><tr><th>Variabele</th><th>Type</th><th>Gebruik</th></tr>"
+            If n = 0 Then Emit "<table><tr><th>" & Tr("Variable") & "</th><th>" & Tr("Type") & "</th><th>" & Tr("Usage") & "</th></tr>"
             s = ""
             If dm(v) Then s = "DIM"
             If wr(v) Then
                 If Len(s) > 0 Then s &= ", "
-                s &= "schrijft"
+                s &= Tr("writes")
             End If
             If rd(v) Then
                 If Len(s) > 0 Then s &= ", "
-                s &= "leest"
+                s &= Tr("reads")
             End If
             s2 = HtmlEsc(Spellings(gVarNames(v)))
             If gVarArr(v) Then s2 &= "()"
@@ -593,10 +593,10 @@ Sub EmitVarSection()
     Dim ord() As Integer
     q = Chr(34)
     Emit "<section class=" & q & "part" & q & " id=" & q & "vars" & q & ">"
-    Emit "<h2>Variabelen</h2>"
-    Emit "<div class=" & q & "legend" & q & ">MSX-BASIC onderscheidt variabelen alleen op de eerste twee tekens en het type. Zonder suffix of DEFxxx is het type double.</div>"
+    Emit "<h2>" & Tr("Variables") & "</h2>"
+    Emit "<div class=" & q & "legend" & q & ">" & Tr("MSX-BASIC tells variables apart only by the first two characters and the type. Without a suffix or DEFxxx the type is double.") & "</div>"
     If gNV = 0 Then
-        Emit "<p>Geen variabelen.</p></section>"
+        Emit "<p>" & Tr("No variables.") & "</p></section>"
         Exit Sub
     End If
     ReDim ord(0 To gNV - 1)
@@ -611,7 +611,7 @@ Sub EmitVarSection()
         Loop
         ord(j + 1) = tmp
     Next
-    Emit "<table><tr><th>Naam</th><th>Type</th><th>Geschreven / DIM</th><th>Gelezen</th></tr>"
+    Emit "<table><tr><th>" & Tr("Name") & "</th><th>" & Tr("Type") & "</th><th>" & Tr("Written / DIM") & "</th><th>" & Tr("Read") & "</th></tr>"
     For i = 0 To gNV - 1
         v = ord(i)
         s = "" : s2 = "" : lastLine = -1
@@ -632,8 +632,8 @@ Sub EmitVarSection()
                 End If
             End If
         Next
-        If s = "" Then s = "<span class=" & q & "tag dep" & q & ">nooit</span>"
-        If s2 = "" Then s2 = "<span class=" & q & "tag" & q & ">nooit</span>"
+        If s = "" Then s = "<span class=" & q & "tag dep" & q & ">" & Tr("never") & "</span>"
+        If s2 = "" Then s2 = "<span class=" & q & "tag" & q & ">" & Tr("never") & "</span>"
         Emit "<tr id=" & q & "V" & NStr(v) & q & "><td><code>" & HtmlEsc(Spellings(gVarNames(v))) & IIf(gVarArr(v), "()", "") & _
             "</code></td><td><code>" & TypeName(gVarType(v)) & IIf(gVarArr(v), " array", "") & "</code></td><td>" & s & "</td><td>" & s2 & "</td></tr>"
     Next
@@ -645,13 +645,13 @@ Sub EmitMiscSection()
     Dim s As String, s2 As String, seen As String, q As String
     q = Chr(34)
     Emit "<section class=" & q & "part" & q & " id=" & q & "misc" & q & ">"
-    Emit "<h2>Functies, DATA en externe verwijzingen</h2>"
+    Emit "<h2>" & Tr("Functions, DATA and external references") & "</h2>"
 
     Emit "<h3>DEF FN</h3>"
     If gNF = 0 Then
-        Emit "<p class=" & q & "loc" & q & ">Geen.</p>"
+        Emit "<p class=" & q & "loc" & q & ">" & Tr("None.") & "</p>"
     Else
-        Emit "<table><tr><th>Functie</th><th>Gedefinieerd</th><th>Gebruikt in</th></tr>"
+        Emit "<table><tr><th>" & Tr("Function") & "</th><th>" & Tr("Defined") & "</th><th>" & Tr("Used in") & "</th></tr>"
         For f = 0 To gNF - 1
             s = ""
             For u = 0 To gNFU - 1
@@ -662,7 +662,7 @@ Sub EmitMiscSection()
                     End If
                 End If
             Next
-            If s = "" Then s = "<span class=" & q & "tag dep" & q & ">nergens</span>"
+            If s = "" Then s = "<span class=" & q & "tag dep" & q & ">" & Tr("nowhere") & "</span>"
             Emit "<tr><td><code>FN" & HtmlEsc(gFnName(f)) & "</code></td><td>" & LineLink(gFnLine(f)) & "</td><td>" & s & "</td></tr>"
         Next
         Emit "</table>"
@@ -691,17 +691,17 @@ Sub EmitMiscSection()
     Next
     Emit "<h3>DATA</h3>"
     If s = "" And s2 = "" Then
-        Emit "<p class=" & q & "loc" & q & ">Geen.</p>"
+        Emit "<p class=" & q & "loc" & q & ">" & Tr("None.") & "</p>"
     Else
-        If s <> "" Then Emit "<div><b>DATA-regels</b> " & s & "</div>"
+        If s <> "" Then Emit "<div><b>" & Tr("DATA lines") & "</b> " & s & "</div>"
         If s2 <> "" Then Emit "<div><b>RESTORE</b> " & s2 & "</div>"
     End If
 
-    Emit "<h3>Externe verwijzingen</h3>"
+    Emit "<h3>" & Tr("External references") & "</h3>"
     If gNX = 0 Then
-        Emit "<p class=" & q & "loc" & q & ">Geen.</p>"
+        Emit "<p class=" & q & "loc" & q & ">" & Tr("None.") & "</p>"
     Else
-        Emit "<table><tr><th>Soort</th><th>Naam</th><th>Regels</th></tr>"
+        Emit "<table><tr><th>" & Tr("Kind") & "</th><th>" & Tr("Name") & "</th><th>" & Tr("Lines") & "</th></tr>"
         seen = Chr(1)
         For k = 0 To gNX - 1
             If InStr(seen, Chr(1) & gExKind(k) & Chr(2) & gExName(k) & Chr(1)) = 0 Then
@@ -725,10 +725,10 @@ Sub EmitSourceSection()
     Dim x As Integer, e As Integer, rowCls As String, own As String, q As String
     q = Chr(34)
     Emit "<section class=" & q & "part" & q & " id=" & q & "src" & q & ">"
-    Emit "<h2>Broncode</h2>"
-    Emit "<div class=" & q & "legend" & q & "><span class=" & q & "bg" & q & " style=" & q & "background:var(--deadbg)" & q & ">onbereikbaar</span>" & _
-        "<span class=" & q & "bg" & q & " style=" & q & "background:var(--sharedbg)" & q & ">gedeeld door meerdere routines</span>" & _
-        "Linkerkolom: routines waartoe de regel hoort (H = hoofdprogramma). Sprongdoelen zijn klikbaar.</div>"
+    Emit "<h2>" & Tr("Source code") & "</h2>"
+    Emit "<div class=" & q & "legend" & q & "><span class=" & q & "bg" & q & " style=" & q & "background:var(--deadbg)" & q & ">" & Tr("unreachable") & "</span>" & _
+        "<span class=" & q & "bg" & q & " style=" & q & "background:var(--sharedbg)" & q & ">" & Tr("shared by several routines") & "</span>" & _
+        Tr1("Left column: routines the line belongs to (%1 = main program). Jump targets are clickable.", Tr("M")) & "</div>"
     Emit "<table class=" & q & "src" & q & ">"
     For x = 0 To gNL - 1
         rowCls = ""
@@ -740,7 +740,7 @@ Sub EmitSourceSection()
             If IsMember(e, x) Then
                 If Len(own) > 0 Then own &= " "
                 If gEnKind(e) = EN_MAIN Then
-                    own &= "<a href=" & q & EntryHref(e) & q & ">H</a>"
+                    own &= "<a href=" & q & EntryHref(e) & q & ">" & Tr("M") & "</a>"
                 Else
                     own &= "<a href=" & q & EntryHref(e) & q & ">" & NStr(gLnNum(gEnLine(e))) & "</a>"
                 End If
@@ -815,13 +815,13 @@ Sub WriteHtml(ByRef outName As String)
     q = Chr(34)
     gOut = FreeFile
     If Open(outName For Output As #gOut) <> 0 Then
-        Print "Fout: kan " & outName & " niet schrijven"
+        Print Tr1("Error: cannot write %1", outName)
         Exit Sub
     End If
     title = gProgTitle
     If title = "" Then title = gFile
 
-    EmitDocHead "MSX-BASIC documentatie - " & title
+    EmitDocHead Tr("MSX-BASIC documentation") & " - " & title
     EmitHeaderBar title
     Emit "<div class=" & q & "wrap" & q & ">"
     Emit "<nav id=" & q & "side" & q & ">"
@@ -854,7 +854,7 @@ Sub WriteDot(ByRef outName As String)
     Dim h As Integer, e As Integer, f As Integer, c As Integer, shp As String
     h = FreeFile
     If Open(outName For Output As #h) <> 0 Then
-        Print "Fout: kan " & outName & " niet schrijven"
+        Print Tr1("Error: cannot write %1", outName)
         Exit Sub
     End If
     Print #h, "digraph msxbasic {"

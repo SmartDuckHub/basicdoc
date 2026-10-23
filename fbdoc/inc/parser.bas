@@ -220,24 +220,21 @@ Function IsBlockKw(ByRef t As String) As Integer
 End Function
 
 Function KindLabel(ByRef k As String) As String
-    Dim As Integer nl
-    nl = 0
-    If LC(opt.langTxt) = "nl" Then nl = -1
     Select Case LC(k)
     Case "module"
-        If nl Then Return "Module" Else Return "Module"
+        Return Tr("Module")
     Case "type"
-        Return "Type"
+        Return Tr("Type")
     Case "union"
-        Return "Union"
+        Return Tr("Union")
     Case "enum"
-        If nl Then Return "Enumeratie" Else Return "Enumeration"
+        Return Tr("Enumeration")
     Case "namespace"
-        Return "Namespace"
+        Return Tr("Namespace")
     Case "class"
-        Return "Class"
+        Return Tr("Class")
     Case "file"
-        If nl Then Return "Bestand" Else Return "File"
+        Return Tr("File")
     End Select
     Return k
 End Function

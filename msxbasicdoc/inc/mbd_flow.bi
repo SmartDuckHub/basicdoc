@@ -44,8 +44,8 @@ Sub ResolveEdges()
         x = FindLine(gEdNum(e))
         gEdTo(e) = x
         If x < 0 Then
-            AddWarn gEdFrom(e), "Regel " & NStr(gLnNum(gEdFrom(e))) & ": " & EdgeKindName(gEdKind(e)) & _
-                " verwijst naar niet-bestaande regel " & NStr(gEdNum(e))
+            AddWarn gEdFrom(e), Tr3("Line %1: %2 refers to non-existent line %3", NStr(gLnNum(gEdFrom(e))), _
+                EdgeKindName(gEdKind(e)), NStr(gEdNum(e)))
         Else
             gLnTarget(x) = 1
         End If
@@ -339,7 +339,7 @@ Sub CollectDocs()
 
         '' naam bepalen
         If gEnKind(e) = EN_MAIN Then
-            gEnName(e) = "Hoofdprogramma"
+            gEnName(e) = Tr("Main program")
         ElseIf gEnName(e) = "" Then
             If Len(gEnDesc(e)) > 0 Then
                 p = InStr(gEnDesc(e), Chr(10))
@@ -348,11 +348,11 @@ Sub CollectDocs()
             Else
                 Select Case gEnKind(e)
                 Case EN_EVENT
-                    gEnName(e) = "Event-handler"
+                    gEnName(e) = Tr("Event handler")
                 Case EN_ERROR
-                    gEnName(e) = "Foutafhandeling"
+                    gEnName(e) = Tr("Error handler")
                 Case Else
-                    gEnName(e) = "Subroutine"
+                    gEnName(e) = Tr("Subroutine")
                 End Select
             End If
         End If
@@ -394,7 +394,7 @@ Function OwnerSig(ByVal x As Integer) As String
     For e = 0 To gNEn - 1
         If IsMember(e, x) Then
             If Len(r) > 0 Then r &= ", "
-            If gEnKind(e) = EN_MAIN Then r &= "hoofdprogramma" Else r &= NStr(gLnNum(gEnLine(e)))
+            If gEnKind(e) = EN_MAIN Then r &= Tr("main program") Else r &= NStr(gLnNum(gEnLine(e)))
         End If
     Next
     OwnerSig = r
@@ -408,7 +408,7 @@ Sub ComputeWarnings()
     For x = 0 To gNL - 1
         If gNEn > 0 Then
             If IsMember(0, x) And gLnRet(x) <> 0 Then
-                AddWarn x, "Regel " & NStr(gLnNum(x)) & ": het hoofdprogramma kan hier een RETURN bereiken zonder GOSUB (doorvallen in een subroutine?)"
+                AddWarn x, Tr1("Line %1: the main program can reach a RETURN here without a GOSUB (falling through into a subroutine?)", NStr(gLnNum(x)))
             End If
         End If
     Next
@@ -425,9 +425,9 @@ Sub ComputeWarnings()
             Next
             If hasRet = 0 Then
                 If hasEnd Then
-                    AddWarn gEnLine(e), "Routine " & NStr(gLnNum(gEnLine(e))) & " eindigt met END/STOP maar bereikt geen RETURN"
+                    AddWarn gEnLine(e), Tr1("Routine %1 ends with END/STOP but does not reach a RETURN", NStr(gLnNum(gEnLine(e))))
                 Else
-                    AddWarn gEnLine(e), "Routine " & NStr(gLnNum(gEnLine(e))) & " bereikt geen RETURN"
+                    AddWarn gEnLine(e), Tr1("Routine %1 does not reach a RETURN", NStr(gLnNum(gEnLine(e))))
                 End If
             End If
         End If
@@ -444,9 +444,9 @@ Sub ComputeWarnings()
                 x += 1
             Loop
             If s = x Then
-                AddWarn s, "Regel " & NStr(gLnNum(s)) & " hoort bij meerdere routines: " & sig
+                AddWarn s, Tr2("Line %1 belongs to several routines: %2", NStr(gLnNum(s)), sig)
             Else
-                AddWarn s, "Regels " & NStr(gLnNum(s)) & "-" & NStr(gLnNum(x)) & " horen bij meerdere routines: " & sig
+                AddWarn s, Tr3("Lines %1-%2 belong to several routines: %3", NStr(gLnNum(s)), NStr(gLnNum(x)), sig)
             End If
         End If
         x += 1
@@ -475,9 +475,9 @@ Sub ComputeWarnings()
                 End If
             Loop
             If s = x Then
-                AddWarn s, "Regel " & NStr(gLnNum(s)) & " is onbereikbaar"
+                AddWarn s, Tr1("Line %1 is unreachable", NStr(gLnNum(s)))
             Else
-                AddWarn s, "Regels " & NStr(gLnNum(s)) & "-" & NStr(gLnNum(x)) & " zijn onbereikbaar"
+                AddWarn s, Tr2("Lines %1-%2 are unreachable", NStr(gLnNum(s)), NStr(gLnNum(x)))
             End If
         End If
         x += 1
@@ -492,7 +492,7 @@ Sub ComputeWarnings()
                     k = gUsLine(x) : Exit For
                 End If
             Next
-            AddWarn k, Spellings(gVarNames(v)) & " zijn in MSX-BASIC dezelfde variabele (alleen de eerste 2 tekens tellen)"
+            AddWarn k, Tr1("%1 are the same variable in MSX-BASIC (only the first 2 characters count)", Spellings(gVarNames(v)))
         End If
     Next
 End Sub

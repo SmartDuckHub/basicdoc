@@ -144,12 +144,30 @@ Sub LayoutGraph()
     Next
 End Sub
 
+'' Kapt af op schermbreedte in tekens (niet in bytes), zodat UTF-8 uit een
+'' vertaling heel blijft; Oost-Aziatische tekens tellen dubbel.
 Function SvShort(ByRef s As String, ByVal maxLen As Integer) As String
-    If Len(s) <= maxLen Then
+    Dim i As Integer, L As Integer, w As Integer, cw As Integer, n As Integer
+    n = Len(s)
+    w = 0 : i = 1
+    Do While i <= n
+        L = U8Len(s, i)
+        w += U8Width(s, i, L)
+        i += L
+    Loop
+    If w <= maxLen Then
         SvShort = HtmlEsc(s)
-    Else
-        SvShort = HtmlEsc(RTrim(Left(s, maxLen - 1))) & "&#8230;"
+        Exit Function
     End If
+    w = 0 : i = 1
+    Do While i <= n
+        L = U8Len(s, i)
+        cw = U8Width(s, i, L)
+        If w + cw > maxLen - 1 Then Exit Do
+        w += cw
+        i += L
+    Loop
+    SvShort = HtmlEsc(RTrim(Left(s, i - 1))) & "&#8230;"
 End Function
 
 Sub WriteSvgGraph()
@@ -171,10 +189,10 @@ Sub WriteSvgGraph()
 
     '' container nooit hoger dan nodig, zodat kleine grafen niet worden opgeblazen
     Print #gOut, "<div class=graphwrap style=" & q & "height:min(78vh," & NStr(h + 10) & "px)" & q & ">"
-    Print #gOut, "<div class=zoomctl><button id=zin title=Inzoomen>+</button><button id=zout title=Uitzoomen>&minus;</button>" & _
-        "<button id=zfit title=" & q & "Alles tonen" & q & ">&#8634;</button></div>"
+    Print #gOut, "<div class=zoomctl><button id=zin title=" & q & Tr("Zoom in") & q & ">+</button><button id=zout title=" & q & Tr("Zoom out") & q & ">&minus;</button>" & _
+        "<button id=zfit title=" & q & Tr("Show all") & q & ">&#8634;</button></div>"
     Print #gOut, "<svg id=cg xmlns=" & q & "http://www.w3.org/2000/svg" & q & " viewBox=" & q & "0 0 " & NStr(w) & " " & NStr(h) & q & _
-        " preserveAspectRatio=" & q & "xMidYMin meet" & q & " role=img aria-label=" & q & "Aanroepstructuur" & q & ">"
+        " preserveAspectRatio=" & q & "xMidYMin meet" & q & " role=img aria-label=" & q & Tr("Call structure") & q & ">"
     Print #gOut, "<defs><marker id=ah viewBox=" & q & "0 0 10 10" & q & " refX=10 refY=5 markerWidth=7 markerHeight=7 orient=auto>" & _
         "<path class=ahf d=" & q & "M0,0 L10,5 L0,10 z" & q & "/></marker>" & _
         "<marker id=ahb viewBox=" & q & "0 0 10 10" & q & " refX=10 refY=5 markerWidth=7 markerHeight=7 orient=auto>" & _
@@ -221,7 +239,7 @@ Sub WriteSvgGraph()
         For x = 0 To gNL - 1
             If IsMember(e, x) Then nLines += 1
         Next
-        tip = NStr(gLnNum(gEnLine(e))) & " " & gEnName(e) & " (" & KindLabel(e) & ", " & NStr(nLines) & " regels)"
+        tip = NStr(gLnNum(gEnLine(e))) & " " & gEnName(e) & " (" & KindLabel(e) & ", " & Tr1("%1 lines", NStr(nLines)) & ")"
         If Len(gEnDesc(e)) > 0 Then
             p = InStr(gEnDesc(e), Chr(10))
             If p > 0 Then tip &= Chr(10) & Left(gEnDesc(e), p - 1) Else tip &= Chr(10) & gEnDesc(e)

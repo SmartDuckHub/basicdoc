@@ -214,11 +214,11 @@ Sub EmitGraphSvg()
     nh = 24
 
     If gCount < 1 Then
-        Emit "<p class=" & q & "loc" & q & ">Geen aanroeprelaties herkend, dus geen diagram.</p>"
+        Emit "<p class=" & q & "loc" & q & ">" & Tr("No call relations recognised, so no diagram.") & "</p>"
         Exit Sub
     End If
     If gCount > 1200 Then
-        Emit "<p class=" & q & "loc" & q & ">Diagram overgeslagen: " & Str(gCount) & " knopen is ook met zoomen niet meer te volgen. Gebruik -f dot voor een Graphviz-versie of scan een kleiner deel.</p>"
+        Emit "<p class=" & q & "loc" & q & ">" & Tr1("Diagram skipped: %1 nodes cannot be followed, even with zooming. Use -f dot for a Graphviz version or scan a smaller part.", Str(gCount)) & "</p>"
         Exit Sub
     End If
 
@@ -233,9 +233,9 @@ Sub EmitGraphSvg()
 
     Emit "<div class=" & q & "graphwrap" & q & ">"
     Emit "<div class=" & q & "zoomctl" & q & ">"
-    Emit "<button type=" & q & "button" & q & " id=" & q & "zin" & q & " title=" & q & "Inzoomen" & q & ">+</button>"
-    Emit "<button type=" & q & "button" & q & " id=" & q & "zout" & q & " title=" & q & "Uitzoomen" & q & ">&minus;</button>"
-    Emit "<button type=" & q & "button" & q & " id=" & q & "zfit" & q & " title=" & q & "Alles passend maken" & q & ">&#9635;</button>"
+    Emit "<button type=" & q & "button" & q & " id=" & q & "zin" & q & " title=" & q & Tr("Zoom in") & q & ">+</button>"
+    Emit "<button type=" & q & "button" & q & " id=" & q & "zout" & q & " title=" & q & Tr("Zoom out") & q & ">&minus;</button>"
+    Emit "<button type=" & q & "button" & q & " id=" & q & "zfit" & q & " title=" & q & Tr("Fit everything") & q & ">&#9635;</button>"
     Emit "</div>"
     Emit "<svg id=" & q & "cg" & q & " viewBox=" & q & "0 0 " & Str(totW) & " " & Str(totH) & q & _
          " preserveAspectRatio=" & q & "xMidYMid meet" & q & " xmlns=" & q & "http://www.w3.org/2000/svg" & q & ">"
@@ -265,7 +265,7 @@ Sub EmitGraphSvg()
             s = "M " & Str(x1) & " " & Str(y1 - 5) & " C " & Str(x1 + 42) & " " & Str(y1 - 26) & _
                 ", " & Str(x1 + 42) & " " & Str(y1 + 26) & ", " & Str(x1) & " " & Str(y1 + 5)
             Emit "<path class=" & q & "e b" & q & " data-from=" & q & Str(a) & q & " data-to=" & q & Str(b) & q & _
-                 " d=" & q & s & q & "><title>recursief</title></path>"
+                 " d=" & q & s & q & "><title>" & Tr("recursive") & "</title></path>"
             Continue For
         End If
 
@@ -292,7 +292,7 @@ Sub EmitGraphSvg()
         s = "<path class=" & q & nm & q & " data-from=" & q & Str(a) & q & " data-to=" & q & Str(b) & q & _
             " d=" & q & s & q & "><title>" & HtmlEsc(members(gNode(a)).mname & " -> " & members(gNode(b)).mname)
         If edges(e).cnt > 1 Then s = s & " (" & Str(edges(e).cnt) & "x)"
-        If isBack = 1 Then s = s & " [terugkoppeling]"
+        If isBack = 1 Then s = s & " [" & Tr("feedback") & "]"
         If edges(e).kindC > 0 Then s = s & " [" & EdgeKindLabel(edges(e).kindC) & "]"
         s = s & "</title></path>"
         Emit s
@@ -308,7 +308,7 @@ Sub EmitGraphSvg()
         If parts(p).isRef Then
             '' referentie: geen documentatiesectie, dus geen link
             Emit "<g class=" & q & "n rf" & q & " data-id=" & q & Str(i) & q & ">"
-            Emit "<title>" & HtmlEsc(MemberFullName(gNode(i)) & "  (referentie: " & PathBase(parts(p).filePath) & ":" & Str(members(gNode(i)).lineNo) & ")") & "</title>"
+            Emit "<title>" & HtmlEsc(MemberFullName(gNode(i)) & "  (" & Tr1("reference: %1", PathBase(parts(p).filePath) & ":" & Str(members(gNode(i)).lineNo)) & ")") & "</title>"
             Emit "<rect x=" & q & Str(gX(i)) & q & " y=" & q & Str(gY(i)) & q & " width=" & q & Str(gW(i)) & q & _
                  " height=" & q & Str(nh) & q & " rx=" & q & "5" & q & "/>"
             Emit "<text x=" & q & Str(gX(i) + 9) & q & " y=" & q & Str(gY(i) + 16) & q & ">" & HtmlEsc(members(gNode(i)).mname) & "</text>"

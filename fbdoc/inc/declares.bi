@@ -6,7 +6,6 @@ Declare Function LC(ByRef s As String) As String
 Declare Sub Say(ByRef s As String)
 Declare Sub OpenLogEarly()
 Declare Function Fmt1(ByVal d As Double) As String
-Declare Function Pick(ByRef a As String, ByRef b As String, ByVal nl As Integer) As String
 Declare Function IsIdentCh(ByRef c As String) As Integer
 Declare Function IsDigitCh(ByRef c As String) As Integer
 Declare Function ReplaceAll(ByRef s As String, ByRef f As String, ByRef r As String) As String
@@ -107,3 +106,14 @@ Declare Sub OutMermaid()
 Declare Sub OutTree()
 Declare Sub TreeBranch(ByVal midx As Integer, ByVal lvl As Integer, ByRef pfx As String)
 Declare Sub ShowHelp()
+Declare Function TrHash(ByRef s As String) As Long
+Declare Sub TrAdd(ByRef k As String, ByRef v As String)
+Declare Function Tr(ByRef s As String) As String
+Declare Function TrFill(ByRef t As String, ByRef a As String, ByRef b As String, ByRef c As String) As String
+Declare Function Tr1(ByRef s As String, ByRef a As String) As String
+Declare Function Tr2(ByRef s As String, ByRef a As String, ByRef b As String) As String
+Declare Function Tr3(ByRef s As String, ByRef a As String, ByRef b As String, ByRef c As String) As String
+Declare Function PoUnq(ByRef src As String) As String
+Declare Function PoFlush(ByRef msgId As String, ByRef msgStr As String, ByRef fuzzy As Integer) As Integer
+Declare Function LoadPo(ByRef poPath As String) As Integer
+Declare Sub LangEarly()

@@ -1,7 +1,7 @@
 #lang "fblite"
 
 '' =====================================================================
-''  fbdoc 1.0.0 -- documentatiegenerator voor FreeBASIC
+''  fbdoc 1.1.0 -- documentatiegenerator voor FreeBASIC
 ''
 ''  Een soort van javadoc, maar dan voor .bas en .bi bestanden:
 ''  - Scant recursief en leest het commentaar boven een declaratie
@@ -13,12 +13,14 @@
 ''  - Aanroepgraaf, inclusief aanroepen zonder haakjes (MijnSub a, b)
 ''    en verwijzingen via @proc (procedure pointers)
 ''  - Uitvoer: text | md | html | json | dot | mermaid | tree
+''  - Engels is de standaardtaal; vertalingen zijn .po-bestanden in de
+''    map lang naast de executable (zie inc/lang.bas en CHANGELOG.md)
 ''
 ''  Compileren:
 ''      fbc -lang fblite -s console fbdoc.bas
 '' =====================================================================
 Const APP_NAME    = "fbdoc"
-Const APP_VERSION = "1.0.0"
+Const APP_VERSION = "1.1.0"
 '' Compileerdatum van deze binary, zodat je kunt zien of je een verse
 '' build draait. __DATE_ISO__ en __TIME__ vult de compiler in.
 #define APP_BUILD (__DATE_ISO__ & " " & __TIME__)
@@ -55,6 +57,7 @@ Const TK_EOL   = 5
 #include once "inc/declares.bi"
 
 #include once "inc/util.bas"
+#include once "inc/lang.bas"
 #include once "inc/files.bas"
 #include once "inc/tokenizer.bas"
 #include once "inc/parser.bas"
@@ -75,11 +78,11 @@ Dim As Integer argI, pathCount, i, k, tot, docd
 Dim As Double covPct
 
 OpenLogEarly()
-Say APP_NAME & " " & APP_VERSION & " (build " & APP_BUILD & ") gestart"
+LangEarly()
+Say Tr3("%1 %2 (build %3) started", APP_NAME, APP_VERSION, APP_BUILD)
 
 opt.outFile   = ""
 opt.fmtTxt    = "text"
-opt.langTxt   = "nl"
 opt.recurse   = -1
 opt.inclPriv  = -1
 opt.doGen     = -1
@@ -113,19 +116,19 @@ Do
          "--refs", "--ref", "--follow-depth", "--ref-depth"
         nx = Command(argI + 1)
         If Len(nx) = 0 Then
-            Say "FOUT: optie " & argS & " verwacht een waarde."
+            Say Tr1("ERROR: option %1 expects a value.", argS)
             End 2
         End If
         If Left(nx, 1) = "-" Then
-            Say "FOUT: optie " & argS & " verwacht een waarde, maar kreeg " & nx
+            Say Tr2("ERROR: option %1 expects a value, but got %2", argS, nx)
             End 2
         End If
         Select Case LC(argS)
-        Case "-n", "--name", "-f", "--format", "-l", "--lang"
+        Case "-n", "--name", "-f", "--format"
             If InStr(nx, PSEP) > 0 Or InStr(nx, "/") > 0 Or InStr(nx, ":") > 0 Then
-                Say "FOUT: " & argS & " kreeg iets dat op een pad lijkt: " & nx
-                Say "       Zet de waarde tussen quotes en geef het pad als los argument, bijv:"
-                Say "       " & APP_NAME & " -f html -o api.html -n " & Chr(34) & "Mijn project" & Chr(34) & " C:\pad\naar\src"
+                Say Tr2("ERROR: %1 got something that looks like a path: %2", argS, nx)
+                Say Tr("       Put the value in quotes and give the path as a separate argument, e.g.:")
+                Say "       " & APP_NAME & " -f html -o api.html -n " & Chr(34) & Tr("My project") & Chr(34) & " " & Tr("C:\path\to\src")
                 End 2
             End If
         End Select
@@ -137,7 +140,7 @@ Do
         End 0
     Case "--version"
         Say APP_NAME & " " & APP_VERSION
-        Say "gebouwd op " & APP_BUILD
+        Say Tr1("built on %1", APP_BUILD)
         End 0
     Case "-o", "--output"
         argI = argI + 1
@@ -146,8 +149,8 @@ Do
         argI = argI + 1
         opt.fmtTxt = LC(Command(argI))
     Case "-l", "--lang"
+        '' al verwerkt door LangEarly()
         argI = argI + 1
-        opt.langTxt = LC(Command(argI))
     Case "-n", "--name"
         argI = argI + 1
         opt.projName = Command(argI)
@@ -221,8 +224,8 @@ Do
         If opt.maxDepth < 1 Then opt.maxDepth = 12
     Case Else
         If Left(argS, 1) = "-" Then
-            Say "Onbekende optie: " & argS
-            Say "Gebruik --help voor hulp."
+            Say Tr1("Unknown option: %1", argS)
+            Say Tr("Use --help for help.")
             End 2
         End If
         If pathCount < 64 Then
@@ -234,7 +237,7 @@ Do
 Loop
 
 If pathCount = 0 Then
-    Say "FOUT: geen pad opgegeven om te scannen."
+    Say Tr("ERROR: no path given to scan.")
     Say ""
     ShowHelp()
     End 2
@@ -255,14 +258,14 @@ Next i
 '' includes worden gevolgd nadat de hoofdbestanden gelezen zijn
 
 If fileCount = 0 Then
-    Say "Geen bestanden gevonden met extensie(s) " & opt.extList
-    Say "Gescande pad(en):"
+    Say Tr1("No files found with extension(s) %1", opt.extList)
+    Say Tr("Scanned path(s):")
     For i = 1 To pathCount
-        nx = "nee"
-        If IsDirPath(pathArgs(i)) Then nx = "ja"
-        Say "  " & pathArgs(i) & "   (herkend als map: " & nx & ")"
+        nx = Tr("no")
+        If IsDirPath(pathArgs(i)) Then nx = Tr("yes")
+        Say "  " & pathArgs(i) & "   " & Tr1("(recognised as folder: %1)", nx)
     Next i
-    Say "Draai opnieuw met -d om te zien wat Dir() teruggeeft."
+    Say Tr("Run again with -d to see what Dir() returns.")
     End 2
 End If
 
@@ -270,11 +273,11 @@ SortFileList()
 ReDim refDone(1 To 8192)
 
 If opt.quiet = 0 Then
-    Say APP_NAME & " " & APP_VERSION & ": " & Str(fileCount) & " bestand(en) gevonden"
+    Say APP_NAME & " " & APP_VERSION & ": " & Tr1("%1 file(s) found", Str(fileCount))
 End If
 
 For i = 1 To fileCount
-    If opt.verbose Then Say "  lezen: " & fileList(i)
+    If opt.verbose Then Say "  " & Tr1("reading: %1", fileList(i))
     TokenizeFile(fileList(i))
     ParseTokens(fileList(i))
 Next i
@@ -287,12 +290,12 @@ If refCount > 0 Then
     For i = 1 To refCount
         If refDone(i) Then Continue For
         refDone(i) = -1
-        If opt.verbose Then Say "  referentie: " & refList(i)
+        If opt.verbose Then Say "  " & Tr1("reference: %1", refList(i))
         TokenizeFile(refList(i))
         ParseTokens(refList(i))
     Next i
     parsingRefs = 0
-    If opt.quiet = 0 Then Say "  " & Str(refCount) & " referentiebestand(en) meegelezen"
+    If opt.quiet = 0 Then Say "  " & Tr1("%1 reference file(s) read", Str(refCount))
 End If
 
 GenerateMissing()
@@ -301,19 +304,19 @@ ResolveBindings()
 ComputeRefDist()
 
 If opt.quiet = 0 Then
-    Say "  " & Str(partCount) & " part(s), " & Str(memberCount) & " lid/leden, " & Str(paramCount) & " parameter(s)"
-    Say "  " & Str(edgeCount) & " aanroeprelatie(s)"
+    Say "  " & Tr3("%1 part(s), %2 member(s), %3 parameter(s)", Str(partCount), Str(memberCount), Str(paramCount))
+    Say "  " & Tr1("%1 call relation(s)", Str(edgeCount))
 End If
 
 If partCount = 0 And memberCount = 0 Then
-    Say "LET OP: er zijn " & Str(fileCount) & " bestand(en) gelezen, maar geen declaraties herkend."
-    Say "        Controleer of het echt FreeBASIC-bronbestanden zijn (-v toont welke bestanden gelezen worden)."
+    Say Tr1("NOTE: %1 file(s) were read, but no declarations were recognised.", Str(fileCount))
+    Say Tr("      Check that they really are FreeBASIC source files (-v shows which files are read).")
 End If
 
 '' uitvoer openen
 If opt.splitOut Then
     If opt.fmtTxt <> "html" And opt.fmtTxt <> "htm" Then
-        Say "  ! --split geldt alleen voor -f html; wordt genegeerd"
+        Say "  ! " & Tr("--split only applies to -f html; ignored")
         opt.splitOut = 0
     End If
 End If
@@ -322,7 +325,7 @@ outH = 0
 If Len(opt.outFile) > 0 And opt.splitOut = 0 Then
     outH = FreeFile
     If Open(opt.outFile For Output As #outH) <> 0 Then
-        Say "Kan uitvoerbestand niet schrijven: " & opt.outFile
+        Say Tr1("Cannot write output file: %1", opt.outFile)
         End 2
     End If
 End If
@@ -349,7 +352,7 @@ Else
 End If
 
 If opt.splitOut Then
-    If opt.quiet = 0 Then Say "  open " & outDir & PSEP & "index.html in een browser"
+    If opt.quiet = 0 Then Say "  " & Tr1("open %1 in a browser", outDir & PSEP & "index.html")
 End If
 
 If outH > 0 Then
@@ -361,7 +364,7 @@ If outH > 0 Then
         If InStr(shownPath, ":") = 0 And Left(shownPath, 1) <> PSEP And Left(shownPath, 1) <> "/" Then
             shownPath = CurDir & PSEP & shownPath
         End If
-        Say "  geschreven: " & shownPath
+        Say "  " & Tr1("written: %1", shownPath)
     End If
 End If
 
@@ -387,12 +390,12 @@ If tot > 0 Then covPct = docd * 100 / tot
 
 If opt.showCov Then
     Say ""
-    Say "Documentatiedekking: " & Str(docd) & "/" & Str(tot) & " = " & Fmt1(covPct) & "%"
+    Say Tr3("Documentation coverage: %1/%2 = %3%", Str(docd), Str(tot), Fmt1(covPct))
 End If
 
 If opt.failUnder >= 0 Then
     If covPct < opt.failUnder Then
-        Say "FOUT: dekking " & Fmt1(covPct) & "% ligt onder de drempel " & Fmt1(opt.failUnder) & "%"
+        Say Tr2("ERROR: coverage %1% is below the threshold %2%", Fmt1(covPct), Fmt1(opt.failUnder))
         End 1
     End If
 End If

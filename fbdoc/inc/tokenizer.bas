@@ -75,7 +75,7 @@ Sub TokenizeFile(ByRef fpath As String)
 
     fh = FreeFile
     If Open(fpath For Input As #fh) <> 0 Then
-        Say "  ! kan bestand niet openen: " & fpath
+        Say "  ! " & Tr1("cannot open file: %1", fpath)
         skippedFiles = skippedFiles + 1
         Exit Sub
     End If

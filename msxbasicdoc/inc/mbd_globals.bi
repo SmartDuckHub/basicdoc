@@ -2,7 +2,7 @@
 '' msxbasicdoc - globale constanten en gedeelde data
 '' ============================================================
 
-#define MBD_VERSION "0.3.0"
+#define MBD_VERSION "0.4.0"
 
 '' --- Tokensoorten ---
 Const TK_KW = 1      '' sleutelwoord (genormaliseerd, hoofdletters)

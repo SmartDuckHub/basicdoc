@@ -55,24 +55,12 @@ Function Humanize(ByRef s As String) As String
 End Function
 
 Function GenMemberBrief(ByVal midx As Integer) As String
-    Dim As String words, verb, rest, pre, post, s, fallback
-    Dim As Integer p, nl
+    Dim As String words, verb, rest, s
+    Dim As Integer p
 
-    nl = 0
-    If LC(opt.langTxt) = "nl" Then nl = -1
-
-    If members(midx).kind = "variable" Then
-        If nl Then Return "Variabele " & Humanize(members(midx).mname) & "."
-        Return "Variable " & Humanize(members(midx).mname) & "."
-    End If
-    If members(midx).kind = "constant" Then
-        If nl Then Return "Constante " & Humanize(members(midx).mname) & "."
-        Return "Constant " & Humanize(members(midx).mname) & "."
-    End If
-    If members(midx).kind = "enum" Then
-        If nl Then Return "Waarde " & Humanize(members(midx).mname) & "."
-        Return "Value " & Humanize(members(midx).mname) & "."
-    End If
+    If members(midx).kind = "variable" Then Return Tr1("Variable %1.", Humanize(members(midx).mname))
+    If members(midx).kind = "constant" Then Return Tr1("Constant %1.", Humanize(members(midx).mname))
+    If members(midx).kind = "enum" Then Return Tr1("Value %1.", Humanize(members(midx).mname))
 
     words = Humanize(members(midx).mname)
     p = InStr(words, " ")
@@ -83,130 +71,88 @@ Function GenMemberBrief(ByVal midx As Integer) As String
         verb = LCase(Left(words, p - 1))
         rest = Trim(Mid(words, p + 1))
     End If
+    If Len(rest) = 0 Then rest = Tr("the data")
 
-    If nl Then fallback = "de gegevens" Else fallback = "the data"
-    If Len(rest) = 0 Then rest = fallback
-
-    pre = ""
-    post = ""
+    '' een zin per werkwoord, met %1 voor de rest van de naam, zodat een
+    '' vertaling de woordvolgorde zelf kan kiezen ("Haalt %1 op.")
+    s = ""
     Select Case verb
     Case "get", "fetch", "retrieve", "read", "obtain", "haal", "lees"
-        pre = Pick("Haalt ", "Retrieves ", nl)
-        post = Pick(" op.", ".", nl)
+        s = Tr1("Retrieves %1.", rest)
     Case "load", "laad"
-        pre = Pick("Laadt ", "Loads ", nl)
-        post = "."
+        s = Tr1("Loads %1.", rest)
     Case "set", "assign", "zet"
-        pre = Pick("Stelt ", "Sets ", nl)
-        post = Pick(" in.", ".", nl)
+        s = Tr1("Sets %1.", rest)
     Case "is", "has", "can", "must", "should", "exists", "contains", "equals"
-        pre = Pick("Bepaalt of ", "Determines whether ", nl)
-        post = Pick(" van toepassing is.", " applies.", nl)
+        s = Tr1("Determines whether %1 applies.", rest)
     Case "validate", "check", "verify", "valideer", "controleer"
-        pre = Pick("Valideert ", "Validates ", nl)
-        post = "."
+        s = Tr1("Validates %1.", rest)
     Case "calc", "calculate", "compute", "sum", "total", "bereken"
-        pre = Pick("Berekent ", "Calculates ", nl)
-        post = "."
+        s = Tr1("Calculates %1.", rest)
     Case "create", "make", "build", "generate", "new", "maak", "genereer"
-        pre = Pick("Creeert ", "Creates ", nl)
-        post = "."
+        s = Tr1("Creates %1.", rest)
     Case "add", "append", "insert", "push", "voeg"
-        pre = Pick("Voegt ", "Adds ", nl)
-        post = Pick(" toe.", ".", nl)
+        s = Tr1("Adds %1.", rest)
     Case "delete", "remove", "clear", "drop", "purge", "verwijder"
-        pre = Pick("Verwijdert ", "Deletes ", nl)
-        post = "."
+        s = Tr1("Deletes %1.", rest)
     Case "update", "modify", "change", "wijzig", "werk"
-        pre = Pick("Werkt ", "Updates ", nl)
-        post = Pick(" bij.", ".", nl)
+        s = Tr1("Updates %1.", rest)
     Case "save", "store", "persist", "write", "commit", "bewaar", "sla"
-        pre = Pick("Slaat ", "Stores ", nl)
-        post = Pick(" op.", ".", nl)
+        s = Tr1("Stores %1.", rest)
     Case "find", "search", "lookup", "query", "select", "zoek"
-        pre = Pick("Zoekt ", "Searches for ", nl)
-        post = "."
+        s = Tr1("Searches for %1.", rest)
     Case "convert", "to", "parse", "format", "transform", "map", "converteer"
-        pre = Pick("Converteert ", "Converts ", nl)
-        post = "."
+        s = Tr1("Converts %1.", rest)
     Case "init", "initialize", "initialise", "setup", "start", "prepare"
-        pre = Pick("Initialiseert ", "Initialises ", nl)
-        post = "."
+        s = Tr1("Initialises %1.", rest)
     Case "process", "handle", "execute", "perform", "do", "exec", "verwerk"
-        pre = Pick("Verwerkt ", "Processes ", nl)
-        post = "."
+        s = Tr1("Processes %1.", rest)
     Case "send", "post", "submit", "publish", "verstuur", "verzend"
-        pre = Pick("Verzendt ", "Sends ", nl)
-        post = "."
+        s = Tr1("Sends %1.", rest)
     Case "open"
-        pre = Pick("Opent ", "Opens ", nl)
-        post = "."
+        s = Tr1("Opens %1.", rest)
     Case "close", "finish", "stop"
-        pre = Pick("Sluit ", "Closes ", nl)
-        post = Pick(" af.", ".", nl)
+        s = Tr1("Closes %1.", rest)
     Case "show", "display", "render", "draw", "toon"
-        pre = Pick("Toont ", "Displays ", nl)
-        post = "."
+        s = Tr1("Displays %1.", rest)
     Case "hide", "verberg"
-        pre = Pick("Verbergt ", "Hides ", nl)
-        post = "."
+        s = Tr1("Hides %1.", rest)
     Case "refresh", "reload", "reset", "vernieuw"
-        pre = Pick("Vernieuwt ", "Refreshes ", nl)
-        post = "."
+        s = Tr1("Refreshes %1.", rest)
     Case "count", "tel"
-        pre = Pick("Telt ", "Counts ", nl)
-        post = "."
+        s = Tr1("Counts %1.", rest)
     Case "sort", "order", "sorteer"
-        pre = Pick("Sorteert ", "Sorts ", nl)
-        post = "."
+        s = Tr1("Sorts %1.", rest)
     Case "filter"
-        pre = Pick("Filtert ", "Filters ", nl)
-        post = "."
+        s = Tr1("Filters %1.", rest)
     Case "copy", "clone", "duplicate", "kopieer"
-        pre = Pick("Kopieert ", "Copies ", nl)
-        post = "."
+        s = Tr1("Copies %1.", rest)
     Case "import", "importeer"
-        pre = Pick("Importeert ", "Imports ", nl)
-        post = "."
+        s = Tr1("Imports %1.", rest)
     Case "export", "exporteer"
-        pre = Pick("Exporteert ", "Exports ", nl)
-        post = "."
+        s = Tr1("Exports %1.", rest)
     Case "log", "trace", "audit"
-        pre = Pick("Logt ", "Logs ", nl)
-        post = "."
+        s = Tr1("Logs %1.", rest)
     Case "print"
-        pre = Pick("Print ", "Prints ", nl)
-        post = "."
+        s = Tr1("Prints %1.", rest)
     Case "on", "before", "after"
-        pre = Pick("Event-handler voor ", "Event handler for ", nl)
-        post = "."
+        s = Tr1("Event handler for %1.", rest)
     Case "main"
-        pre = Pick("Startpunt van ", "Entry point of ", nl)
-        post = "."
+        s = Tr1("Entry point of %1.", rest)
     Case Else
-        pre = Pick("Functie ", "Function ", nl)
-        post = "."
-        rest = Humanize(members(midx).mname)
+        s = Tr1("Function %1.", Humanize(members(midx).mname))
     End Select
-
-    s = pre & rest & post
 
     '' returntype toevoegen
     If Len(members(midx).retType) > 0 Then
-        If nl Then
-            s = s & " Retourneert " & members(midx).retType & "."
-        Else
-            s = s & " Returns " & members(midx).retType & "."
-        End If
+        s = s & " " & Tr1("Returns %1.", members(midx).retType)
     End If
     Return s
 End Function
 
 Function GenPartBrief(ByVal pidx As Integer) As String
     Dim As String s, lbl
-    Dim As Integer nl, k, cnt
-    nl = 0
-    If LC(opt.langTxt) = "nl" Then nl = -1
+    Dim As Integer k, cnt
     lbl = KindLabel(parts(pidx).kind)
     cnt = 0
     For k = 1 To memberCount
@@ -214,20 +160,13 @@ Function GenPartBrief(ByVal pidx As Integer) As String
             If members(k).kind = "function" Then cnt = cnt + 1
         End If
     Next k
-    If nl Then
-        s = lbl & " " & Humanize(parts(pidx).pname) & "."
-        If cnt > 0 Then s = s & " Bevat " & Str(cnt) & " functie(s)."
-    Else
-        s = lbl & " " & Humanize(parts(pidx).pname) & "."
-        If cnt > 0 Then s = s & " Contains " & Str(cnt) & " function(s)."
-    End If
+    s = lbl & " " & Humanize(parts(pidx).pname) & "."
+    If cnt > 0 Then s = s & " " & Tr1("Contains %1 function(s).", Str(cnt))
     Return s
 End Function
 
 Sub GenerateMissing()
-    Dim As Integer i, k, pf, pc, nl
-    nl = 0
-    If LC(opt.langTxt) = "nl" Then nl = -1
+    Dim As Integer i, k, pf, pc
 
     For i = 1 To partCount
         If Len(Trim(parts(i).brief)) = 0 Then
@@ -253,11 +192,7 @@ Sub GenerateMissing()
         Next k
         If Len(members(i).retType) > 0 And Len(Trim(members(i).retDesc)) = 0 Then
             If opt.doGen Then
-                If nl Then
-                    members(i).retDesc = "waarde van het type " & members(i).retType
-                Else
-                    members(i).retDesc = "value of type " & members(i).retType
-                End If
+                members(i).retDesc = Tr1("value of type %1", members(i).retType)
             End If
         End If
     Next i

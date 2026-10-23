@@ -63,14 +63,14 @@ Function LoadSource(ByRef fname As String) As Integer
             If IsDigitC(Asc(t, k)) Then k += 1 Else Exit Do
         Loop
         If k = 1 Then
-            AddWarn -1, "Bronregel " & NStr(srcLine) & " heeft geen regelnummer en is genegeerd: " & Left(Trim(t), 40)
+            AddWarn -1, Tr2("Source line %1 has no line number and was ignored: %2", NStr(srcLine), Left(Trim(t), 40))
             Continue Do
         End If
         num = CLng(Val(Left(t, k - 1)))
         t = Mid(t, k)
         If Left(t, 1) = " " Then t = Mid(t, 2)
         If num > 65529 Then
-            AddWarn -1, "Regelnummer " & NStr(num) & " is groter dan 65529 (bronregel " & NStr(srcLine) & ")"
+            AddWarn -1, Tr2("Line number %1 is greater than 65529 (source line %2)", NStr(num), NStr(srcLine))
         End If
         tmpNum(n) = num : tmpText(n) = t
         n += 1
@@ -87,7 +87,7 @@ Function LoadSource(ByRef fname As String) As Integer
         Loop
         If j + 1 <> i Then
             If j + 1 < i Then
-                AddWarn -1, "Regel " & NStr(tn) & " staat niet op volgorde in het bronbestand"
+                AddWarn -1, Tr1("Line %1 is out of order in the source file", NStr(tn))
             End If
         End If
         tmpNum(j + 1) = tn : tmpText(j + 1) = tt
@@ -103,7 +103,7 @@ Function LoadSource(ByRef fname As String) As Integer
                 If gLnNum(gNL - 1) = tmpNum(i) Then dup = 1
             End If
             If dup Then
-                AddWarn -1, "Regel " & NStr(tmpNum(i)) & " komt meerdere keren voor; de laatste versie is gebruikt"
+                AddWarn -1, Tr1("Line %1 occurs more than once; the last version was used", NStr(tmpNum(i)))
                 gLnText(gNL - 1) = tmpText(i)
             Else
                 gLnNum(gNL) = tmpNum(i) : gLnText(gNL) = tmpText(i)

@@ -91,7 +91,7 @@ Sub FollowIncludes(ByVal depth As Integer)
         For i = 1 To startIdx
             full = ResolveInclude(incFrom(i), incWhat(i))
             If Len(full) = 0 Then
-                If opt.debugOn Then Say "  [dbg] include niet gevonden: " & incWhat(i)
+                If opt.debugOn Then Say "  [dbg] include not found: " & incWhat(i)
                 Continue For
             End If
             If AlreadyVisited(full) Then Continue For
@@ -158,18 +158,18 @@ Sub ScanDirRec(ByRef dirPath As String)
     Wend
 
     If opt.debugOn Then
-        Say "  [dbg] map " & dirPath & " : " & Str(n) & " entries"
+        Say "  [dbg] folder " & dirPath & " : " & Str(n) & " entries"
     End If
 
     For i = 1 To n
         full = dirPath & PSEP & names(i)
         If IsExcluded(full) Then
-            If opt.debugOn Then Say "  [dbg]   uitgesloten: " & names(i)
+            If opt.debugOn Then Say "  [dbg]   excluded: " & names(i)
         ElseIf isDir(i) Then
             If opt.debugOn Then Say "  [dbg]   <DIR> " & names(i)
             If opt.recurse Then ScanDirRec(full)
         ElseIf ExtWanted(names(i)) = 0 Then
-            If opt.debugOn Then Say "  [dbg]   extensie niet gewenst: " & names(i) & " (" & PathExtOf(names(i)) & ") attr=&h" & Hex(attrs(i))
+            If opt.debugOn Then Say "  [dbg]   extension not wanted: " & names(i) & " (" & PathExtOf(names(i)) & ") attr=&h" & Hex(attrs(i))
         Else
             If opt.debugOn Then Say "  [dbg]   + " & names(i) & " attr=&h" & Hex(attrs(i))
             AddFileToList(full)

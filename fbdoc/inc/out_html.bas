@@ -136,7 +136,7 @@ Sub EmitDocHead(ByRef titleTxt As String)
     Dim As String q
     q = Chr(34)
     Emit "<!DOCTYPE html>"
-    Emit "<html lang=" & q & "nl" & q & ">"
+    Emit "<html lang=" & q & langCode & q & ">"
     Emit "<head>"
     Emit "<meta charset=" & q & "utf-8" & q & ">"
     Emit "<meta name=" & q & "viewport" & q & " content=" & q & "width=device-width,initial-scale=1" & q & ">"
@@ -154,9 +154,9 @@ End Sub
 Sub EmitHeaderBar()
     Dim As String q
     q = Chr(34)
-    Emit "<header><h1>FreeBASIC documentatie"
+    Emit "<header><h1>" & Tr("FreeBASIC documentation")
     If Len(opt.projName) > 0 Then Emit " &mdash; " & HtmlEsc(opt.projName)
-    Emit "</h1><div class=" & q & "meta" & q & ">" & APP_NAME & " " & APP_VERSION & " (build " & APP_BUILD & ") &middot; " & Date & " " & Time & " &middot; " & Str(partCount) & " parts &middot; " & Str(memberCount) & " leden</div></header>"
+    Emit "</h1><div class=" & q & "meta" & q & ">" & APP_NAME & " " & APP_VERSION & " (build " & APP_BUILD & ") &middot; " & Date & " " & Time & " &middot; " & Tr1("%1 parts", Str(partCount)) & " &middot; " & Tr1("%1 members", Str(memberCount)) & "</div></header>"
 End Sub
 
 Sub EmitCoverageBlock()
@@ -177,7 +177,7 @@ Sub EmitCoverageBlock()
         tot = tot + 1
         If members(i).isAuto = 0 Then docd = docd + 1
     Next i
-    Emit "<div class=" & q & "stat" & q & ">Documentatiedekking: <b>" & Str(docd) & "</b> van <b>" & Str(tot) & "</b> elementen heeft echt broncommentaar"
+    Emit "<div class=" & q & "stat" & q & ">" & Tr2("Documentation coverage: <b>%1</b> of <b>%2</b> elements have real source comments", Str(docd), Str(tot))
     If tot > 0 Then Emit " (" & Fmt1(docd * 100 / tot) & "%)"
     Emit "</div>"
 End Sub
@@ -188,11 +188,11 @@ Sub EmitNavList(ByVal frames As Integer)
     q = Chr(34)
     tgt = ""
     If frames Then tgt = " target=" & q & "content" & q
-    Emit "<input id=" & q & "q" & q & " placeholder=" & q & "Filter op naam..." & q & ">"
+    Emit "<input id=" & q & "q" & q & " placeholder=" & q & Tr("Filter by name...") & q & ">"
     Emit "<ul>"
-    Emit "<li><a href=" & q & GraphHref() & q & tgt & "><b>Aanroepstructuur</b></a></li>"
-    Emit "<li><a href=" & q & DepsHref() & q & tgt & "><b>Onopgeloste aanroepen</b></a></li>"
-    Emit "<li><a href=" & q & DeadHref() & q & tgt & "><b>Mogelijk ongebruikt</b></a></li>"
+    Emit "<li><a href=" & q & GraphHref() & q & tgt & "><b>" & Tr("Call structure") & "</b></a></li>"
+    Emit "<li><a href=" & q & DepsHref() & q & tgt & "><b>" & Tr("Unresolved calls") & "</b></a></li>"
+    Emit "<li><a href=" & q & DeadHref() & q & tgt & "><b>" & Tr("Possibly unused") & "</b></a></li>"
     For i = 1 To partCount
         If parts(i).isRef Then Continue For
         anch = "p" & Str(i)
@@ -213,11 +213,11 @@ Sub EmitGraphSection()
     q = Chr(34)
     '' ---------------- aanroepstructuur ----------------
     BuildGraph()
-    Emit "<h2 id=" & q & "graph" & q & ">Aanroepstructuur</h2>"
+    Emit "<h2 id=" & q & "graph" & q & ">" & Tr("Call structure") & "</h2>"
     If gCount > 0 And gCount <= 1200 Then
         Emit "<div class=" & q & "legend" & q & ">"
-        Emit Str(gCount) & " functies, " & Str(edgeCount) & " relaties. Van links naar rechts: aanroeper voor aangeroepene. Klik een blok om naar de documentatie te springen; beweeg erover om alleen de eigen relaties te zien. Sleep om te verschuiven, scrollwiel of de knoppen rechtsonder om te zoomen."
-        Emit "<br>Dikke rand = geen aanroeper binnen de gescande code (ingang of dode code). Gestippelde rand = private. Grijs gestippeld blok = referentieproject. Oranje gestippelde pijl = terugkoppeling of recursie. Blauwe fijngestippelde pijl = callback of onException van een service-aanroep."
+        Emit Tr2("%1 functions, %2 relations. From left to right: caller before callee. Click a block to jump to its documentation; hover over it to see only its own relations. Drag to pan, use the scroll wheel or the buttons at the bottom right to zoom.", Str(gCount), Str(edgeCount))
+        Emit "<br>" & Tr("Thick border = no caller within the scanned code (entry point or dead code). Dashed border = private. Grey dashed block = reference project. Orange dashed arrow = feedback or recursion. Blue finely dotted arrow = callback or onException of a service call.")
         Emit "<br>Parts:"
         For i = 1 To partCount
             For k = 1 To gCount
@@ -239,9 +239,9 @@ Sub EmitDepsSection()
     '' ---------------- externe afhankelijkheden ----------------
     CollectExterns()
     If extN > 0 Then
-        Emit "<h2 id=" & q & "deps" & q & ">Onopgeloste aanroepen</h2>"
-        Emit "<div class=" & q & "legend" & q & ">Aanroepen naar bibliotheken die niet in de gescande code staan. Scan het betreffende project mee met --refs om ze in het diagram op te lossen.</div>"
-        Emit "<table class=" & q & "deps" & q & "><tr><th>Bibliotheek</th><th>Package</th><th>Aanroepen</th><th>Functies</th></tr>"
+        Emit "<h2 id=" & q & "deps" & q & ">" & Tr("Unresolved calls") & "</h2>"
+        Emit "<div class=" & q & "legend" & q & ">" & Tr("Calls to libraries that are not in the scanned code. Scan the project concerned as well with --refs to resolve them in the diagram.") & "</div>"
+        Emit "<table class=" & q & "deps" & q & "><tr><th>" & Tr("Library") & "</th><th>Package</th><th>" & Tr("Call count") & "</th><th>" & Tr("Functions") & "</th></tr>"
         For i = 1 To extN
             s = "<tr><td><code>" & HtmlEsc(extQual(i)) & "</code></td><td><code>"
             If Len(extPkg(i)) > 0 Then s = s & HtmlEsc(extPkg(i)) Else s = s & "?"
@@ -269,16 +269,16 @@ Sub EmitDeadSection()
         If dk = 3 Then n3 = n3 + 1
     Next k
 
-    Emit "<h2 id=" & q & "dead" & q & ">Mogelijk ongebruikte code</h2>"
-    Emit "<div class=" & q & "legend" & q & ">" & Str(n1) & " functie(s) zonder aanroeper binnen de gescande code, " & Str(n2) & " ingang(en) en " & Str(n3) & " via een property gekoppelde functie(s)."
-    Emit "<br>Dit is een aanwijzing, geen bewijs: aanroepen via delegates, dynamische dictionary-toegang, gegenereerde Java of vanuit code buiten de scan worden niet gezien. Scan met --follow of --refs zo veel mogelijk mee voordat je iets weggooit."
+    Emit "<h2 id=" & q & "dead" & q & ">" & Tr("Possibly unused code") & "</h2>"
+    Emit "<div class=" & q & "legend" & q & ">" & Tr3("%1 function(s) without a caller within the scanned code, %2 entry point(s) and %3 function(s) bound via a property.", Str(n1), Str(n2), Str(n3))
+    Emit "<br>" & Tr("This is a hint, not proof: calls via delegates, dynamic dictionary access, generated Java or from code outside the scan are not seen. Scan as much as possible with --follow or --refs before you throw anything away.")
     Emit "</div>"
 
     If n1 = 0 Then
-        Emit "<p>Geen functies zonder aanroeper gevonden.</p>"
+        Emit "<p>" & Tr("No functions without a caller found.") & "</p>"
     Else
-        Emit "<h3>Zonder aanroeper</h3>"
-        Emit "<table><tr><th>Functie</th><th>Part</th><th>Bestand</th><th>Roept zelf aan</th></tr>"
+        Emit "<h3>" & Tr("Without a caller") & "</h3>"
+        Emit "<table><tr><th>" & Tr("Function") & "</th><th>Part</th><th>" & Tr("File") & "</th><th>" & Tr("Calls out") & "</th></tr>"
         For k = 1 To memberCount
             If DeadKind(k) <> 1 Then Continue For
             p = members(k).ownerPart
@@ -293,13 +293,13 @@ Sub EmitDeadSection()
             Emit s
         Next k
         Emit "</table>"
-        Emit "<p class=" & q & "loc" & q & ">Een functie die zelf niets aanroept en door niemand wordt aangeroepen is de meest verdachte categorie. Roept hij wel van alles aan, dan hangt daar mogelijk een hele tak ongebruikte code onder.</p>"
+        Emit "<p class=" & q & "loc" & q & ">" & Tr("A function that calls nothing itself and is called by nobody is the most suspicious category. If it does call other code, a whole branch of unused code may hang below it.") & "</p>"
     End If
 
     If n3 > 0 Then
-        Emit "<h3>Via een property gekoppeld</h3>"
-        Emit "<div class=" & q & "legend" & q & ">Geen directe aanroeper, maar wel gekoppeld in een eigenschappenblok, bijvoorbeeld als event handler.</div>"
-        Emit "<table><tr><th>Functie</th><th>Part</th><th>Bestand</th></tr>"
+        Emit "<h3>" & Tr("Bound via a property") & "</h3>"
+        Emit "<div class=" & q & "legend" & q & ">" & Tr("No direct caller, but bound in a property block, for example as an event handler.") & "</div>"
+        Emit "<table><tr><th>" & Tr("Function") & "</th><th>Part</th><th>" & Tr("File") & "</th></tr>"
         For k = 1 To memberCount
             If DeadKind(k) <> 3 Then Continue For
             p = members(k).ownerPart
@@ -316,9 +316,9 @@ Sub EmitDeadSection()
     End If
 
     If n2 > 0 Then
-        Emit "<h3>Ingangen</h3>"
-        Emit "<div class=" & q & "legend" & q & ">Functies in een service, interface of programma: die worden per definitie van buiten aangeroepen.</div>"
-        Emit "<table><tr><th>Functie</th><th>Part</th></tr>"
+        Emit "<h3>" & Tr("Entry points") & "</h3>"
+        Emit "<div class=" & q & "legend" & q & ">" & Tr("Functions in a service, interface or program: these are by definition called from outside.") & "</div>"
+        Emit "<table><tr><th>" & Tr("Function") & "</th><th>Part</th></tr>"
         For k = 1 To memberCount
             If DeadKind(k) <> 2 Then Continue For
             p = members(k).ownerPart
@@ -356,7 +356,7 @@ Sub EmitPartSection(ByVal i As Integer)
             Emit "<div class=" & q & "detail" & q & ">" & HtmlEsc(parts(i).detail) & "</div>"
         End If
         If Len(parts(i).authorTxt) > 0 Then
-            Emit "<div class=" & q & "loc" & q & ">auteur: " & HtmlEsc(parts(i).authorTxt) & "</div>"
+            Emit "<div class=" & q & "loc" & q & ">" & Tr1("author: %1", HtmlEsc(parts(i).authorTxt)) & "</div>"
         End If
 
         For k = 1 To memberCount
@@ -381,7 +381,7 @@ Sub EmitPartSection(ByVal i As Integer)
             pf = members(k).paramFirst
             pc = members(k).paramCnt
             If pc > 0 Then
-                Emit "<table><tr><th>Parameter</th><th>Type</th><th>Richting</th><th>Beschrijving</th></tr>"
+                Emit "<table><tr><th>" & Tr("Parameter") & "</th><th>" & Tr("Type") & "</th><th>" & Tr("Direction") & "</th><th>" & Tr("Description") & "</th></tr>"
                 For j = pf To pf + pc - 1
                     If j < 1 Or j > paramCount Then Continue For
                     s = "<tr><td><code>" & HtmlEsc(paramList(j).pname) & "</code></td><td><code>" & HtmlEsc(paramList(j).ptype) & "</code></td><td>" & HtmlEsc(paramList(j).pmode) & "</td><td>" & HtmlEsc(paramList(j).pdesc)
@@ -392,13 +392,13 @@ Sub EmitPartSection(ByVal i As Integer)
                 Emit "</table>"
             End If
             If Len(members(k).retType) > 0 Then
-                Emit "<div><b>Returns</b> <code>" & HtmlEsc(members(k).retType) & "</code> &mdash; " & HtmlEsc(members(k).retDesc) & "</div>"
+                Emit "<div><b>" & Tr("Returns") & "</b> <code>" & HtmlEsc(members(k).retType) & "</code> &mdash; " & HtmlEsc(members(k).retDesc) & "</div>"
             End If
             If Len(members(k).throwsTxt) > 0 Then
-                Emit "<div><b>Exceptions</b> " & HtmlEsc(ReplaceAll(members(k).throwsTxt, Chr(10), "; ")) & "</div>"
+                Emit "<div><b>" & Tr("Exceptions") & "</b> " & HtmlEsc(ReplaceAll(members(k).throwsTxt, Chr(10), "; ")) & "</div>"
             End If
             If Len(members(k).seeTxt) > 0 Then
-                Emit "<div><b>Zie ook</b> " & HtmlEsc(ReplaceAll(members(k).seeTxt, Chr(10), ", ")) & "</div>"
+                Emit "<div><b>" & Tr("See also") & "</b> " & HtmlEsc(ReplaceAll(members(k).seeTxt, Chr(10), ", ")) & "</div>"
             End If
 
             '' aanroepstructuur
@@ -420,7 +420,7 @@ Sub EmitPartSection(ByVal i As Integer)
                 If edges(j).cnt > 1 Then s = s & " (" & Str(edges(j).cnt) & "x)"
                 If edges(j).kindC > 0 Then s = s & " <span class=" & q & "tag" & q & ">" & EdgeKindLabel(edges(j).kindC) & "</span>"
             Next j
-            If Len(s) > 0 Then Emit "<div><b>Roept aan</b> " & s & "</div>"
+            If Len(s) > 0 Then Emit "<div><b>" & Tr("Calls") & "</b> " & s & "</div>"
 
             s = ""
             For j = 1 To edgeCount
@@ -434,9 +434,9 @@ Sub EmitPartSection(ByVal i As Integer)
                 End If
             Next j
             If Len(s) > 0 Then
-                Emit "<div><b>Aangeroepen door</b> " & s & "</div>"
+                Emit "<div><b>" & Tr("Called by") & "</b> " & s & "</div>"
             Else
-                Emit "<div class=" & q & "loc" & q & ">geen aanroepers binnen de gescande code</div>"
+                Emit "<div class=" & q & "loc" & q & ">" & Tr("no callers within the scanned code") & "</div>"
             End If
             Emit "<div class=" & q & "loc" & q & ">" & HtmlEsc(PathBase(parts(i).filePath)) & ":" & Str(members(k).lineNo) & "</div>"
         Next k
@@ -446,8 +446,8 @@ Sub EmitPartSection(ByVal i As Integer)
             If members(k).ownerPart <> i Then Continue For
             If members(k).kind = "function" Then Continue For
             If hasAny = 0 Then
-                Emit "<h3>Velden, constanten en waarden</h3>"
-                Emit "<table><tr><th>Naam</th><th>Type</th><th>Soort</th><th>Beschrijving</th></tr>"
+                Emit "<h3>" & Tr("Fields, constants and values") & "</h3>"
+                Emit "<table><tr><th>" & Tr("Name") & "</th><th>" & Tr("Type") & "</th><th>" & Tr("Kind") & "</th><th>" & Tr("Description") & "</th></tr>"
                 hasAny = -1
             End If
             s = "<tr><td><code>" & HtmlEsc(members(k).mname) & "</code></td><td><code>" & HtmlEsc(members(k).retType) & "</code></td><td>" & members(k).kind & "</td><td>" & HtmlEsc(members(k).brief)
@@ -532,7 +532,7 @@ Sub OutHtml()
         OutHtmlSplit()
         Exit Sub
     End If
-    EmitDocHead("FreeBASIC documentatie")
+    EmitDocHead(Tr("FreeBASIC documentation"))
     EmitHeaderBar()
     Emit "<div class=" & q & "wrap" & q & ">"
     Emit "<nav id=" & q & "side" & q & ">"
@@ -587,9 +587,9 @@ Sub OutHtmlSplit()
     '' ---- container met de twee frames ----
     OpenOut(d & PSEP & "index.html")
     Emit "<!DOCTYPE html>"
-    Emit "<html lang=" & q & "nl" & q & ">"
+    Emit "<html lang=" & q & langCode & q & ">"
     Emit "<head><meta charset=" & q & "utf-8" & q & ">"
-    Emit "<title>FreeBASIC documentatie"
+    Emit "<title>" & Tr("FreeBASIC documentation")
     If Len(opt.projName) > 0 Then Emit " &mdash; " & HtmlEsc(opt.projName)
     Emit "</title>"
     Emit "<style>"
@@ -601,16 +601,16 @@ Sub OutHtmlSplit()
     Emit "@media (prefers-color-scheme:dark){#navf{border-right-color:#2a3138}}"
     Emit "</style></head>"
     Emit "<body><div class=" & q & "fwrap" & q & ">"
-    Emit "<iframe id=" & q & "navf" & q & " name=" & q & "nav" & q & " src=" & q & "nav.html" & q & " title=" & q & "Navigatie" & q & "></iframe>"
-    Emit "<iframe id=" & q & "mainf" & q & " name=" & q & "content" & q & " src=" & q & "overview.html" & q & " title=" & q & "Inhoud" & q & "></iframe>"
+    Emit "<iframe id=" & q & "navf" & q & " name=" & q & "nav" & q & " src=" & q & "nav.html" & q & " title=" & q & Tr("Navigation") & q & "></iframe>"
+    Emit "<iframe id=" & q & "mainf" & q & " name=" & q & "content" & q & " src=" & q & "overview.html" & q & " title=" & q & Tr("Content") & q & "></iframe>"
     Emit "</div></body></html>"
     CloseOut()
 
     '' ---- navigatiekolom ----
     OpenOut(d & PSEP & "nav.html")
-    EmitDocHead("Navigatie")
+    EmitDocHead(Tr("Navigation"))
     Emit "<nav id=" & q & "side" & q & ">"
-    Emit "<div class=" & q & "crumb" & q & "><a href=" & q & "overview.html" & q & " target=" & q & "content" & q & "><b>Overzicht</b></a></div>"
+    Emit "<div class=" & q & "crumb" & q & "><a href=" & q & "overview.html" & q & " target=" & q & "content" & q & "><b>" & Tr("Overview") & "</b></a></div>"
     EmitNavList(-1)
     Emit "</nav>"
     EmitFilterScript()
@@ -619,12 +619,12 @@ Sub OutHtmlSplit()
 
     '' ---- overzichtspagina ----
     OpenOut(d & PSEP & "overview.html")
-    EmitDocHead("Overzicht")
+    EmitDocHead(Tr("Overview"))
     EmitHeaderBar()
     Emit "<main>"
     EmitCoverageBlock()
-    Emit "<h2>Inhoud</h2>"
-    Emit "<table><tr><th>Part</th><th>Package</th><th>Functies</th><th>Beschrijving</th></tr>"
+    Emit "<h2>" & Tr("Contents") & "</h2>"
+    Emit "<table><tr><th>Part</th><th>Package</th><th>" & Tr("Functions") & "</th><th>" & Tr("Description") & "</th></tr>"
     For i = 1 To partCount
         If parts(i).isRef Then Continue For
         n = 0
@@ -636,13 +636,13 @@ Sub OutHtmlSplit()
         Emit "<tr><td><a href=" & q & PartFile(i) & q & ">" & HtmlEsc(KindLabel(parts(i).kind) & " " & parts(i).pname) & "</a></td><td><code>" & HtmlEsc(parts(i).pkg) & "</code></td><td>" & Str(n) & "</td><td>" & HtmlEsc(parts(i).brief) & "</td></tr>"
     Next i
     Emit "</table>"
-    Emit "<p><a href=" & q & "graph.html" & q & ">Aanroepstructuur</a> &middot; <a href=" & q & "deps.html" & q & ">Onopgeloste aanroepen</a> &middot; <a href=" & q & "dead.html" & q & ">Mogelijk ongebruikt</a></p>"
+    Emit "<p><a href=" & q & "graph.html" & q & ">" & Tr("Call structure") & "</a> &middot; <a href=" & q & "deps.html" & q & ">" & Tr("Unresolved calls") & "</a> &middot; <a href=" & q & "dead.html" & q & ">" & Tr("Possibly unused") & "</a></p>"
     Emit "</main></body></html>"
     CloseOut()
 
     '' ---- diagram ----
     OpenOut(d & PSEP & "graph.html")
-    EmitDocHead("Aanroepstructuur")
+    EmitDocHead(Tr("Call structure"))
     Emit "<main>"
     EmitGraphSection()
     Emit "</main>"
@@ -652,16 +652,16 @@ Sub OutHtmlSplit()
 
     '' ---- externe afhankelijkheden ----
     OpenOut(d & PSEP & "deps.html")
-    EmitDocHead("Onopgeloste aanroepen")
+    EmitDocHead(Tr("Unresolved calls"))
     Emit "<main>"
     EmitDepsSection()
-    If extN = 0 Then Emit "<p>Alle aanroepen zijn binnen de gescande code opgelost.</p>"
+    If extN = 0 Then Emit "<p>" & Tr("All calls were resolved within the scanned code.") & "</p>"
     Emit "</main></body></html>"
     CloseOut()
 
     '' ---- mogelijk ongebruikte code ----
     OpenOut(d & PSEP & "dead.html")
-    EmitDocHead("Mogelijk ongebruikte code")
+    EmitDocHead(Tr("Possibly unused code"))
     Emit "<main>"
     EmitDeadSection()
     Emit "</main></body></html>"
@@ -675,7 +675,7 @@ Sub OutHtmlSplit()
         OpenOut(fn)
         EmitDocHead(KindLabel(parts(i).kind) & " " & parts(i).pname)
         Emit "<main>"
-        Emit "<div class=" & q & "crumb" & q & "><a href=" & q & "overview.html" & q & ">Overzicht</a> &rsaquo; " & HtmlEsc(parts(i).pname) & "</div>"
+        Emit "<div class=" & q & "crumb" & q & "><a href=" & q & "overview.html" & q & ">" & Tr("Overview") & "</a> &rsaquo; " & HtmlEsc(parts(i).pname) & "</div>"
         EmitPartSection(i)
         Emit "</main></body></html>"
         CloseOut()
@@ -683,6 +683,6 @@ Sub OutHtmlSplit()
     Next i
 
     If opt.quiet = 0 Then
-        Say "  " & Str(n + 6) & " bestand(en) geschreven in " & d
+        Say "  " & Tr2("%1 file(s) written to %2", Str(n + 6), d)
     End If
 End Sub

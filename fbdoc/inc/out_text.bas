@@ -18,7 +18,7 @@ Sub OpenOut(ByRef p As String)
     outH = FreeFile
     If Open(p For Output As #outH) <> 0 Then
         outH = 0
-        Say "FOUT: kan niet schrijven naar " & p
+        Say Tr1("ERROR: cannot write to %1", p)
         End 2
     End If
 End Sub
@@ -35,10 +35,10 @@ Sub OutText()
     Dim As String s
 
     Emit "=====================================================================" 
-    Emit " FreeBASIC documentatie" 
-    If Len(opt.projName) > 0 Then Emit " Project : " & opt.projName
-    Emit " Datum   : " & Date & " " & Time
-    Emit " Parts   : " & Str(partCount) & "   leden: " & Str(memberCount)
+    Emit " " & Tr("FreeBASIC documentation")
+    If Len(opt.projName) > 0 Then Emit Tr1(" Project : %1", opt.projName)
+    Emit Tr2(" Date    : %1 %2", Date, Time)
+    Emit Tr2(" Parts   : %1   members: %2", Str(partCount), Str(memberCount))
     Emit "====================================================================="
     Emit ""
 
@@ -48,7 +48,7 @@ Sub OutText()
         s = KindLabel(parts(i).kind) & " " & parts(i).pname
         If Len(parts(i).stereo) > 0 Then s = s & "  (type " & parts(i).stereo & ")"
         Emit s
-        Emit "  bestand : " & NormSep(parts(i).filePath) & ":" & Str(parts(i).lineNo)
+        Emit Tr2("  file    : %1:%2", NormSep(parts(i).filePath), Str(parts(i).lineNo))
         If Len(parts(i).pkg) > 0 Then Emit "  package : " & parts(i).pkg
         If parts(i).isAuto Then
             Emit "  " & parts(i).brief & "   [auto]"
@@ -56,7 +56,7 @@ Sub OutText()
             Emit "  " & parts(i).brief
         End If
         If Len(parts(i).detail) > 0 Then Emit "  " & ReplaceAll(parts(i).detail, Chr(10), Chr(10) & "  ")
-        If Len(parts(i).authorTxt) > 0 Then Emit "  auteur  : " & parts(i).authorTxt
+        If Len(parts(i).authorTxt) > 0 Then Emit Tr1("  author  : %1", parts(i).authorTxt)
         Emit ""
 
         For k = 1 To memberCount
@@ -71,7 +71,7 @@ Sub OutText()
                 s = s & members(k).kind & " " & members(k).sigTxt
             End If
             Emit s
-            Emit "      regel " & Str(members(k).lineNo)
+            Emit Tr1("      line %1", Str(members(k).lineNo))
             If members(k).isDeprec Then Emit "      *** DEPRECATED ***"
             If members(k).isAuto Then
                 Emit "      " & members(k).brief & "   [auto]"
@@ -105,9 +105,9 @@ Sub OutText()
                 If edges(j).fromM <> k Then Continue For
                 If edges(j).toM < 1 And edges(j).isSys And opt.inclExtern = 0 Then Continue For
                 If edges(j).toM > 0 Then
-                    s = "      -> roept " & MemberFullName(edges(j).toM)
+                    s = "      -> " & Tr1("calls %1", MemberFullName(edges(j).toM))
                 Else
-                    s = "      -> roept " & edges(j).toNm & " [extern]"
+                    s = "      -> " & Tr1("calls %1", edges(j).toNm) & " [extern]"
                 End If
                 If edges(j).cnt > 1 Then s = s & " (" & Str(edges(j).cnt) & "x)"
                 If edges(j).kindC > 0 Then s = s & "  [" & EdgeKindLabel(edges(j).kindC) & "]"
@@ -115,7 +115,7 @@ Sub OutText()
             Next j
             For j = 1 To edgeCount
                 If edges(j).toM <> k Then Continue For
-                s = "      <- vanuit " & MemberFullName(edges(j).fromM)
+                s = "      <- " & Tr1("from %1", MemberFullName(edges(j).fromM))
                 If edges(j).kindC > 0 Then s = s & "  [" & EdgeKindLabel(edges(j).kindC) & "]"
                 Emit s
             Next j
@@ -128,13 +128,13 @@ Sub OutMd()
     Dim As Integer i, k, pf, pc, j, hasAny
     Dim As String s
 
-    Emit "# FreeBASIC documentatie"
+    Emit "# " & Tr("FreeBASIC documentation")
     Emit ""
     If Len(opt.projName) > 0 Then Emit "**Project:** " & opt.projName & "  "
-    Emit "**Gegenereerd:** " & Date & " " & Time & " door " & APP_NAME & " " & APP_VERSION & "  "
-    Emit "**Parts:** " & Str(partCount) & " | **Leden:** " & Str(memberCount)
+    Emit Tr3("**Generated:** %1 %2 by %3", Date, Time, APP_NAME & " " & APP_VERSION) & "  "
+    Emit Tr2("**Parts:** %1 | **Members:** %2", Str(partCount), Str(memberCount))
     Emit ""
-    Emit "## Inhoud"
+    Emit "## " & Tr("Contents")
     Emit ""
     For i = 1 To partCount
         If parts(i).isRef Then Continue For
@@ -153,7 +153,7 @@ Sub OutMd()
         Emit s
         Emit ""
         If parts(i).isAuto Then
-            Emit "> " & parts(i).brief & " _(automatisch gegenereerd)_"
+            Emit "> " & parts(i).brief & " _(" & Tr("automatically generated") & ")_"
         Else
             Emit parts(i).brief
         End If
@@ -163,7 +163,7 @@ Sub OutMd()
             Emit ""
         End If
         If Len(parts(i).authorTxt) > 0 Then
-            Emit "**Auteur:** " & parts(i).authorTxt
+            Emit "**" & Tr("Author:") & "** " & parts(i).authorTxt
             Emit ""
         End If
 
@@ -186,7 +186,7 @@ Sub OutMd()
                 Emit ""
             End If
             If members(k).isAuto Then
-                Emit members(k).brief & " _(automatisch gegenereerd)_"
+                Emit members(k).brief & " _(" & Tr("automatically generated") & ")_"
             Else
                 Emit members(k).brief
             End If
@@ -198,7 +198,7 @@ Sub OutMd()
             pf = members(k).paramFirst
             pc = members(k).paramCnt
             If pc > 0 Then
-                Emit "| Parameter | Type | Richting | Beschrijving |"
+                Emit "| " & Tr("Parameter") & " | " & Tr("Type") & " | " & Tr("Direction") & " | " & Tr("Description") & " |"
                 Emit "|---|---|---|---|"
                 For j = pf To pf + pc - 1
                     If j < 1 Or j > paramCount Then Continue For
@@ -207,15 +207,15 @@ Sub OutMd()
                 Emit ""
             End If
             If Len(members(k).retType) > 0 Then
-                Emit "**Returns** `" & members(k).retType & "` &mdash; " & members(k).retDesc
+                Emit "**" & Tr("Returns") & "** `" & members(k).retType & "` &mdash; " & members(k).retDesc
                 Emit ""
             End If
             If Len(members(k).throwsTxt) > 0 Then
-                Emit "**Exceptions:** " & ReplaceAll(members(k).throwsTxt, Chr(10), "; ")
+                Emit "**" & Tr("Exceptions:") & "** " & ReplaceAll(members(k).throwsTxt, Chr(10), "; ")
                 Emit ""
             End If
             If Len(members(k).seeTxt) > 0 Then
-                Emit "**Zie ook:** " & ReplaceAll(members(k).seeTxt, Chr(10), ", ")
+                Emit "**" & Tr("See also:") & "** " & ReplaceAll(members(k).seeTxt, Chr(10), ", ")
                 Emit ""
             End If
             Emit "<sub>" & NormSep(parts(i).filePath) & ":" & Str(members(k).lineNo) & "</sub>"
@@ -228,9 +228,9 @@ Sub OutMd()
             If members(k).ownerPart <> i Then Continue For
             If members(k).kind = "function" Then Continue For
             If hasAny = 0 Then
-                Emit "### Velden en constanten"
+                Emit "### " & Tr("Fields and constants")
                 Emit ""
-                Emit "| Naam | Type | Soort | Beschrijving |"
+                Emit "| " & Tr("Name") & " | " & Tr("Type") & " | " & Tr("Kind") & " | " & Tr("Description") & " |"
                 Emit "|---|---|---|---|"
                 hasAny = -1
             End If
@@ -345,9 +345,11 @@ End Sub
 
 Sub OutUndoc()
     Dim As Integer i, k, n
+    Dim As String s
     n = 0
-    Emit "Elementen zonder broncommentaar"
-    Emit "-------------------------------"
+    s = Tr("Elements without source comments")
+    Emit s
+    Emit String(Len(s), "-")
     For i = 1 To partCount
         If parts(i).isRef Then Continue For
         If parts(i).isAuto Then
@@ -364,7 +366,7 @@ Sub OutUndoc()
         n = n + 1
     Next k
     Emit ""
-    Emit "Totaal: " & Str(n)
+    Emit Tr1("Total: %1", Str(n))
 End Sub
 
 Sub OutExternText()
@@ -373,10 +375,10 @@ Sub OutExternText()
 
     CollectExterns()
     Emit "---------------------------------------------------------------------"
-    Emit "Onopgeloste aanroepen (niet in de gescande code gevonden):"
+    Emit Tr("Unresolved calls (not found in the scanned code):")
     Emit ""
     If extN = 0 Then
-        Emit "  (geen)"
+        Emit "  (" & Tr("none") & ")"
         Exit Sub
     End If
     For k = 1 To extN
@@ -393,17 +395,17 @@ Sub OutExternText()
         Loop While p < Len(fn)
     Next k
     Emit ""
-    Emit "Gebruik --follow om de ingesloten bestanden mee te lezen, of geef"
-    Emit "een extra pad op met --refs."
+    Emit Tr("Use --follow to read the included files as well, or give")
+    Emit Tr("an extra path with --refs.")
 
     CollectAmbig()
     If ambN > 0 Then
         Emit ""
-        Emit "Niet eenduidig opgelost (naam komt in meerdere parts voor):"
+        Emit Tr("Not unambiguously resolved (name occurs in several parts):")
         For k = 1 To ambN
             Emit "  " & ambNm(k) & "   (" & Str(ambCnt(k)) & "x)"
         Next k
-        Emit "Kwalificeer die aanroepen in de broncode, of beperk de scan."
+        Emit Tr("Qualify those calls in the source code, or narrow the scan.")
     End If
 End Sub
 
@@ -413,7 +415,7 @@ Sub TreeBranch(ByVal midx As Integer, ByVal lvl As Integer, ByRef pfx As String)
 
     If midx < 1 Then Exit Sub
     If lvl > opt.maxDepth Then
-        Emit pfx & "  +-- ... (maximale diepte " & Str(opt.maxDepth) & " bereikt)"
+        Emit pfx & "  +-- ... (" & Tr1("maximum depth %1 reached", Str(opt.maxDepth)) & ")"
         Exit Sub
     End If
 
@@ -441,7 +443,7 @@ Sub TreeBranch(ByVal midx As Integer, ByVal lvl As Integer, ByRef pfx As String)
         If edges(e).cnt > 1 Then s = s & "  (" & Str(edges(e).cnt) & "x)"
 
         If onPath(idx) Then
-            Emit pfx & "+-- " & s & "  [recursief]"
+            Emit pfx & "+-- " & s & "  [" & Tr("recursive") & "]"
             Continue For
         End If
 
@@ -450,7 +452,7 @@ Sub TreeBranch(ByVal midx As Integer, ByVal lvl As Integer, ByRef pfx As String)
             If CalleeCount(idx) > 0 Then seen = -1
         End If
         If seen Then
-            Emit pfx & "+-- " & s & "  [zie eerder]"
+            Emit pfx & "+-- " & s & "  [" & Tr("see above") & "]"
             Continue For
         End If
 
@@ -478,13 +480,13 @@ Sub OutTree()
     Next i
 
     Emit "====================================================================="
-    Emit " Aanroepstructuur"
-    If Len(opt.projName) > 0 Then Emit " Project : " & opt.projName
-    Emit " Datum   : " & Date & " " & Time
-    Emit " Relaties: " & Str(edgeCount)
+    Emit " " & Tr("Call structure")
+    If Len(opt.projName) > 0 Then Emit Tr1(" Project : %1", opt.projName)
+    Emit Tr2(" Date    : %1 %2", Date, Time)
+    Emit Tr1(" Relations: %1", Str(edgeCount))
     Emit "====================================================================="
     Emit ""
-    Emit "Ingangen (functies die binnen de gescande code niet worden aangeroepen):"
+    Emit Tr("Entry points (functions not called within the scanned code):")
     Emit ""
 
     roots = 0
@@ -503,12 +505,12 @@ Sub OutTree()
         Emit ""
     Next k
     If roots = 0 Then
-        Emit "  (geen; mogelijk is alles onderling verbonden of zijn er geen aanroepen herkend)"
+        Emit "  (" & Tr("none; possibly everything is interconnected or no calls were recognised") & ")"
         Emit ""
     End If
 
     Emit "---------------------------------------------------------------------"
-    Emit "Mogelijk ongebruikt (geen aanroeper, geen property-koppeling, geen ingang):"
+    Emit Tr("Possibly unused (no caller, no property binding, no entry point):")
     isolated = 0
     For k = 1 To memberCount
         If DeadKind(k) <> 1 Then Continue For
@@ -516,11 +518,11 @@ Sub OutTree()
         i = members(k).ownerPart
         Emit "  " & MemberFullName(k) & "   (" & PathBase(parts(i).filePath) & ":" & Str(members(k).lineNo) & ")"
     Next k
-    If isolated = 0 Then Emit "  (geen)"
+    If isolated = 0 Then Emit "  (" & Tr("none") & ")"
     Emit ""
 
     Emit "---------------------------------------------------------------------"
-    Emit "Losse functies (geen aanroepers en geen aanroepen):"
+    Emit Tr("Standalone functions (no callers and no calls):")
     isolated = 0
     For k = 1 To memberCount
         If members(k).kind <> "function" Then Continue For
@@ -530,10 +532,10 @@ Sub OutTree()
         i = members(k).ownerPart
         Emit "  " & MemberFullName(k) & "   (" & PathBase(parts(i).filePath) & ":" & Str(members(k).lineNo) & ")"
     Next k
-    If isolated = 0 Then Emit "  (geen)"
+    If isolated = 0 Then Emit "  (" & Tr("none") & ")"
     Emit ""
-    Emit "Let op: aanroepen via delegates, dynamische dictionary-toegang of"
-    Emit "gegenereerde Java worden niet gedetecteerd."
+    Emit Tr("Note: calls via delegates, dynamic dictionary access or")
+    Emit Tr("generated Java are not detected.")
     Emit ""
     OutExternText()
 End Sub

@@ -10,7 +10,32 @@ Elke tool heeft een eigen versienummer.
 
 ## fbdoc
 
-### [Unreleased]
+### [1.1.0] - 2026-10-23
+
+#### Toegevoegd
+- Ondersteuning voor vertalingen: een vertaling is een gettext `.po`-bestand in de map `lang`
+  naast het programma
+- `-l`/`--lang` accepteert een taalcode (`-l nl` laadt `lang/nl.po`) of het pad naar een
+  `.po`-bestand; staat het bestand niet naast het programma, dan wordt `lang/<code>.po`
+  in de huidige map geprobeerd
+- Omgevingsvariabele `FBDOC_LANG` voor de standaardtaal
+- `lang/fbdoc.pot` als sjabloon voor nieuwe vertalingen
+- `lang/nl.po` met de Nederlandse vertaling
+- Het `lang`-attribuut van de HTML volgt de gekozen taal (uit de `Language:`-kop van het
+  `.po`-bestand, of anders de taalcode)
+
+#### Gewijzigd
+- Engels is de standaardtaal (was Nederlands); `-l nl` geeft het oude gedrag
+- `-l` vertaalt nu alle teksten: meldingen, `--help` en de labels in de uitvoer als `text`,
+  `md`, `html`, `dot` en `mermaid`; voorheen alleen de automatisch afgeleide beschrijvingen
+- Automatisch afgeleide beschrijvingen gebruiken hele zinnen met plaatshouders
+  (`Retrieves %1.` / `Haalt %1 op.`), zodat een vertaling de woordvolgorde zelf kiest
+- De broncode is opgesplitst in include-bestanden in de map `inc`; `fbdoc.bas` bevat
+  alleen nog het hoofdprogramma
+- Diagnose-uitvoer van `-d` is altijd Engels
+
+#### Opgelost
+- Een voorbeeld in `--help` schreef naar `egldoc.json` in plaats van `fbdoc.json`
 
 ### [1.0.0] - 2026-10-16
 
@@ -38,7 +63,27 @@ Eerste publieke versie.
 
 ## msxbasicdoc
 
-### [Unreleased]
+### [0.4.0] - 2026-10-23
+
+#### Toegevoegd
+- Ondersteuning voor vertalingen: een vertaling is een gettext `.po`-bestand in de map `lang`
+  naast het programma
+- Optie `-l`/`--lang` met een taalcode (`-l nl` laadt `lang/nl.po`) of het pad naar een
+  `.po`-bestand; staat het bestand niet naast het programma, dan wordt `lang/<code>.po`
+  in de huidige map geprobeerd
+- Omgevingsvariabele `MSXBASICDOC_LANG` voor de standaardtaal
+- `lang/msxbasicdoc.pot` als sjabloon voor nieuwe vertalingen
+- `lang/nl.po` met de Nederlandse vertaling
+- Het `lang`-attribuut van de HTML volgt de gekozen taal
+
+#### Gewijzigd
+- Engels is de standaardtaal (was Nederlands); `-l nl` geeft het oude gedrag
+- Datumnotatie en decimaalteken komen uit de vertaling; in het Engels `jjjj-mm-dd` en een punt
+- Geldige UTF-8 in de HTML-uitvoer blijft behouden, zodat bijvoorbeeld Japanse of Spaanse
+  vertalingen goed worden weergegeven; losse bytes uit de MSX-tekenset worden nog steeds als
+  numerieke entiteit geschreven
+- Namen in de aanroepgraaf worden afgekapt op schermbreedte in tekens in plaats van bytes;
+  Oost-Aziatische tekens tellen dubbel
 
 ### [0.3.0] - 2026-10-16
 
@@ -52,5 +97,3 @@ Eerste publieke versie.
 - Waarschuwingen, onder andere voor sprongen naar niet-bestaande regels
 - Documentatieconventies `'## Naam - omschrijving`, `'@tag waarde` en vrije commentaartekst
 - Opties `-o`, `-q` en meerdere bestanden in één aanroep
-
-[Unreleased]: https://github.com/SmartDuckHub/REPO/compare/v1.0.0...HEAD

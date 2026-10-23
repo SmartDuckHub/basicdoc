@@ -1,0 +1,491 @@
+# msxbasicdoc - Nederlandse vertaling
+# Copyright (c) 2026 Marcel "SmartDuck" Beekman
+# This file is distributed under the same license as msxbasicdoc (BSD 3-Clause).
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: msxbasicdoc 0.4.0\n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: msxbasicdoc.bas:25
+msgid "msxbasicdoc %1 - documentation for MSX-BASIC programs"
+msgstr "msxbasicdoc %1 - documentatie voor MSX-BASIC programma's"
+
+#: msxbasicdoc.bas:27
+msgid "Usage: msxbasicdoc [options] PROGRAM.BAS [...]"
+msgstr "Gebruik: msxbasicdoc [opties] PROGRAMMA.BAS [...]"
+
+#: msxbasicdoc.bas:29
+msgid "Options:"
+msgstr "Opties:"
+
+#: msxbasicdoc.bas:30
+msgid "  -o DIR     output in DIR (default: next to the source file)"
+msgstr "  -o MAP     uitvoer in MAP (standaard: naast het bronbestand)"
+
+#: msxbasicdoc.bas:31
+msgid "  -dot       also write a Graphviz .dot file of the call graph"
+msgstr "  -dot       ook een Graphviz .dot-bestand van de aanroepgraaf maken"
+
+#: msxbasicdoc.bas:32
+msgid "  -l CODE    language: en (default), lang/CODE.po next to the"
+msgstr "  -l CODE    taal: en (standaard), lang/CODE.po naast het"
+
+#: msxbasicdoc.bas:33
+msgid "             program, or a .po file; MSXBASICDOC_LANG sets the default"
+msgstr "             programma, of een .po-bestand; MSXBASICDOC_LANG zet de standaard"
+
+#: msxbasicdoc.bas:34
+msgid "  -q         quiet: show errors only"
+msgstr "  -q         stil: alleen fouten tonen"
+
+#: msxbasicdoc.bas:35
+msgid "  -h         this help"
+msgstr "  -h         deze hulp"
+
+#: msxbasicdoc.bas:37
+msgid "Input must be ASCII (on the MSX: %1)."
+msgstr "Invoer moet ASCII zijn (op de MSX: %1)."
+
+#. Example file name in the help text.
+#: msxbasicdoc.bas:37
+msgid "NAME.BAS"
+msgstr "NAAM.BAS"
+
+#: msxbasicdoc.bas:39
+msgid "Documentation conventions in comments:"
+msgstr "Documentatieconventies in commentaar:"
+
+#: msxbasicdoc.bas:40
+msgid "  '## Name - description    name of a routine (or of the program, at the top)"
+msgstr "  '## Naam - omschrijving   naam van routine (of programma, bovenaan)"
+
+#: msxbasicdoc.bas:41
+msgid "  '@tag value               free tags, e.g. '@in X,Y  '@out A$"
+msgstr "  '@tag waarde              vrije tags, bijv. '@in X,Y  '@uit A$"
+
+#: msxbasicdoc.bas:42
+msgid "  ' plain text              description"
+msgstr "  ' gewone tekst            omschrijving"
+
+#: msxbasicdoc.bas:85
+msgid "Error: cannot open %1"
+msgstr "Fout: kan %1 niet openen"
+
+#: msxbasicdoc.bas:88
+msgid "Error: %1 is a tokenized file."
+msgstr "Fout: %1 is een getokeniseerd bestand."
+
+#: msxbasicdoc.bas:89
+msgid "       Save it on the MSX as ASCII: %1"
+msgstr "      Sla het op de MSX op als ASCII: %1"
+
+#: msxbasicdoc.bas:116
+msgid "%1 lines, %2 routines, %3 variables"
+msgstr "%1 regels, %2 routines, %3 variabelen"
+
+#: msxbasicdoc.bas:117
+msgid "%1 warnings"
+msgstr "%1 waarschuwingen"
+
+#: inc/mbd_flow.bi:47
+msgid "Line %1: %2 refers to non-existent line %3"
+msgstr "Regel %1: %2 verwijst naar niet-bestaande regel %3"
+
+#: inc/mbd_flow.bi:342
+msgid "Main program"
+msgstr "Hoofdprogramma"
+
+#: inc/mbd_flow.bi:351
+msgid "Event handler"
+msgstr "Event-handler"
+
+#: inc/mbd_flow.bi:353
+msgid "Error handler"
+msgstr "Foutafhandeling"
+
+#: inc/mbd_flow.bi:355
+msgid "Subroutine"
+msgstr "Subroutine"
+
+#: inc/mbd_flow.bi:397 inc/mbd_html.bi:10 inc/mbd_html.bi:354
+msgid "main program"
+msgstr "hoofdprogramma"
+
+#: inc/mbd_flow.bi:411
+msgid "Line %1: the main program can reach a RETURN here without a GOSUB (falling through into a subroutine?)"
+msgstr "Regel %1: het hoofdprogramma kan hier een RETURN bereiken zonder GOSUB (doorvallen in een subroutine?)"
+
+#: inc/mbd_flow.bi:428
+msgid "Routine %1 ends with END/STOP but does not reach a RETURN"
+msgstr "Routine %1 eindigt met END/STOP maar bereikt geen RETURN"
+
+#: inc/mbd_flow.bi:430
+msgid "Routine %1 does not reach a RETURN"
+msgstr "Routine %1 bereikt geen RETURN"
+
+#: inc/mbd_flow.bi:447
+msgid "Line %1 belongs to several routines: %2"
+msgstr "Regel %1 hoort bij meerdere routines: %2"
+
+#: inc/mbd_flow.bi:449
+msgid "Lines %1-%2 belong to several routines: %3"
+msgstr "Regels %1-%2 horen bij meerdere routines: %3"
+
+#: inc/mbd_flow.bi:478
+msgid "Line %1 is unreachable"
+msgstr "Regel %1 is onbereikbaar"
+
+#: inc/mbd_flow.bi:480
+msgid "Lines %1-%2 are unreachable"
+msgstr "Regels %1-%2 zijn onbereikbaar"
+
+#: inc/mbd_flow.bi:495
+msgid "%1 are the same variable in MSX-BASIC (only the first 2 characters count)"
+msgstr "%1 zijn in MSX-BASIC dezelfde variabele (alleen de eerste 2 tekens tellen)"
+
+#: inc/mbd_html.bi:12
+msgid "event: ON %1"
+msgstr "event: ON %1"
+
+#: inc/mbd_html.bi:16 inc/mbd_html.bi:354
+msgid "subroutine"
+msgstr "subroutine"
+
+#: inc/mbd_html.bi:215 inc/mbd_html.bi:824
+msgid "MSX-BASIC documentation"
+msgstr "MSX-BASIC documentatie"
+
+#: inc/mbd_html.bi:216 inc/mbd_html.bi:470 inc/mbd_svg.bi:242
+msgid "%1 lines"
+msgstr "%1 regels"
+
+#: inc/mbd_html.bi:217
+msgid "%1 routines"
+msgstr "%1 routines"
+
+#: inc/mbd_html.bi:224
+msgid "Filter by name or line..."
+msgstr "Filter op naam of regel..."
+
+#: inc/mbd_html.bi:226 inc/mbd_html.bi:350 inc/mbd_svg.bi:195
+msgid "Call structure"
+msgstr "Aanroepstructuur"
+
+#: inc/mbd_html.bi:227
+msgid "Possibly unused"
+msgstr "Mogelijk ongebruikt"
+
+#: inc/mbd_html.bi:228 inc/mbd_html.bi:440
+msgid "Warnings"
+msgstr "Waarschuwingen"
+
+#: inc/mbd_html.bi:229 inc/mbd_html.bi:596
+msgid "Variables"
+msgstr "Variabelen"
+
+#: inc/mbd_html.bi:230
+msgid "Functions, DATA and external"
+msgstr "Functies, DATA en extern"
+
+#: inc/mbd_html.bi:231 inc/mbd_html.bi:728
+msgid "Source code"
+msgstr "Broncode"
+
+#: inc/mbd_html.bi:232 inc/mbd_html.bi:297
+msgid "Program %1"
+msgstr "Programma %1"
+
+#: inc/mbd_html.bi:251
+msgid "Documentation coverage: <b>%1</b> of <b>%2</b> entry points have real source comments (%3%)"
+msgstr "Documentatiedekking: <b>%1</b> van <b>%2</b> ingangen heeft echt broncommentaar (%3%)"
+
+#: inc/mbd_html.bi:253
+msgid "Comment lines: <b>%1</b> of <b>%2</b> (%3%)"
+msgstr "Commentaarregels: <b>%1</b> van <b>%2</b> (%3%)"
+
+#: inc/mbd_html.bi:259
+msgid "Tag"
+msgstr "Tag"
+
+#: inc/mbd_html.bi:259
+msgid "Value"
+msgstr "Waarde"
+
+#: inc/mbd_html.bi:318
+msgid "registers"
+msgstr "registreert"
+
+#: inc/mbd_html.bi:321
+msgid "recursive"
+msgstr "recursief"
+
+#: inc/mbd_html.bi:325
+msgid "see above"
+msgstr "zie hierboven"
+
+#: inc/mbd_html.bi:352
+msgid "%1 entry points, %2 relations. From left to right: caller before callee. Click a block to jump to its documentation; hover over it to see only its own relations. Drag to pan, use the scroll wheel or the buttons at the bottom right to zoom."
+msgstr "%1 ingangen, %2 relaties. Van links naar rechts: aanroeper voor aangeroepene. Klik een blok om naar de documentatie te springen; beweeg erover om alleen de eigen relaties te zien. Sleep om te verschuiven, scrollwiel of de knoppen rechtsonder om te zoomen."
+
+#: inc/mbd_html.bi:353
+msgid "Thick border = no caller within reachable code (main program, or only called from dead code). Dashed border = not reachable from the main program. Orange dashed arrow = feedback or recursion. Blue finely dotted arrow = registers a handler (ON INTERVAL/KEY/SPRITE/STRIG/STOP GOSUB, ON ERROR GOTO)."
+msgstr "Dikke rand = geen aanroeper binnen bereikbare code (hoofdprogramma, of alleen aangeroepen vanuit dode code). Gestippelde rand = niet bereikbaar vanuit het hoofdprogramma. Oranje gestippelde pijl = terugkoppeling of recursie. Blauwe fijngestippelde pijl = registreert handler (ON INTERVAL/KEY/SPRITE/STRIG/STOP GOSUB, ON ERROR GOTO)."
+
+#: inc/mbd_html.bi:354
+msgid "Kinds:"
+msgstr "Soorten:"
+
+#: inc/mbd_html.bi:355
+msgid "event handler"
+msgstr "event-handler"
+
+#: inc/mbd_html.bi:355
+msgid "error handling"
+msgstr "foutafhandeling"
+
+#: inc/mbd_html.bi:359
+msgid "As a tree"
+msgstr "Als boomstructuur"
+
+#: inc/mbd_html.bi:391 inc/mbd_html.bi:704
+msgid "Lines"
+msgstr "Regels"
+
+#: inc/mbd_html.bi:391
+msgid "Code lines"
+msgstr "Code-regels"
+
+#: inc/mbd_html.bi:391
+msgid "Starts with"
+msgstr "Begint met"
+
+#: inc/mbd_html.bi:405
+msgid "Possibly unused code"
+msgstr "Mogelijk ongebruikte code"
+
+#: inc/mbd_html.bi:406
+msgid "In MSX-BASIC jump targets are always fixed line numbers, so the analysis within the program is complete."
+msgstr "In MSX-BASIC zijn sprongdoelen altijd vaste regelnummers, dus de analyse is binnen het programma volledig."
+
+#: inc/mbd_html.bi:407
+msgid "Not seen: entry via <code>RUN line</code> or <code>GOTO</code> in direct mode, from another program (%1, <code>MERGE</code>) or from machine code. Check that before you throw anything away."
+msgstr "Niet gezien worden: binnenkomst via <code>RUN regel</code> of <code>GOTO</code> in direct mode, via een ander programma (%1, <code>MERGE</code>) of via machinetaal. Controleer dat voordat je iets weggooit."
+
+#: inc/mbd_html.bi:409
+msgid "Unreachable lines"
+msgstr "Onbereikbare regels"
+
+#: inc/mbd_html.bi:410
+msgid "No unreachable code found."
+msgstr "Geen onbereikbare code gevonden."
+
+#: inc/mbd_html.bi:416
+msgid "Routines not reached from the main program"
+msgstr "Routines die niet vanuit het hoofdprogramma bereikt worden"
+
+#: inc/mbd_html.bi:417
+msgid "Routine"
+msgstr "Routine"
+
+#: inc/mbd_html.bi:417 inc/mbd_html.bi:704
+msgid "Kind"
+msgstr "Soort"
+
+#: inc/mbd_html.bi:417
+msgid "Called from"
+msgstr "Aangeroepen vanaf"
+
+#: inc/mbd_html.bi:426
+msgid "dead"
+msgstr "dood"
+
+#: inc/mbd_html.bi:442
+msgid "No warnings."
+msgstr "Geen waarschuwingen."
+
+#: inc/mbd_html.bi:464 inc/mbd_html.bi:729
+msgid "unreachable"
+msgstr "onbereikbaar"
+
+#: inc/mbd_html.bi:473
+msgid "Start of the program and everything that follows from it without a GOSUB."
+msgstr "Begin van het programma en alles wat daar zonder GOSUB uit volgt."
+
+#: inc/mbd_html.bi:475
+msgid "No source comments; name derived."
+msgstr "Geen broncommentaar; naam afgeleid."
+
+#: inc/mbd_html.bi:492
+msgid "Calls"
+msgstr "Roept aan"
+
+#: inc/mbd_html.bi:493
+msgid "Registers"
+msgstr "Registreert"
+
+#: inc/mbd_html.bi:513
+msgid "dead code"
+msgstr "dode code"
+
+#: inc/mbd_html.bi:520
+msgid "no callers within the program"
+msgstr "geen aanroepers binnen het programma"
+
+#: inc/mbd_html.bi:522
+msgid "Registered in"
+msgstr "Geregistreerd in"
+
+#: inc/mbd_html.bi:522 inc/mbd_html.bi:524
+msgid "line %1"
+msgstr "regel %1"
+
+#: inc/mbd_html.bi:524
+msgid "Called by"
+msgstr "Aangeroepen door"
+
+#: inc/mbd_html.bi:549
+msgid "Ends via"
+msgstr "Eindigt via"
+
+#: inc/mbd_html.bi:568
+msgid "Variable"
+msgstr "Variabele"
+
+#: inc/mbd_html.bi:568 inc/mbd_html.bi:614
+msgid "Type"
+msgstr "Type"
+
+#: inc/mbd_html.bi:568
+msgid "Usage"
+msgstr "Gebruik"
+
+#: inc/mbd_html.bi:573
+msgid "writes"
+msgstr "schrijft"
+
+#: inc/mbd_html.bi:577
+msgid "reads"
+msgstr "leest"
+
+#: inc/mbd_html.bi:597
+msgid "MSX-BASIC tells variables apart only by the first two characters and the type. Without a suffix or DEFxxx the type is double."
+msgstr "MSX-BASIC onderscheidt variabelen alleen op de eerste twee tekens en het type. Zonder suffix of DEFxxx is het type double."
+
+#: inc/mbd_html.bi:599
+msgid "No variables."
+msgstr "Geen variabelen."
+
+#: inc/mbd_html.bi:614 inc/mbd_html.bi:704
+msgid "Name"
+msgstr "Naam"
+
+#: inc/mbd_html.bi:614
+msgid "Written / DIM"
+msgstr "Geschreven / DIM"
+
+#: inc/mbd_html.bi:614
+msgid "Read"
+msgstr "Gelezen"
+
+#: inc/mbd_html.bi:635 inc/mbd_html.bi:636
+msgid "never"
+msgstr "nooit"
+
+#: inc/mbd_html.bi:648
+msgid "Functions, DATA and external references"
+msgstr "Functies, DATA en externe verwijzingen"
+
+#: inc/mbd_html.bi:652 inc/mbd_html.bi:694 inc/mbd_html.bi:702
+msgid "None."
+msgstr "Geen."
+
+#: inc/mbd_html.bi:654
+msgid "Function"
+msgstr "Functie"
+
+#: inc/mbd_html.bi:654
+msgid "Defined"
+msgstr "Gedefinieerd"
+
+#: inc/mbd_html.bi:654
+msgid "Used in"
+msgstr "Gebruikt in"
+
+#: inc/mbd_html.bi:665
+msgid "nowhere"
+msgstr "nergens"
+
+#: inc/mbd_html.bi:696
+msgid "DATA lines"
+msgstr "DATA-regels"
+
+#: inc/mbd_html.bi:700
+msgid "External references"
+msgstr "Externe verwijzingen"
+
+#: inc/mbd_html.bi:730
+msgid "shared by several routines"
+msgstr "gedeeld door meerdere routines"
+
+#: inc/mbd_html.bi:731
+msgid "Left column: routines the line belongs to (%1 = main program). Jump targets are clickable."
+msgstr "Linkerkolom: routines waartoe de regel hoort (%1 = hoofdprogramma). Sprongdoelen zijn klikbaar."
+
+#. One-letter abbreviation of 'main program' in the left column of the source listing.
+#: inc/mbd_html.bi:731 inc/mbd_html.bi:743
+msgid "M"
+msgstr "H"
+
+#: inc/mbd_html.bi:818 inc/mbd_html.bi:857
+msgid "Error: cannot write %1"
+msgstr "Fout: kan %1 niet schrijven"
+
+#: inc/mbd_lexer.bi:264
+msgid "Line %1: %2 contains the keyword %3"
+msgstr "Regel %1: %2 bevat het sleutelwoord %3"
+
+#: inc/mbd_lexer.bi:265
+msgid "MSX reads this as %1"
+msgstr "MSX leest dit als %1"
+
+#: inc/mbd_load.bi:66
+msgid "Source line %1 has no line number and was ignored: %2"
+msgstr "Bronregel %1 heeft geen regelnummer en is genegeerd: %2"
+
+#: inc/mbd_load.bi:73
+msgid "Line number %1 is greater than 65529 (source line %2)"
+msgstr "Regelnummer %1 is groter dan 65529 (bronregel %2)"
+
+#: inc/mbd_load.bi:90
+msgid "Line %1 is out of order in the source file"
+msgstr "Regel %1 staat niet op volgorde in het bronbestand"
+
+#: inc/mbd_load.bi:106
+msgid "Line %1 occurs more than once; the last version was used"
+msgstr "Regel %1 komt meerdere keren voor; de laatste versie is gebruikt"
+
+#: inc/mbd_svg.bi:192
+msgid "Zoom in"
+msgstr "Inzoomen"
+
+#: inc/mbd_svg.bi:192
+msgid "Zoom out"
+msgstr "Uitzoomen"
+
+#: inc/mbd_svg.bi:193
+msgid "Show all"
+msgstr "Alles tonen"
+
+#. Date: %1 = year, %2 = month, %3 = day. Reorder as needed, e.g. %3-%2-%1.
+#: inc/mbd_util.bi:198
+msgid "%1-%2-%3"
+msgstr "%3-%2-%1"
+
+#. Number with one decimal: %1 = whole part, %2 = decimal. Use your decimal separator.
+#: inc/mbd_util.bi:208
+msgid "%1.%2"
+msgstr "%1,%2"

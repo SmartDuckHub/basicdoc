@@ -1,0 +1,498 @@
+# msxbasicdoc - translation template
+# Copyright (c) 2026 Marcel "SmartDuck" Beekman
+# This file is distributed under the same license as msxbasicdoc (BSD 3-Clause).
+#
+# To add a language: copy this file to lang/<code>.po (for example
+# lang/es.po or lang/ja.po), fill in the msgstr lines and set
+# "Language:" below. Save as UTF-8. Run msxbasicdoc with -l <code>.
+# Empty msgstr lines stay in English.
+# %1, %2 and %3 are filled in by msxbasicdoc; keep them, in any order.
+# Leading spaces in the help text are used for alignment.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: msxbasicdoc 0.4.0\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: msxbasicdoc.bas:25
+msgid "msxbasicdoc %1 - documentation for MSX-BASIC programs"
+msgstr ""
+
+#: msxbasicdoc.bas:27
+msgid "Usage: msxbasicdoc [options] PROGRAM.BAS [...]"
+msgstr ""
+
+#: msxbasicdoc.bas:29
+msgid "Options:"
+msgstr ""
+
+#: msxbasicdoc.bas:30
+msgid "  -o DIR     output in DIR (default: next to the source file)"
+msgstr ""
+
+#: msxbasicdoc.bas:31
+msgid "  -dot       also write a Graphviz .dot file of the call graph"
+msgstr ""
+
+#: msxbasicdoc.bas:32
+msgid "  -l CODE    language: en (default), lang/CODE.po next to the"
+msgstr ""
+
+#: msxbasicdoc.bas:33
+msgid "             program, or a .po file; MSXBASICDOC_LANG sets the default"
+msgstr ""
+
+#: msxbasicdoc.bas:34
+msgid "  -q         quiet: show errors only"
+msgstr ""
+
+#: msxbasicdoc.bas:35
+msgid "  -h         this help"
+msgstr ""
+
+#: msxbasicdoc.bas:37
+msgid "Input must be ASCII (on the MSX: %1)."
+msgstr ""
+
+#. Example file name in the help text.
+#: msxbasicdoc.bas:37
+msgid "NAME.BAS"
+msgstr ""
+
+#: msxbasicdoc.bas:39
+msgid "Documentation conventions in comments:"
+msgstr ""
+
+#: msxbasicdoc.bas:40
+msgid "  '## Name - description    name of a routine (or of the program, at the top)"
+msgstr ""
+
+#: msxbasicdoc.bas:41
+msgid "  '@tag value               free tags, e.g. '@in X,Y  '@out A$"
+msgstr ""
+
+#: msxbasicdoc.bas:42
+msgid "  ' plain text              description"
+msgstr ""
+
+#: msxbasicdoc.bas:85
+msgid "Error: cannot open %1"
+msgstr ""
+
+#: msxbasicdoc.bas:88
+msgid "Error: %1 is a tokenized file."
+msgstr ""
+
+#: msxbasicdoc.bas:89
+msgid "       Save it on the MSX as ASCII: %1"
+msgstr ""
+
+#: msxbasicdoc.bas:116
+msgid "%1 lines, %2 routines, %3 variables"
+msgstr ""
+
+#: msxbasicdoc.bas:117
+msgid "%1 warnings"
+msgstr ""
+
+#: inc/mbd_flow.bi:47
+msgid "Line %1: %2 refers to non-existent line %3"
+msgstr ""
+
+#: inc/mbd_flow.bi:342
+msgid "Main program"
+msgstr ""
+
+#: inc/mbd_flow.bi:351
+msgid "Event handler"
+msgstr ""
+
+#: inc/mbd_flow.bi:353
+msgid "Error handler"
+msgstr ""
+
+#: inc/mbd_flow.bi:355
+msgid "Subroutine"
+msgstr ""
+
+#: inc/mbd_flow.bi:397 inc/mbd_html.bi:10 inc/mbd_html.bi:354
+msgid "main program"
+msgstr ""
+
+#: inc/mbd_flow.bi:411
+msgid "Line %1: the main program can reach a RETURN here without a GOSUB (falling through into a subroutine?)"
+msgstr ""
+
+#: inc/mbd_flow.bi:428
+msgid "Routine %1 ends with END/STOP but does not reach a RETURN"
+msgstr ""
+
+#: inc/mbd_flow.bi:430
+msgid "Routine %1 does not reach a RETURN"
+msgstr ""
+
+#: inc/mbd_flow.bi:447
+msgid "Line %1 belongs to several routines: %2"
+msgstr ""
+
+#: inc/mbd_flow.bi:449
+msgid "Lines %1-%2 belong to several routines: %3"
+msgstr ""
+
+#: inc/mbd_flow.bi:478
+msgid "Line %1 is unreachable"
+msgstr ""
+
+#: inc/mbd_flow.bi:480
+msgid "Lines %1-%2 are unreachable"
+msgstr ""
+
+#: inc/mbd_flow.bi:495
+msgid "%1 are the same variable in MSX-BASIC (only the first 2 characters count)"
+msgstr ""
+
+#: inc/mbd_html.bi:12
+msgid "event: ON %1"
+msgstr ""
+
+#: inc/mbd_html.bi:16 inc/mbd_html.bi:354
+msgid "subroutine"
+msgstr ""
+
+#: inc/mbd_html.bi:215 inc/mbd_html.bi:824
+msgid "MSX-BASIC documentation"
+msgstr ""
+
+#: inc/mbd_html.bi:216 inc/mbd_html.bi:470 inc/mbd_svg.bi:242
+msgid "%1 lines"
+msgstr ""
+
+#: inc/mbd_html.bi:217
+msgid "%1 routines"
+msgstr ""
+
+#: inc/mbd_html.bi:224
+msgid "Filter by name or line..."
+msgstr ""
+
+#: inc/mbd_html.bi:226 inc/mbd_html.bi:350 inc/mbd_svg.bi:195
+msgid "Call structure"
+msgstr ""
+
+#: inc/mbd_html.bi:227
+msgid "Possibly unused"
+msgstr ""
+
+#: inc/mbd_html.bi:228 inc/mbd_html.bi:440
+msgid "Warnings"
+msgstr ""
+
+#: inc/mbd_html.bi:229 inc/mbd_html.bi:596
+msgid "Variables"
+msgstr ""
+
+#: inc/mbd_html.bi:230
+msgid "Functions, DATA and external"
+msgstr ""
+
+#: inc/mbd_html.bi:231 inc/mbd_html.bi:728
+msgid "Source code"
+msgstr ""
+
+#: inc/mbd_html.bi:232 inc/mbd_html.bi:297
+msgid "Program %1"
+msgstr ""
+
+#: inc/mbd_html.bi:251
+msgid "Documentation coverage: <b>%1</b> of <b>%2</b> entry points have real source comments (%3%)"
+msgstr ""
+
+#: inc/mbd_html.bi:253
+msgid "Comment lines: <b>%1</b> of <b>%2</b> (%3%)"
+msgstr ""
+
+#: inc/mbd_html.bi:259
+msgid "Tag"
+msgstr ""
+
+#: inc/mbd_html.bi:259
+msgid "Value"
+msgstr ""
+
+#: inc/mbd_html.bi:318
+msgid "registers"
+msgstr ""
+
+#: inc/mbd_html.bi:321
+msgid "recursive"
+msgstr ""
+
+#: inc/mbd_html.bi:325
+msgid "see above"
+msgstr ""
+
+#: inc/mbd_html.bi:352
+msgid "%1 entry points, %2 relations. From left to right: caller before callee. Click a block to jump to its documentation; hover over it to see only its own relations. Drag to pan, use the scroll wheel or the buttons at the bottom right to zoom."
+msgstr ""
+
+#: inc/mbd_html.bi:353
+msgid "Thick border = no caller within reachable code (main program, or only called from dead code). Dashed border = not reachable from the main program. Orange dashed arrow = feedback or recursion. Blue finely dotted arrow = registers a handler (ON INTERVAL/KEY/SPRITE/STRIG/STOP GOSUB, ON ERROR GOTO)."
+msgstr ""
+
+#: inc/mbd_html.bi:354
+msgid "Kinds:"
+msgstr ""
+
+#: inc/mbd_html.bi:355
+msgid "event handler"
+msgstr ""
+
+#: inc/mbd_html.bi:355
+msgid "error handling"
+msgstr ""
+
+#: inc/mbd_html.bi:359
+msgid "As a tree"
+msgstr ""
+
+#: inc/mbd_html.bi:391 inc/mbd_html.bi:704
+msgid "Lines"
+msgstr ""
+
+#: inc/mbd_html.bi:391
+msgid "Code lines"
+msgstr ""
+
+#: inc/mbd_html.bi:391
+msgid "Starts with"
+msgstr ""
+
+#: inc/mbd_html.bi:405
+msgid "Possibly unused code"
+msgstr ""
+
+#: inc/mbd_html.bi:406
+msgid "In MSX-BASIC jump targets are always fixed line numbers, so the analysis within the program is complete."
+msgstr ""
+
+#: inc/mbd_html.bi:407
+msgid "Not seen: entry via <code>RUN line</code> or <code>GOTO</code> in direct mode, from another program (%1, <code>MERGE</code>) or from machine code. Check that before you throw anything away."
+msgstr ""
+
+#: inc/mbd_html.bi:409
+msgid "Unreachable lines"
+msgstr ""
+
+#: inc/mbd_html.bi:410
+msgid "No unreachable code found."
+msgstr ""
+
+#: inc/mbd_html.bi:416
+msgid "Routines not reached from the main program"
+msgstr ""
+
+#: inc/mbd_html.bi:417
+msgid "Routine"
+msgstr ""
+
+#: inc/mbd_html.bi:417 inc/mbd_html.bi:704
+msgid "Kind"
+msgstr ""
+
+#: inc/mbd_html.bi:417
+msgid "Called from"
+msgstr ""
+
+#: inc/mbd_html.bi:426
+msgid "dead"
+msgstr ""
+
+#: inc/mbd_html.bi:442
+msgid "No warnings."
+msgstr ""
+
+#: inc/mbd_html.bi:464 inc/mbd_html.bi:729
+msgid "unreachable"
+msgstr ""
+
+#: inc/mbd_html.bi:473
+msgid "Start of the program and everything that follows from it without a GOSUB."
+msgstr ""
+
+#: inc/mbd_html.bi:475
+msgid "No source comments; name derived."
+msgstr ""
+
+#: inc/mbd_html.bi:492
+msgid "Calls"
+msgstr ""
+
+#: inc/mbd_html.bi:493
+msgid "Registers"
+msgstr ""
+
+#: inc/mbd_html.bi:513
+msgid "dead code"
+msgstr ""
+
+#: inc/mbd_html.bi:520
+msgid "no callers within the program"
+msgstr ""
+
+#: inc/mbd_html.bi:522
+msgid "Registered in"
+msgstr ""
+
+#: inc/mbd_html.bi:522 inc/mbd_html.bi:524
+msgid "line %1"
+msgstr ""
+
+#: inc/mbd_html.bi:524
+msgid "Called by"
+msgstr ""
+
+#: inc/mbd_html.bi:549
+msgid "Ends via"
+msgstr ""
+
+#: inc/mbd_html.bi:568
+msgid "Variable"
+msgstr ""
+
+#: inc/mbd_html.bi:568 inc/mbd_html.bi:614
+msgid "Type"
+msgstr ""
+
+#: inc/mbd_html.bi:568
+msgid "Usage"
+msgstr ""
+
+#: inc/mbd_html.bi:573
+msgid "writes"
+msgstr ""
+
+#: inc/mbd_html.bi:577
+msgid "reads"
+msgstr ""
+
+#: inc/mbd_html.bi:597
+msgid "MSX-BASIC tells variables apart only by the first two characters and the type. Without a suffix or DEFxxx the type is double."
+msgstr ""
+
+#: inc/mbd_html.bi:599
+msgid "No variables."
+msgstr ""
+
+#: inc/mbd_html.bi:614 inc/mbd_html.bi:704
+msgid "Name"
+msgstr ""
+
+#: inc/mbd_html.bi:614
+msgid "Written / DIM"
+msgstr ""
+
+#: inc/mbd_html.bi:614
+msgid "Read"
+msgstr ""
+
+#: inc/mbd_html.bi:635 inc/mbd_html.bi:636
+msgid "never"
+msgstr ""
+
+#: inc/mbd_html.bi:648
+msgid "Functions, DATA and external references"
+msgstr ""
+
+#: inc/mbd_html.bi:652 inc/mbd_html.bi:694 inc/mbd_html.bi:702
+msgid "None."
+msgstr ""
+
+#: inc/mbd_html.bi:654
+msgid "Function"
+msgstr ""
+
+#: inc/mbd_html.bi:654
+msgid "Defined"
+msgstr ""
+
+#: inc/mbd_html.bi:654
+msgid "Used in"
+msgstr ""
+
+#: inc/mbd_html.bi:665
+msgid "nowhere"
+msgstr ""
+
+#: inc/mbd_html.bi:696
+msgid "DATA lines"
+msgstr ""
+
+#: inc/mbd_html.bi:700
+msgid "External references"
+msgstr ""
+
+#: inc/mbd_html.bi:730
+msgid "shared by several routines"
+msgstr ""
+
+#: inc/mbd_html.bi:731
+msgid "Left column: routines the line belongs to (%1 = main program). Jump targets are clickable."
+msgstr ""
+
+#. One-letter abbreviation of 'main program' in the left column of the source listing.
+#: inc/mbd_html.bi:731 inc/mbd_html.bi:743
+msgid "M"
+msgstr ""
+
+#: inc/mbd_html.bi:818 inc/mbd_html.bi:857
+msgid "Error: cannot write %1"
+msgstr ""
+
+#: inc/mbd_lexer.bi:264
+msgid "Line %1: %2 contains the keyword %3"
+msgstr ""
+
+#: inc/mbd_lexer.bi:265
+msgid "MSX reads this as %1"
+msgstr ""
+
+#: inc/mbd_load.bi:66
+msgid "Source line %1 has no line number and was ignored: %2"
+msgstr ""
+
+#: inc/mbd_load.bi:73
+msgid "Line number %1 is greater than 65529 (source line %2)"
+msgstr ""
+
+#: inc/mbd_load.bi:90
+msgid "Line %1 is out of order in the source file"
+msgstr ""
+
+#: inc/mbd_load.bi:106
+msgid "Line %1 occurs more than once; the last version was used"
+msgstr ""
+
+#: inc/mbd_svg.bi:192
+msgid "Zoom in"
+msgstr ""
+
+#: inc/mbd_svg.bi:192
+msgid "Zoom out"
+msgstr ""
+
+#: inc/mbd_svg.bi:193
+msgid "Show all"
+msgstr ""
+
+#. Date: %1 = year, %2 = month, %3 = day. Reorder as needed, e.g. %3-%2-%1.
+#: inc/mbd_util.bi:198
+msgid "%1-%2-%3"
+msgstr ""
+
+#. Number with one decimal: %1 = whole part, %2 = decimal. Use your decimal separator.
+#: inc/mbd_util.bi:208
+msgid "%1.%2"
+msgstr ""

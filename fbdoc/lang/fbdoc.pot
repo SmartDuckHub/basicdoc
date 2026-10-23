@@ -1,0 +1,873 @@
+# fbdoc - translation template
+# Copyright (c) 2026 Marcel "SmartDuck" Beekman
+# This file is distributed under the same license as fbdoc (BSD 3-Clause).
+#
+# To add a language: copy this file to lang/<code>.po (for example
+# lang/de.po), fill in the msgstr lines and set "Language:" below.
+# Run fbdoc with -l <code>. Untranslated (empty) lines stay in English.
+# %1, %2 and %3 are filled in by fbdoc; keep them, in any order.
+# Leading spaces in a line are used for alignment in the console output.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: fbdoc 1.1.0\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: fbdoc.bas:82
+msgid "%1 %2 (build %3) started"
+msgstr ""
+
+#: fbdoc.bas:119
+msgid "ERROR: option %1 expects a value."
+msgstr ""
+
+#: fbdoc.bas:123
+msgid "ERROR: option %1 expects a value, but got %2"
+msgstr ""
+
+#: fbdoc.bas:129
+msgid "ERROR: %1 got something that looks like a path: %2"
+msgstr ""
+
+#: fbdoc.bas:130
+msgid "       Put the value in quotes and give the path as a separate argument, e.g.:"
+msgstr ""
+
+#: fbdoc.bas:131 inc/help.bas:55
+msgid "My project"
+msgstr ""
+
+#: fbdoc.bas:131
+msgid "C:\\path\\to\\src"
+msgstr ""
+
+#: fbdoc.bas:143
+msgid "built on %1"
+msgstr ""
+
+#: fbdoc.bas:227
+msgid "Unknown option: %1"
+msgstr ""
+
+#: fbdoc.bas:228
+msgid "Use --help for help."
+msgstr ""
+
+#: fbdoc.bas:240
+msgid "ERROR: no path given to scan."
+msgstr ""
+
+#: fbdoc.bas:261
+msgid "No files found with extension(s) %1"
+msgstr ""
+
+#: fbdoc.bas:262
+msgid "Scanned path(s):"
+msgstr ""
+
+#: fbdoc.bas:264
+msgid "no"
+msgstr ""
+
+#: fbdoc.bas:265
+msgid "yes"
+msgstr ""
+
+#: fbdoc.bas:266
+msgid "(recognised as folder: %1)"
+msgstr ""
+
+#: fbdoc.bas:268
+msgid "Run again with -d to see what Dir() returns."
+msgstr ""
+
+#: fbdoc.bas:276
+msgid "%1 file(s) found"
+msgstr ""
+
+#: fbdoc.bas:280
+msgid "reading: %1"
+msgstr ""
+
+#: fbdoc.bas:293 inc/layout.bas:311
+msgid "reference: %1"
+msgstr ""
+
+#: fbdoc.bas:298
+msgid "%1 reference file(s) read"
+msgstr ""
+
+#: fbdoc.bas:307
+msgid "%1 part(s), %2 member(s), %3 parameter(s)"
+msgstr ""
+
+#: fbdoc.bas:308
+msgid "%1 call relation(s)"
+msgstr ""
+
+#: fbdoc.bas:312
+msgid "NOTE: %1 file(s) were read, but no declarations were recognised."
+msgstr ""
+
+#: fbdoc.bas:313
+msgid "      Check that they really are FreeBASIC source files (-v shows which files are read)."
+msgstr ""
+
+#: fbdoc.bas:319
+msgid "--split only applies to -f html; ignored"
+msgstr ""
+
+#: fbdoc.bas:328
+msgid "Cannot write output file: %1"
+msgstr ""
+
+#: fbdoc.bas:355
+msgid "open %1 in a browser"
+msgstr ""
+
+#: fbdoc.bas:367
+msgid "written: %1"
+msgstr ""
+
+#: fbdoc.bas:393
+msgid "Documentation coverage: %1/%2 = %3%"
+msgstr ""
+
+#: fbdoc.bas:398
+msgid "ERROR: coverage %1% is below the threshold %2%"
+msgstr ""
+
+#: inc/autodoc.bas:61
+msgid "Variable %1."
+msgstr ""
+
+#: inc/autodoc.bas:62
+msgid "Constant %1."
+msgstr ""
+
+#: inc/autodoc.bas:63
+msgid "Value %1."
+msgstr ""
+
+#: inc/autodoc.bas:74
+msgid "the data"
+msgstr ""
+
+#: inc/autodoc.bas:81
+msgid "Retrieves %1."
+msgstr ""
+
+#: inc/autodoc.bas:83
+msgid "Loads %1."
+msgstr ""
+
+#: inc/autodoc.bas:85
+msgid "Sets %1."
+msgstr ""
+
+#: inc/autodoc.bas:87
+msgid "Determines whether %1 applies."
+msgstr ""
+
+#: inc/autodoc.bas:89
+msgid "Validates %1."
+msgstr ""
+
+#: inc/autodoc.bas:91
+msgid "Calculates %1."
+msgstr ""
+
+#: inc/autodoc.bas:93
+msgid "Creates %1."
+msgstr ""
+
+#: inc/autodoc.bas:95
+msgid "Adds %1."
+msgstr ""
+
+#: inc/autodoc.bas:97
+msgid "Deletes %1."
+msgstr ""
+
+#: inc/autodoc.bas:99
+msgid "Updates %1."
+msgstr ""
+
+#: inc/autodoc.bas:101
+msgid "Stores %1."
+msgstr ""
+
+#: inc/autodoc.bas:103
+msgid "Searches for %1."
+msgstr ""
+
+#: inc/autodoc.bas:105
+msgid "Converts %1."
+msgstr ""
+
+#: inc/autodoc.bas:107
+msgid "Initialises %1."
+msgstr ""
+
+#: inc/autodoc.bas:109
+msgid "Processes %1."
+msgstr ""
+
+#: inc/autodoc.bas:111
+msgid "Sends %1."
+msgstr ""
+
+#: inc/autodoc.bas:113
+msgid "Opens %1."
+msgstr ""
+
+#: inc/autodoc.bas:115
+msgid "Closes %1."
+msgstr ""
+
+#: inc/autodoc.bas:117
+msgid "Displays %1."
+msgstr ""
+
+#: inc/autodoc.bas:119
+msgid "Hides %1."
+msgstr ""
+
+#: inc/autodoc.bas:121
+msgid "Refreshes %1."
+msgstr ""
+
+#: inc/autodoc.bas:123
+msgid "Counts %1."
+msgstr ""
+
+#: inc/autodoc.bas:125
+msgid "Sorts %1."
+msgstr ""
+
+#: inc/autodoc.bas:127
+msgid "Filters %1."
+msgstr ""
+
+#: inc/autodoc.bas:129
+msgid "Copies %1."
+msgstr ""
+
+#: inc/autodoc.bas:131
+msgid "Imports %1."
+msgstr ""
+
+#: inc/autodoc.bas:133
+msgid "Exports %1."
+msgstr ""
+
+#: inc/autodoc.bas:135
+msgid "Logs %1."
+msgstr ""
+
+#: inc/autodoc.bas:137
+msgid "Prints %1."
+msgstr ""
+
+#: inc/autodoc.bas:139
+msgid "Event handler for %1."
+msgstr ""
+
+#: inc/autodoc.bas:141
+msgid "Entry point of %1."
+msgstr ""
+
+#: inc/autodoc.bas:143
+msgid "Function %1."
+msgstr ""
+
+#: inc/autodoc.bas:148
+msgid "Returns %1."
+msgstr ""
+
+#: inc/autodoc.bas:164
+msgid "Contains %1 function(s)."
+msgstr ""
+
+#: inc/autodoc.bas:195
+msgid "value of type %1"
+msgstr ""
+
+#: inc/help.bas:6
+msgid "%1 %2 (build %3) - documentation generator for FreeBASIC"
+msgstr ""
+
+#: inc/help.bas:8
+msgid "Usage:  %1 [options] <path> [path2 ...]"
+msgstr ""
+
+#: inc/help.bas:10
+msgid "Paths may be folders or individual files."
+msgstr ""
+
+#: inc/help.bas:12
+msgid "Options:"
+msgstr ""
+
+#: inc/help.bas:13
+msgid "  -o, --output <file>      write output to file (otherwise stdout)"
+msgstr ""
+
+#: inc/help.bas:14
+msgid "  -f, --format <fmt>       text | md | html | json | dot | mermaid | tree"
+msgstr ""
+
+#: inc/help.bas:15
+msgid "                           (default text)"
+msgstr ""
+
+#: inc/help.bas:16
+msgid "  -l, --lang <code|.po>    language of all texts (default en); loads"
+msgstr ""
+
+#: inc/help.bas:17
+msgid "                           lang/<code>.po next to the program, or the"
+msgstr ""
+
+#: inc/help.bas:18
+msgid "                           given .po file. FBDOC_LANG sets the default."
+msgstr ""
+
+#: inc/help.bas:19
+msgid "  -n, --name <name>        project name in the report header"
+msgstr ""
+
+#: inc/help.bas:20
+msgid "  -e, --ext <list>         extensions, comma separated (default .bas,.bi)"
+msgstr ""
+
+#: inc/help.bas:21
+msgid "  -x, --exclude <pattern>  exclude path pattern (may be repeated)"
+msgstr ""
+
+#: inc/help.bas:22
+msgid "  -p, --private            include private functions (default on)"
+msgstr ""
+
+#: inc/help.bas:23
+msgid "      --no-private         document public functions only"
+msgstr ""
+
+#: inc/help.bas:24
+msgid "  -R, --no-recursive       do not scan recursively"
+msgstr ""
+
+#: inc/help.bas:25
+msgid "  -G, --no-generate        do not generate descriptions for missing"
+msgstr ""
+
+#: inc/help.bas:26
+msgid "                           comments (leave empty)"
+msgstr ""
+
+#: inc/help.bas:27
+msgid "  -u, --undocumented       show only elements without comments"
+msgstr ""
+
+#: inc/help.bas:28
+msgid "  -c, --coverage           print a coverage summary"
+msgstr ""
+
+#: inc/help.bas:29
+msgid "      --fail-under <pct>   exit code 1 if coverage is below pct (CI)"
+msgstr ""
+
+#: inc/help.bas:30
+msgid "  -q, --quiet              no progress messages"
+msgstr ""
+
+#: inc/help.bas:31
+msgid "  -v, --verbose            messages per file"
+msgstr ""
+
+#: inc/help.bas:32
+msgid "  -d, --debug              show what Dir() returns per folder/file"
+msgstr ""
+
+#: inc/help.bas:33
+msgid "      --log <file>         also write all messages to this file"
+msgstr ""
+
+#: inc/help.bas:35
+msgid "Call graph (formats dot, mermaid, tree):"
+msgstr ""
+
+#: inc/help.bas:36
+msgid "      --follow             follow #include references and read those"
+msgstr ""
+
+#: inc/help.bas:37
+msgid "                           files as reference"
+msgstr ""
+
+#: inc/help.bas:38
+msgid "  -i, --include <folder>   search path for #include (may be repeated)"
+msgstr ""
+
+#: inc/help.bas:39
+msgid "      --follow-depth <n>   how deep to follow transitively (default 2)"
+msgstr ""
+
+#: inc/help.bas:40
+msgid "      --refs <path>        read an extra path to resolve calls into other"
+msgstr ""
+
+#: inc/help.bas:41
+msgid "                           projects; that code is not documented, only"
+msgstr ""
+
+#: inc/help.bas:42
+msgid "                           used in the diagram"
+msgstr ""
+
+#: inc/help.bas:43
+msgid "                           (may be repeated)"
+msgstr ""
+
+#: inc/help.bas:44
+msgid "      --ref-depth <n>      how many steps of reference code in the diagram"
+msgstr ""
+
+#: inc/help.bas:45
+msgid "                           (default 1: only what your code calls"
+msgstr ""
+
+#: inc/help.bas:46
+msgid "                           directly; 0 = none)"
+msgstr ""
+
+#: inc/help.bas:47
+msgid "      --extern             also show unresolved calls"
+msgstr ""
+
+#: inc/help.bas:48
+msgid "      --depth <n>          maximum depth of the text tree (default 12)"
+msgstr ""
+
+#: inc/help.bas:49
+msgid "  -h, --help               this help"
+msgstr ""
+
+#: inc/help.bas:50
+msgid "      --version            version"
+msgstr ""
+
+#: inc/help.bas:52
+msgid "Default exclusions: /.git/  /.svn/  /obj/"
+msgstr ""
+
+#: inc/help.bas:54
+msgid "Examples:"
+msgstr ""
+
+#: inc/help.bas:63
+msgid "     and then:  dot -Tsvg calls.dot -o calls.svg"
+msgstr ""
+
+#: inc/layout.bas:217
+msgid "No call relations recognised, so no diagram."
+msgstr ""
+
+#: inc/layout.bas:221
+msgid "Diagram skipped: %1 nodes cannot be followed, even with zooming. Use -f dot for a Graphviz version or scan a smaller part."
+msgstr ""
+
+#: inc/layout.bas:236
+msgid "Zoom in"
+msgstr ""
+
+#: inc/layout.bas:237
+msgid "Zoom out"
+msgstr ""
+
+#: inc/layout.bas:238
+msgid "Fit everything"
+msgstr ""
+
+#: inc/layout.bas:268 inc/out_text.bas:446
+msgid "recursive"
+msgstr ""
+
+#: inc/layout.bas:295
+msgid "feedback"
+msgstr ""
+
+#: inc/out_graph.bas:24 inc/out_graph.bas:134
+msgid "Generated by %1 %2 on %3"
+msgstr ""
+
+#: inc/out_graph.bas:25
+msgid "Render:"
+msgstr ""
+
+#: inc/out_graph.bas:45
+msgid "reference"
+msgstr ""
+
+#: inc/out_graph.bas:118
+msgid "%1 call relations"
+msgstr ""
+
+#: inc/out_graph.bas:122
+msgid "diagram: %1 relations"
+msgstr ""
+
+#: inc/out_graph.bas:124
+msgid "that is a lot for a readable diagram. Consider --ref-depth 0,"
+msgstr ""
+
+#: inc/out_graph.bas:125
+msgid "a smaller path, or render with sfdp instead of dot."
+msgstr ""
+
+#: inc/out_html.bas:157 inc/out_html.bas:535 inc/out_html.bas:592 inc/out_text.bas:38 inc/out_text.bas:131
+msgid "FreeBASIC documentation"
+msgstr ""
+
+#: inc/out_html.bas:159
+msgid "%1 parts"
+msgstr ""
+
+#: inc/out_html.bas:159
+msgid "%1 members"
+msgstr ""
+
+#: inc/out_html.bas:180
+msgid "Documentation coverage: <b>%1</b> of <b>%2</b> elements have real source comments"
+msgstr ""
+
+#: inc/out_html.bas:191
+msgid "Filter by name..."
+msgstr ""
+
+#: inc/out_html.bas:193 inc/out_html.bas:216 inc/out_html.bas:639 inc/out_html.bas:645 inc/out_text.bas:483
+msgid "Call structure"
+msgstr ""
+
+#: inc/out_html.bas:194 inc/out_html.bas:242 inc/out_html.bas:639 inc/out_html.bas:655
+msgid "Unresolved calls"
+msgstr ""
+
+#: inc/out_html.bas:195 inc/out_html.bas:639
+msgid "Possibly unused"
+msgstr ""
+
+#: inc/out_html.bas:219
+msgid "%1 functions, %2 relations. From left to right: caller before callee. Click a block to jump to its documentation; hover over it to see only its own relations. Drag to pan, use the scroll wheel or the buttons at the bottom right to zoom."
+msgstr ""
+
+#: inc/out_html.bas:220
+msgid "Thick border = no caller within the scanned code (entry point or dead code). Dashed border = private. Grey dashed block = reference project. Orange dashed arrow = feedback or recursion. Blue finely dotted arrow = callback or onException of a service call."
+msgstr ""
+
+#: inc/out_html.bas:243
+msgid "Calls to libraries that are not in the scanned code. Scan the project concerned as well with --refs to resolve them in the diagram."
+msgstr ""
+
+#: inc/out_html.bas:244
+msgid "Library"
+msgstr ""
+
+#: inc/out_html.bas:244
+msgid "Call count"
+msgstr ""
+
+#: inc/out_html.bas:244 inc/out_html.bas:627
+msgid "Functions"
+msgstr ""
+
+#: inc/out_html.bas:272 inc/out_html.bas:664
+msgid "Possibly unused code"
+msgstr ""
+
+#: inc/out_html.bas:273
+msgid "%1 function(s) without a caller within the scanned code, %2 entry point(s) and %3 function(s) bound via a property."
+msgstr ""
+
+#: inc/out_html.bas:274
+msgid "This is a hint, not proof: calls via delegates, dynamic dictionary access, generated Java or from code outside the scan are not seen. Scan as much as possible with --follow or --refs before you throw anything away."
+msgstr ""
+
+#: inc/out_html.bas:278
+msgid "No functions without a caller found."
+msgstr ""
+
+#: inc/out_html.bas:280
+msgid "Without a caller"
+msgstr ""
+
+#: inc/out_html.bas:281 inc/out_html.bas:302 inc/out_html.bas:321
+msgid "Function"
+msgstr ""
+
+#: inc/out_html.bas:281 inc/out_html.bas:302 inc/parser.bas:237
+msgid "File"
+msgstr ""
+
+#: inc/out_html.bas:281
+msgid "Calls out"
+msgstr ""
+
+#: inc/out_html.bas:296
+msgid "A function that calls nothing itself and is called by nobody is the most suspicious category. If it does call other code, a whole branch of unused code may hang below it."
+msgstr ""
+
+#: inc/out_html.bas:300
+msgid "Bound via a property"
+msgstr ""
+
+#: inc/out_html.bas:301
+msgid "No direct caller, but bound in a property block, for example as an event handler."
+msgstr ""
+
+#: inc/out_html.bas:319
+msgid "Entry points"
+msgstr ""
+
+#: inc/out_html.bas:320
+msgid "Functions in a service, interface or program: these are by definition called from outside."
+msgstr ""
+
+#: inc/out_html.bas:359
+msgid "author: %1"
+msgstr ""
+
+#: inc/out_html.bas:384 inc/out_text.bas:201
+msgid "Parameter"
+msgstr ""
+
+#: inc/out_html.bas:384 inc/out_html.bas:450 inc/out_text.bas:201 inc/out_text.bas:233 inc/parser.bas:227
+msgid "Type"
+msgstr ""
+
+#: inc/out_html.bas:384 inc/out_text.bas:201
+msgid "Direction"
+msgstr ""
+
+#: inc/out_html.bas:384 inc/out_html.bas:450 inc/out_html.bas:627 inc/out_text.bas:201 inc/out_text.bas:233
+msgid "Description"
+msgstr ""
+
+#: inc/out_html.bas:395 inc/out_text.bas:210
+msgid "Returns"
+msgstr ""
+
+#: inc/out_html.bas:398
+msgid "Exceptions"
+msgstr ""
+
+#: inc/out_html.bas:401
+msgid "See also"
+msgstr ""
+
+#: inc/out_html.bas:423
+msgid "Calls"
+msgstr ""
+
+#: inc/out_html.bas:437
+msgid "Called by"
+msgstr ""
+
+#: inc/out_html.bas:439
+msgid "no callers within the scanned code"
+msgstr ""
+
+#: inc/out_html.bas:449
+msgid "Fields, constants and values"
+msgstr ""
+
+#: inc/out_html.bas:450 inc/out_text.bas:233
+msgid "Name"
+msgstr ""
+
+#: inc/out_html.bas:450 inc/out_text.bas:233
+msgid "Kind"
+msgstr ""
+
+#: inc/out_html.bas:604 inc/out_html.bas:611
+msgid "Navigation"
+msgstr ""
+
+#: inc/out_html.bas:605
+msgid "Content"
+msgstr ""
+
+#: inc/out_html.bas:613 inc/out_html.bas:622 inc/out_html.bas:678
+msgid "Overview"
+msgstr ""
+
+#: inc/out_html.bas:626 inc/out_text.bas:137
+msgid "Contents"
+msgstr ""
+
+#: inc/out_html.bas:658
+msgid "All calls were resolved within the scanned code."
+msgstr ""
+
+#: inc/out_html.bas:686
+msgid "%1 file(s) written to %2"
+msgstr ""
+
+#: inc/out_text.bas:21
+msgid "ERROR: cannot write to %1"
+msgstr ""
+
+#: inc/out_text.bas:39 inc/out_text.bas:484
+msgid " Project : %1"
+msgstr ""
+
+#: inc/out_text.bas:40 inc/out_text.bas:485
+msgid " Date    : %1 %2"
+msgstr ""
+
+#: inc/out_text.bas:41
+msgid " Parts   : %1   members: %2"
+msgstr ""
+
+#: inc/out_text.bas:51
+msgid "  file    : %1:%2"
+msgstr ""
+
+#: inc/out_text.bas:59
+msgid "  author  : %1"
+msgstr ""
+
+#: inc/out_text.bas:74
+msgid "      line %1"
+msgstr ""
+
+#: inc/out_text.bas:108 inc/out_text.bas:110
+msgid "calls %1"
+msgstr ""
+
+#: inc/out_text.bas:118
+msgid "from %1"
+msgstr ""
+
+#: inc/out_text.bas:134
+msgid "**Generated:** %1 %2 by %3"
+msgstr ""
+
+#: inc/out_text.bas:135
+msgid "**Parts:** %1 | **Members:** %2"
+msgstr ""
+
+#: inc/out_text.bas:156 inc/out_text.bas:189
+msgid "automatically generated"
+msgstr ""
+
+#: inc/out_text.bas:166
+msgid "Author:"
+msgstr ""
+
+#: inc/out_text.bas:214
+msgid "Exceptions:"
+msgstr ""
+
+#: inc/out_text.bas:218
+msgid "See also:"
+msgstr ""
+
+#: inc/out_text.bas:231
+msgid "Fields and constants"
+msgstr ""
+
+#: inc/out_text.bas:350
+msgid "Elements without source comments"
+msgstr ""
+
+#: inc/out_text.bas:369
+msgid "Total: %1"
+msgstr ""
+
+#: inc/out_text.bas:378
+msgid "Unresolved calls (not found in the scanned code):"
+msgstr ""
+
+#: inc/out_text.bas:381 inc/out_text.bas:521 inc/out_text.bas:535
+msgid "none"
+msgstr ""
+
+#: inc/out_text.bas:398
+msgid "Use --follow to read the included files as well, or give"
+msgstr ""
+
+#: inc/out_text.bas:399
+msgid "an extra path with --refs."
+msgstr ""
+
+#: inc/out_text.bas:404
+msgid "Not unambiguously resolved (name occurs in several parts):"
+msgstr ""
+
+#: inc/out_text.bas:408
+msgid "Qualify those calls in the source code, or narrow the scan."
+msgstr ""
+
+#: inc/out_text.bas:418
+msgid "maximum depth %1 reached"
+msgstr ""
+
+#: inc/out_text.bas:455
+msgid "see above"
+msgstr ""
+
+#: inc/out_text.bas:486
+msgid " Relations: %1"
+msgstr ""
+
+#: inc/out_text.bas:489
+msgid "Entry points (functions not called within the scanned code):"
+msgstr ""
+
+#: inc/out_text.bas:508
+msgid "none; possibly everything is interconnected or no calls were recognised"
+msgstr ""
+
+#: inc/out_text.bas:513
+msgid "Possibly unused (no caller, no property binding, no entry point):"
+msgstr ""
+
+#: inc/out_text.bas:525
+msgid "Standalone functions (no callers and no calls):"
+msgstr ""
+
+#: inc/out_text.bas:537
+msgid "Note: calls via delegates, dynamic dictionary access or"
+msgstr ""
+
+#: inc/out_text.bas:538
+msgid "generated Java are not detected."
+msgstr ""
+
+#: inc/parser.bas:225
+msgid "Module"
+msgstr ""
+
+#: inc/parser.bas:229
+msgid "Union"
+msgstr ""
+
+#: inc/parser.bas:231
+msgid "Enumeration"
+msgstr ""
+
+#: inc/parser.bas:233
+msgid "Namespace"
+msgstr ""
+
+#: inc/parser.bas:235
+msgid "Class"
+msgstr ""
+
+#: inc/tokenizer.bas:78
+msgid "cannot open file: %1"
+msgstr ""

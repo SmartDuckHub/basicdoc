@@ -57,11 +57,6 @@ Function Fmt1(ByVal d As Double) As String
     Return sg & Str(whole) & "." & Str(dec1)
 End Function
 
-Function Pick(ByRef a As String, ByRef b As String, ByVal nl As Integer) As String
-    If nl Then Return a
-    Return b
-End Function
-
 Function IsIdentCh(ByRef c As String) As Integer
     Dim As Integer a
     a = Asc(c)

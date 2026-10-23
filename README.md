@@ -18,12 +18,21 @@ Beide tools zijn zelf in FreeBASIC geschreven en hebben geen externe bibliotheke
 ```
 fbdoc/
     fbdoc.bas
+    inc/
+        autodoc.bas    callgraph.bas    declares.bi    doccomment.bas
+        files.bas      globals.bi       help.bas       lang.bas
+        layout.bas     out_graph.bas    out_html.bas   out_text.bas
+        parser.bas     tokenizer.bas    types.bi       util.bas
+    lang/
+        fbdoc.pot      nl.po
 msxbasicdoc/
     msxbasicdoc.bas
     inc/
-        mbd_globals.bi   mbd_util.bi    mbd_lexer.bi   mbd_load.bi
-        mbd_analyse.bi   mbd_flow.bi    mbd_html.bi    mbd_svg.bi
-index.html          projectpagina (NL/EN)
+        mbd_globals.bi   mbd_lang.bi    mbd_util.bi    mbd_lexer.bi
+        mbd_load.bi      mbd_analyse.bi mbd_flow.bi    mbd_html.bi
+        mbd_svg.bi
+    lang/
+        msxbasicdoc.pot  nl.po
 LICENSE
 CHANGELOG.md
 README.md
@@ -42,6 +51,8 @@ fbc -lang fblite msxbasicdoc.bas
 ```
 
 Werkt op Linux en Windows; het padscheidingsteken wordt bij het compileren gekozen.
+
+Wil je een vertaling gebruiken, zet dan de map `lang` naast het programma (zie [Vertalingen](#vertalingen)).
 
 ---
 
@@ -85,7 +96,7 @@ fbdoc [opties] <pad> [pad2 ...]
 |---|---|
 | `-o`, `--output <bestand>` | uitvoer naar bestand (anders stdout) |
 | `-f`, `--format <fmt>` | `text` \| `md` \| `html` \| `json` \| `dot` \| `mermaid` \| `tree` (standaard `text`) |
-| `-l`, `--lang <nl\|en>` | taal van gegenereerde teksten (standaard `nl`) |
+| `-l`, `--lang <code\|bestand.po>` | taal van alle teksten (standaard `en`), zie [Vertalingen](#vertalingen) |
 | `-n`, `--name <naam>` | projectnaam in de kop |
 | `-e`, `--ext <lijst>` | extensies, kommagescheiden (standaard `.bas,.bi`) |
 | `-x`, `--exclude <patroon>` | pad uitsluiten (meerdere keren toegestaan) |
@@ -175,10 +186,42 @@ msxbasicdoc [opties] PROGRAMMA.BAS [...]
 |---|---|
 | `-o MAP` | uitvoer in MAP (standaard naast het bronbestand) |
 | `-dot` | ook een Graphviz `.dot`-bestand maken |
+| `-l CODE` | taal van alle teksten (standaard `en`), zie [Vertalingen](#vertalingen) |
 | `-q` | stil: alleen fouten tonen |
 | `-h` | hulp |
 
 Per bestand ontstaat `PROGRAMMA.html` (en met `-dot` ook `PROGRAMMA.dot`).
+
+---
+
+## Vertalingen
+
+Beide tools zijn standaard Engelstalig. Een vertaling is een gettext `.po`-bestand in de map
+`lang` naast het programma. Met `-l` kies je de taal:
+
+```sh
+fbdoc -l nl -f html -o api.html ./src
+msxbasicdoc -l nl JAGER.BAS
+```
+
+- `-l nl` laadt `lang/nl.po` naast het programma, en anders `lang/nl.po` in de huidige map
+- `-l pad/naar/es.po` laadt een `.po`-bestand op een willekeurige plek
+- de omgevingsvariabelen `FBDOC_LANG` en `MSXBASICDOC_LANG` zetten de standaardtaal
+- ontbreekt een tekst in de vertaling, dan blijft die Engels
+
+Een Nederlandse vertaling (`nl.po`) wordt meegeleverd.
+
+### Een taal toevoegen
+
+1. Kopieer `lang/fbdoc.pot` of `lang/msxbasicdoc.pot` naar `lang/<code>.po`,
+   bijvoorbeeld `lang/es.po` of `lang/ja.po`.
+2. Vul de `msgstr`-regels in en zet de taalcode bij `Language:` in de kop.
+   Een programma als [Poedit](https://poedit.net/) werkt ook.
+3. Sla het bestand op als UTF-8.
+
+`%1`, `%2` en `%3` worden door het programma ingevuld; houd ze aan, in elke gewenste volgorde.
+Bij msxbasicdoc bepaal je via de vertaling ook de datumnotatie (`%1-%2-%3`) en het
+decimaalteken (`%1.%2`).
 
 ---
 
@@ -197,9 +240,15 @@ volledige tekst.
 
 Two command-line tools that generate documentation from BASIC source code, both written in FreeBASIC with no external dependencies.
 
-**fbdoc** is a javadoc-style generator for FreeBASIC. It reads the comment above each declaration (`'`, `Rem` or `/' ... '/`), supports `@param`, `@return`, `@see` and other tags, generates descriptions where comments are missing, builds a call graph, and reports documentation coverage and possibly unused code. Output formats: text, Markdown, HTML (single page or split), JSON, Graphviz, Mermaid and a call tree. Use `-l en` for English generated text. Run `fbdoc --help` for all options.
+**fbdoc** is a javadoc-style generator for FreeBASIC. It reads the comment above each declaration (`'`, `Rem` or `/' ... '/`), supports `@param`, `@return`, `@see` and other tags, generates descriptions where comments are missing, builds a call graph, and reports documentation coverage and possibly unused code. Output formats: text, Markdown, HTML (single page or split), JSON, Graphviz, Mermaid and a call tree. Run `fbdoc --help` for all options.
 
 **msxbasicdoc** maps the structure of an MSX-BASIC program by following `GOTO`/`GOSUB`/`RETURN`. It splits the program into routines, draws a call graph, lists variables, checks reachability and warns about jumps to missing lines. Input must be saved as ASCII on the MSX (`SAVE "NAME.BAS",A`). Name routines with `'## Name - description` and add tags with `'@tag value`.
+
+Both tools are in English by default. Translations are gettext `.po` files in a `lang`
+folder next to the program; select one with `-l` (for example `-l nl`, which ships with the
+tools) or with the `FBDOC_LANG` / `MSXBASICDOC_LANG` environment variable. To add a language,
+copy `lang/fbdoc.pot` or `lang/msxbasicdoc.pot` to `lang/<code>.po`, fill in the `msgstr`
+lines and save as UTF-8. Untranslated lines stay in English.
 
 Build:
 

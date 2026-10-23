@@ -261,8 +261,8 @@ Sub TokenizeLine(ByVal li As Integer)
                                 c2 = Asc(u, wEnd_)
                                 If IsDigitC(c2) Or (c2 >= 65 And c2 <= 90) Then wEnd_ += 1 Else Exit Do
                             Loop
-                            AddWarn li, "Regel " & NStr(gLnNum(li)) & ": " & Mid(u, i, wEnd_ - i) & " bevat het sleutelwoord " & _
-                                kw2 & "; MSX leest dit als " & Mid(u, i, j - i) & " " & kw2 & " " & Mid(u, p, wEnd_ - p)
+                            AddWarn li, Tr3("Line %1: %2 contains the keyword %3", NStr(gLnNum(li)), Mid(u, i, wEnd_ - i), kw2) & "; " & _
+                                Tr1("MSX reads this as %1", Mid(u, i, j - i) & " " & kw2 & " " & Mid(u, p, wEnd_ - p))
                         End If
                     End If
                 End If
