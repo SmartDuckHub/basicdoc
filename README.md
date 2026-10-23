@@ -18,12 +18,16 @@ Beide tools zijn zelf in FreeBASIC geschreven en hebben geen externe bibliotheke
 ```
 fbdoc/
     fbdoc.bas
+    inc/
+        autodoc.bas    callgraph.bas    declares.bi    doccomment.bas
+        files.bas      globales.bas     help.bas       layout.bas
+        out_graph.bas  out_html.bas     out_text.bas    parser.bas
+        tokenizer.base types.bi         util.bas
 msxbasicdoc/
     msxbasicdoc.bas
     inc/
         mbd_globals.bi   mbd_util.bi    mbd_lexer.bi   mbd_load.bi
         mbd_analyse.bi   mbd_flow.bi    mbd_html.bi    mbd_svg.bi
-index.html          projectpagina (NL/EN)
 LICENSE
 CHANGELOG.md
 README.md
